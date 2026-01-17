@@ -193,7 +193,7 @@ I’ll give you 30 seconds: pick one metric and one baseline. Then I’ll ask tw
 layout: statement
 ---
 
-# Abstraction = <span class="gradient-text">translation</span>
+# Abstraction = <span class="accent-text">translation</span>
 
 From **domain language** → to **general structures** that visualization methods can support.
 
@@ -418,7 +418,7 @@ layout: section
 
 <div class="kicker">Part 1 · Data</div>
 
-# <span class="gradient-text">Data Abstraction</span>
+# <span class="accent-text">Data Abstraction</span>
 
 From domain data → **dataset types + attribute types + transformations**
 
@@ -766,7 +766,14 @@ Also note the stable ID point. If you can’t reliably join student_id or sectio
     </div>
     <div class="mt-3 op85">Examples: program, device_type</div>
     <div class="mt-2 op70 text-sm">Channels: color hue, shape, grouping</div>
-    <div class="mt-4 h-2 rounded-full bg-gradient-to-r from-sky-400 to-violet-400 op80"></div>
+    <div class="mt-4 grid grid-cols-6 gap-1 items-end op85">
+      <div class="h-2 bg-sky-400/80 rounded"></div>
+      <div class="h-2 bg-violet-400/80 rounded"></div>
+      <div class="h-2 bg-emerald-400/80 rounded"></div>
+      <div class="h-2 bg-amber-400/80 rounded"></div>
+      <div class="h-2 bg-rose-400/80 rounded"></div>
+      <div class="h-2 bg-cyan-400/80 rounded"></div>
+    </div>
   </div>
 
   <div class="card">
@@ -776,7 +783,14 @@ Also note the stable ID point. If you can’t reliably join student_id or sectio
     </div>
     <div class="mt-3 op85">Examples: Likert 1–5, grade bands</div>
     <div class="mt-2 op70 text-sm">Channels: position, ordered color</div>
-    <div class="mt-4 h-2 rounded-full bg-gradient-to-r from-gray-500 to-gray-200 op80"></div>
+    <div class="mt-4 grid grid-cols-6 gap-1 items-end op85">
+      <div class="h-2 bg-slate-800 rounded"></div>
+      <div class="h-2 bg-slate-700 rounded"></div>
+      <div class="h-2 bg-slate-600 rounded"></div>
+      <div class="h-2 bg-slate-500 rounded"></div>
+      <div class="h-2 bg-slate-400 rounded"></div>
+      <div class="h-2 bg-slate-300 rounded"></div>
+    </div>
   </div>
 
   <div class="card">
@@ -1053,7 +1067,7 @@ layout: section
 
 <div class="kicker">Part 2 · Tasks</div>
 
-# <span class="gradient-text">Task Abstraction</span>
+# <span class="accent-text">Task Abstraction</span>
 
 From domain questions → **actions + targets + constraints**
 
@@ -1460,7 +1474,7 @@ layout: section
 
 <div class="kicker">Part 3 · Design</div>
 
-# <span class="gradient-text">Putting It Together</span>
+# <span class="accent-text">Putting It Together</span>
 
 From abstractions → justified visualization designs
 
@@ -1622,7 +1636,7 @@ So the professional workflow is: decide the type first, then choose channels tha
 
 ## Evaluation Checklist (Before You Submit a Viz)
 
-<div class="grid grid-cols-2 gap-4 mt-4">
+<div class="grid grid-cols-2 gap-4 mt-3">
   <div class="card">
     <div class="kicker">Tasks</div>
     <ul class="mt-3 text-sm leading-5 op85">
@@ -1657,7 +1671,7 @@ So the professional workflow is: decide the type first, then choose channels tha
   </div>
 </div>
 
-```mermaid {scale: 0.62}
+```mermaid {scale: 0.6}
 flowchart LR
   D["Design draft"] --> T["Test tasks"]
   T --> G["Fix gaps"]

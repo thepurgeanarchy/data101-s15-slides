@@ -20,18 +20,7 @@ body,
 }
 
 .dark .slidev-slide-content {
-  background:
-    radial-gradient(
-      900px circle at 12% -10%,
-      rgba(77, 163, 255, 0.18),
-      transparent 55%
-    ),
-    radial-gradient(
-      700px circle at 90% 115%,
-      rgba(167, 139, 250, 0.16),
-      transparent 55%
-    ),
-    var(--brand-bg);
+  background: var(--brand-bg);
 }
 
 h1,
@@ -98,27 +87,14 @@ a {
   opacity: 0.74;
 }
 
-.gradient-text {
-  background: linear-gradient(
-    90deg,
-    var(--slidev-theme-primary),
-    var(--brand-violet)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.accent-text {
+  color: var(--slidev-theme-primary);
 }
 
 .dark .slidev-layout.section h1,
 .dark .slidev-layout.statement h1,
 .dark .slidev-layout.fact h1 {
   color: rgba(255, 255, 255, 0.96);
-}
-
-.dark .slidev-layout.section h1 .gradient-text,
-.dark .slidev-layout.statement h1 .gradient-text,
-.dark .slidev-layout.fact h1 .gradient-text {
-  color: transparent;
 }
 
 .slide-footer {
@@ -184,13 +160,37 @@ a {
   margin: 0 auto;
   max-width: 100%;
   width: 100%;
-  padding: 0.65rem 0.8rem;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: var(--brand-surface);
+  padding: 0.8rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--brand-surface-2);
 }
 
 .mermaid svg {
   max-width: 100%;
   height: auto;
+}
+
+.mermaid .nodeLabel {
+  font-weight: 600;
+}
+
+.mermaid .node rect {
+  rx: 14px;
+  ry: 14px;
+}
+
+.mermaid .cluster rect {
+  rx: 18px;
+  ry: 18px;
+}
+
+.mermaid .edgePath path {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mermaid .edgePath path,
+.mermaid .flowchart-link {
+  stroke-width: 1.6px;
 }
