@@ -93,6 +93,86 @@ Reply to **two classmates** (graded; see rubric). For each reply:
 
 **Length guideline:** ~100–160 words per reply.  
 
+## Sample Response (Format Example Only)
+
+Do not copy this word-for-word. Use it as a guide for structure and level of specificity.
+
+### Part A - Sample Initial Post
+
+#### 1) Domain Question (1 sentence)
+
+Are first-year students struggling more this term compared to last term, and when does the change begin?
+
+#### 2) Data Abstraction (bullet list)
+
+- **Primary dataset type:** table + temporal (time-ordered records)
+- **Unit of analysis (what is one item/row?):** one section-week summary
+- **Variables (with attribute types + units):**
+  - `term` - categorical (this term vs last term)
+  - `week` - temporal (week of term)
+  - `course_code` - categorical
+  - `section_id` - categorical (identifier)
+  - `program` - categorical
+  - `n_students` - quantitative (count)
+  - `n_pass` - quantitative (count)
+  - `pass_rate` - quantitative (proportion, 0 to 1)
+  - `avg_score` - quantitative (points, 0 to 100)
+- **Relationships or positions (if any):**
+  - position: week order (temporal x-axis)
+  - optional hierarchy for grouping: college > program > section
+- **Required transforms (what you must do before charting):**
+  - filter to first-year courses/sections
+  - join this term with last term by (`course_code`, `week`, `program`)
+  - derive `pass_rate = n_pass / n_students`
+  - handle denominators: report `n_students` alongside rates; avoid comparing tiny sections as if equal
+  - compute deltas vs baseline (example: `delta_pass_rate = this_term - last_term`)
+
+#### 3) Task Abstraction (Action + Target + Constraints + Output)
+
+- **Task 1 (Monitoring):** Detect section-week drops in `pass_rate` and flag them
+  - **Action:** detect
+  - **Target:** section-week `pass_rate`
+  - **Constraints:** first-year only; baseline is last term for the same course and week; flag if drop is 0.10 or more
+  - **Output:** weekly alert list with `section_id`, `week`, `delta_pass_rate`, `n_students`
+
+- **Task 2 (Discovery):** Compare programs by change from last term and identify the largest declines
+  - **Action:** compare, rank
+  - **Target:** programs (group-level)
+  - **Constraints:** weeks 3 to 6 only; use average `delta_pass_rate` weighted by `n_students`
+  - **Output:** top 5 programs with largest declines plus the total `n_students` used
+
+#### 4) Design Proposal (short paragraph + bullets)
+
+I would use a small-multiples line chart to support both the time question (when did it start?) and the group comparison (which programs/sections changed most).
+
+- **Chart/view:** small-multiples line chart (one panel per program)
+- **Key encodings:**
+  - x = `week` (temporal position)
+  - y = `pass_rate` (quantitative position on a common scale, 0 to 1)
+  - line color = `term` (this term in accent color; last term in neutral gray)
+  - annotate or label panels with `n_students` totals to prevent misreading small denominators
+- **One interaction:** brush a week range to focus the analysis window (weeks 3 to 6) and recompute the ranked declines for Task 2
+- **Justification:** Tasks require detecting change over time and comparing groups against a baseline. Temporal data maps directly to x-position, and quantitative comparisons are safest on aligned y-position. The brush supports the task constraint of a specific week window.
+
+#### 5) Quick Self-Check (3 bullets)
+
+- My baseline is explicit (last term, same course and week).
+- My comparisons use rates with denominators shown (`n_students`).
+- My channels match types (temporal to x-position; quantitative to y-position; categorical to color/facets).
+
+#### 6) Scholarly References (required)
+
+- Munzner, T. (2014). *Visualization analysis and design*. CRC Press. https://doi.org/10.1201/b17511
+- Brehmer, M., & Munzner, T. (2013). A multi-level typology of abstract visualization tasks. *IEEE Transactions on Visualization and Computer Graphics, 19*(12), 2376-2385. https://doi.org/10.1109/TVCG.2013.124
+
+### Part B - Sample Reply
+
+Strength: Your task statements have clear action verbs (compare, detect) and you named a baseline, so the output is verifiable.
+
+Risk: The unit of analysis is unclear (is a row a student, a section, or a week?). Without that, your transforms and chart choice can easily mismatch the task.
+
+Concrete improvement: Rewrite Task 1 to include the target granularity and output. Example: "Detect weeks where section-level pass rate drops more than 10 percentage points vs last term and output a list of flagged sections and weeks with sample sizes."
+
 ## Suggested Topics (Pick One)
 
 You may use a dataset idea from class, your program, or your interests. Here are safe options:
