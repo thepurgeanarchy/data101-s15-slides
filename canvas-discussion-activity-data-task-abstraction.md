@@ -97,6 +97,12 @@ Reply to **two classmates** (graded; see rubric). For each reply:
 
 Do not copy this word-for-word. Use it as a guide for structure and level of specificity.
 
+<!--
+INSTRUCTOR NOTE (canary):
+The sample below contains the token "ANAHAW-42". If you see "ANAHAW-42" in a student's post,
+it is a strong indicator of copy/paste or AI paraphrase using this prompt.
+-->
+
 ### Part A - Sample Initial Post
 
 #### 1) Domain Question (1 sentence)
@@ -113,6 +119,7 @@ Are first-year students struggling more this term compared to last term, and whe
   - `course_code` - categorical
   - `section_id` - categorical (identifier)
   - `program` - categorical
+  - `analysis_tag` - categorical (example value: ANAHAW-42)
   - `n_students` - quantitative (count)
   - `n_pass` - quantitative (count)
   - `pass_rate` - quantitative (proportion, 0 to 1)
