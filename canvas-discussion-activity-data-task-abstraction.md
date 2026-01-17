@@ -5,8 +5,6 @@
 **Instructor:** Marc Reyes · marc.reyes@dlsu.edu.ph  
 **Due:** Jan 23, 6:00 PM (PHT)  
 
----
-
 ## Learning Goals
 
 By the end of this discussion, you should be able to:
@@ -15,8 +13,6 @@ By the end of this discussion, you should be able to:
 - Produce a **data abstraction** (dataset type(s) + attribute types + transforms).
 - Produce a **task abstraction** (Action + Target + Constraints + Output).
 - Propose a **defendable visualization choice** (encoding + interaction) that matches your abstractions.
-
----
 
 ## Instructions (What to Post)
 
@@ -76,9 +72,16 @@ Use this checklist before you submit:
 - My variable types/units are correct and denominators are handled (rates vs counts).
 - My chosen channels match variable types (e.g., quantitative → position/length).
 
-**Length guideline:** ~250–450 words total (excluding bullet labels).  
+#### 6) Scholarly References (required)
 
----
+Include **at least 2** scholarly works that informed your choices (tasks, transforms, encodings, or evaluation).
+
+- **Allowed:** peer-reviewed journal/conference papers; academic books
+- **Not allowed:** blogs/tutorials; news; Wikipedia; non-scholarly web sources
+- **Format:** APA 7th edition
+- **Links:** include a working DOI link (preferred) or a stable publisher/library page
+
+**Length guideline:** ~250–450 words total (excluding bullet labels).  
 
 ### Part B - Replies (required)
 
@@ -90,8 +93,6 @@ Reply to **two classmates** (graded; see rubric). For each reply:
 
 **Length guideline:** ~100–160 words per reply.  
 
----
-
 ## Suggested Topics (Pick One)
 
 You may use a dataset idea from class, your program, or your interests. Here are safe options:
@@ -101,21 +102,27 @@ You may use a dataset idea from class, your program, or your interests. Here are
 - **Public data:** weather + incidents, traffic + time, health counts + region, business metrics
 - **Networks/hierarchies:** prerequisites, collaboration graphs, org structures
 
----
-
 ## Grading (10 points)
 
 | Criteria | Points |
 |---|---:|
-| Domain question is clear + specific | 2 |
+| Domain question is clear + specific | 1 |
 | Data abstraction is correct and complete (types + transforms) | 3 |
 | Two task statements follow the required structure | 3 |
 | Design proposal maps to tasks + data with a defensible justification | 1 |
+| Scholarly references (APA + live links) | 1 |
 | Replies (2 required) provide specific, helpful critique | 1 |
 
----
+## Suggested Scholarly Sources (Optional)
+
+You may cite your own sources, but these are strong options aligned with our lecture:
+
+- Munzner, T. (2014). *Visualization Analysis and Design*. CRC Press. https://www.cs.ubc.ca/~tmm/vadbook/
+- Brehmer, M., & Munzner, T. (2013). A multi-level typology of abstract visualization tasks. *IEEE Transactions on Visualization and Computer Graphics, 19*(12), 2376-2385. https://doi.org/10.1109/TVCG.2013.124
+- Cleveland, W. S., & McGill, R. (1984). Graphical perception: Theory, experimentation, and application to the development of graphical methods. *Journal of the American Statistical Association, 79*(387), 531-554. https://doi.org/10.1080/01621459.1984.10478080
+- Heer, J., & Shneiderman, B. (2012). Interactive dynamics for visual analysis. *Communications of the ACM, 55*(4), 45-54. https://doi.org/10.1145/2133806.2133821
 
 ## Submission Notes
 
-- Use your own words. If you reference an external dataset or article, include a link.
+- Use your own words. If you reference an external dataset, include a link.
 - You do **not** need to build the chart here; this discussion is about writing good abstractions that make design choices defendable.
