@@ -1,0 +1,196 @@
+:root {
+  --slidev-theme-primary: #4da3ff;
+  --brand-violet: #a78bfa;
+  --brand-cyan: #22d3ee;
+  --brand-bg: #0b0f17;
+  --brand-surface: rgba(255, 255, 255, 0.06);
+  --brand-surface-2: rgba(255, 255, 255, 0.09);
+}
+
+html.dark {
+  --slidev-slide-container-background: var(--brand-bg);
+}
+
+html,
+body,
+#app,
+#page-root {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.dark .slidev-slide-content {
+  background:
+    radial-gradient(
+      900px circle at 12% -10%,
+      rgba(77, 163, 255, 0.18),
+      transparent 55%
+    ),
+    radial-gradient(
+      700px circle at 90% 115%,
+      rgba(167, 139, 250, 0.16),
+      transparent 55%
+    ),
+    var(--brand-bg);
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+}
+
+strong {
+  color: var(--slidev-theme-primary);
+}
+
+a {
+  color: var(--slidev-theme-primary);
+}
+
+.slidev-layout thead th {
+  background: color-mix(in srgb, var(--slidev-theme-primary) 16%, transparent);
+}
+
+.dark .slidev-layout thead th {
+  background: color-mix(in srgb, var(--slidev-theme-primary) 22%, transparent);
+}
+
+.slidev-layout table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--brand-surface);
+}
+
+.slidev-layout tr {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark .slidev-layout tr {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.muted {
+  opacity: 0.7;
+}
+
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--brand-surface);
+  border-radius: 14px;
+  padding: 0.95rem 1.05rem;
+}
+
+.callout {
+  border: 1px solid rgba(77, 163, 255, 0.22);
+  background: color-mix(in srgb, var(--slidev-theme-primary) 14%, transparent);
+  border-radius: 16px;
+  padding: 1.05rem 1.2rem;
+}
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  opacity: 0.74;
+}
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    var(--slidev-theme-primary),
+    var(--brand-violet)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dark .slidev-layout.section h1,
+.dark .slidev-layout.statement h1,
+.dark .slidev-layout.fact h1 {
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.dark .slidev-layout.section h1 .gradient-text,
+.dark .slidev-layout.statement h1 .gradient-text,
+.dark .slidev-layout.fact h1 .gradient-text {
+  color: transparent;
+}
+
+.slide-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.65rem;
+  padding: 0 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  line-height: 1rem;
+  color: rgba(11, 31, 51, 0.72);
+  pointer-events: none;
+  user-select: none;
+}
+
+.dark .slide-footer {
+  color: rgba(245, 247, 250, 0.78);
+}
+
+.slide-footer::before {
+  content: "";
+  position: absolute;
+  left: 3.5rem;
+  right: 3.5rem;
+  bottom: 1.2rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--slidev-theme-primary) 26%, transparent);
+}
+
+.dark .slide-footer::before {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.slide-footer__left,
+.slide-footer__right {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+.slide-footer__tag {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.slide-footer__title {
+  font-weight: 500;
+}
+
+.slide-footer__sep {
+  opacity: 0.6;
+}
+
+.slide-footer__count {
+  font-variant-numeric: tabular-nums;
+}
+
+.mermaid {
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--brand-surface);
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
