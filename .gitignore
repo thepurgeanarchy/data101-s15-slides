@@ -3,3 +3,5 @@ dist
 .slidev
 .DS_Store
 *.log
+private/
+request_for_class_list-*.xls
