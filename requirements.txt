@@ -1,0 +1,17 @@
+# DATA101 JupyterHub activity requirements
+#
+# Install:
+#   python -m pip install -r requirements.txt
+#
+# This repo is primarily Slidev (Node). These are only for the guided notebooks in `notebooks/`.
+
+numpy
+pandas
+matplotlib
+
+# Notebook execution / kernels (for local validation)
+jupyter
+nbconvert
+nbformat
+ipykernel
+
