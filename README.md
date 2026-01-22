@@ -27,4 +27,4 @@ Deck source: `slides.md`
 
 ## JupyterHub Activity
 
-Guided notebook (≤ 90 minutes): `notebooks/data-task-abstraction-activity.ipynb`
+Guided notebook: `notebooks/data-task-abstraction-activity.ipynb`
