@@ -15,3 +15,5 @@ nbconvert
 nbformat
 ipykernel
 
+# Code formatting (optional)
+ruff
