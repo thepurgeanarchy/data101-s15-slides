@@ -5,3 +5,4 @@ dist
 *.log
 private/
 request_for_class_list-*.xls
+notebooks/*answer-key*.ipynb
