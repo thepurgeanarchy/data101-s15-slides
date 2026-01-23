@@ -1,0 +1,8 @@
+# DATA101 notebook requirements
+#
+# Install (run from the same folder as the notebook):
+#   pip install -r requirements.txt
+
+numpy
+pandas
+matplotlib
