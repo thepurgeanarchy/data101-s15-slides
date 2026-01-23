@@ -6,7 +6,7 @@ Guided Activity: Data + Task Abstraction to Visualization Design
 ## Overview
 In this guided notebook activity, you will practice turning a domain question into a defensible visualization workflow. You will write your task abstraction and data abstraction first, then implement the required transforms in Python, and finally produce two charts that directly support your tasks.
 
-The notebook uses a synthetic dataset so you can focus on abstraction and method rather than data access.
+The notebook uses a standardized (synthetic) class dataset provided as a CSV so everyone's results are comparable.
 
 ## Learning Outcomes
 By the end of this activity, you should be able to:
@@ -17,6 +17,7 @@ By the end of this activity, you should be able to:
 
 ## Instructions (What To Do)
 1. Open the notebook: `notebooks/data-task-abstraction-activity.ipynb`
+   - Keep `notebooks/data-task-abstraction-dataset.csv` available (the notebook will load it automatically).
 2. Run the Setup cell. If any imports fail on your JupyterHub, message your instructor with the error text.
 3. In the first cell, fill in the Group Information table (Group number + member names).
 4. Complete the notebook in order:
@@ -50,4 +51,3 @@ This assignment is graded using the same rubric shown at the top of the notebook
 
 ## Academic Integrity
 Use your own words and your own code. If you consulted any outside sources (including tools), acknowledge them briefly in your write-up with a proper citation/link.
-
