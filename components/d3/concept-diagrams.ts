@@ -52,7 +52,7 @@ const warnFill = '#1B0F19'
 
 export const conceptDiagrams: Record<string, DiagramSpec> = {
   'viz-pipeline': {
-    height: 340,
+    height: 460,
     ariaLabel: 'Visualization pipeline showing where errors enter: data, encoding, perception, interpretation, action.',
     nodes: [
       { id: 'D', label: 'Data\n(measurements)', x: 0.09, y: 0.30, w: 140, h: 62, variant: 'primary' },
@@ -98,7 +98,7 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'gestalt-mindmap': {
-    height: 360,
+    height: 480,
     ariaLabel: 'Mindmap of Gestalt grouping principles: proximity, similarity, enclosure, connection, continuity, and figure-ground.',
     nodes: [
       { id: 'root', label: 'Grouping', x: 0.50, y: 0.52, w: 120, h: 120, shape: 'circle', fill: '#223B6B', stroke: '#223B6B', text: vizTheme.text },
@@ -196,7 +196,7 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'connection-enclosure': {
-    height: 290,
+    height: 440,
     ariaLabel: 'Diagram showing enclosure as a panel and connection as a line implying continuity.',
     groups: [
       { id: 'panel', label: 'Enclosure: a panel creates a subgroup', x: 0.08, y: 0.20, w: 0.72, h: 0.46, stroke: vizTheme.primary },
@@ -332,7 +332,7 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'missing-vs-zero': {
-    height: 300,
+    height: 440,
     ariaLabel: 'Decision flow showing that missing data should not be mapped to zero.',
     nodes: [
       { id: 'Q', label: 'Is the value\nmissing?', x: 0.50, y: 0.16, w: 240, h: 64, variant: 'primary' },

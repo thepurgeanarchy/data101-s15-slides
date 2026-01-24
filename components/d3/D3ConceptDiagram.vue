@@ -74,6 +74,39 @@ function drawTextCentered(
   }
 }
 
+function drawMultilineTextCentered(
+  selection: d3.Selection<SVGGElement, unknown, null, undefined>,
+  {
+    x,
+    y,
+    text,
+    fontSize,
+    fontWeight,
+    fill,
+  }: { x: number; y: number; text: string; fontSize: number; fontWeight: number; fill: string },
+) {
+  const lines = text.split('\n')
+  const lineHeight = Math.max(14, Math.round(fontSize * 1.15))
+  const startY = y - ((lines.length - 1) * lineHeight) / 2
+
+  const t = selection
+    .append('text')
+    .attr('x', x)
+    .attr('y', startY)
+    .attr('text-anchor', 'middle')
+    .attr('fill', fill)
+    .attr('font-size', fontSize)
+    .attr('font-weight', fontWeight)
+    .style('font-family', 'inherit')
+
+  for (let i = 0; i < lines.length; i++) {
+    t.append('tspan')
+      .attr('x', x)
+      .attr('dy', i === 0 ? 0 : lineHeight)
+      .text(lines[i])
+  }
+}
+
 function resolveNodes(spec: DiagramSpec, width: number, height: number, margin: number): ResolvedNode[] {
   const innerW = width - margin * 2
   const innerH = height - margin * 2
@@ -239,10 +272,16 @@ function computeSceneBounds(
     const mx = (x1 + x2) / 2
     const my = (y1 + y2) / 2
     const label = e.label
+    const lines = label.split('\n')
     const padX = 10
     const padY = 6
-    const approxW = Math.min(220, Math.max(72, label.length * 7 + padX * 2))
-    const approxH = 22 + padY * 2
+    const fontSize = 12
+    const lineHeight = Math.max(14, Math.round(fontSize * 1.15))
+    const approxW = Math.min(
+      260,
+      Math.max(72, Math.max(...lines.map((line) => Math.max(1, line.length))) * 7 + padX * 2),
+    )
+    const approxH = lines.length * lineHeight + padY * 2
     expand(mx - approxW / 2, my - approxH / 2, mx + approxW / 2, my + approxH / 2)
   }
 
@@ -369,10 +408,20 @@ function render() {
     const mx = (x1 + x2) / 2
     const my = (y1 + y2) / 2
     const label = edge.label
+    const lines = label.split('\n')
     const padX = 10
     const padY = 6
-    const approxW = Math.min(240, Math.max(76, label.length * 7 + padX * 2))
-    const approxH = 22 + padY * 2
+    const fontSize = 12
+    const fontWeight = 700
+    const lineHeight = Math.max(14, Math.round(fontSize * 1.15))
+    const approxW = Math.min(
+      260,
+      Math.max(
+        76,
+        Math.max(...lines.map((line) => Math.max(1, line.length))) * 7 + padX * 2,
+      ),
+    )
+    const approxH = lines.length * lineHeight + padY * 2
 
     const p = layerEdgeLabels.append('g').attr('class', 'edge-label')
     p.append('rect')
@@ -386,15 +435,14 @@ function render() {
       .attr('stroke', 'rgba(255,255,255,0.16)')
       .attr('stroke-width', 1)
 
-    p.append('text')
-      .attr('x', mx)
-      .attr('y', my + 4)
-      .attr('text-anchor', 'middle')
-      .attr('fill', vizTheme.textMuted)
-      .attr('font-size', 12)
-      .attr('font-weight', 700)
-      .style('font-family', 'inherit')
-      .text(label)
+    drawMultilineTextCentered(p, {
+      x: mx,
+      y: my,
+      text: label,
+      fontSize,
+      fontWeight,
+      fill: vizTheme.textMuted,
+    })
   }
 
   // Nodes

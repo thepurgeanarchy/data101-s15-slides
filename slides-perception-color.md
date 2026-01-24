@@ -171,7 +171,7 @@ So today, I want you to adopt a professional mindset: treat perception as a desi
 
 ## The Visualization Pipeline (Where Errors Enter)
 
-<D3ConceptDiagram diagram="viz-pipeline" class="mt-6" />
+<D3ConceptDiagram diagram="viz-pipeline" class="mt-4" />
 
 <!--
 TALK TRACK (≈3–4 min)
@@ -267,7 +267,7 @@ So here’s a practical rule: if the chart requires a paragraph to teach someone
 
 ## Gestalt Principles (How Viewers Group Marks)
 
-<D3ConceptDiagram diagram="gestalt-mindmap" class="mt-6" />
+<D3ConceptDiagram diagram="gestalt-mindmap" class="mt-0" />
 
 <!--
 TALK TRACK (≈3–4 min)
@@ -347,7 +347,7 @@ If you remember that one distinction—hue for “which,” lightness for “how
 
 ## Connection + Enclosure (When Lines and Boxes Mean Something)
 
-<D3ConceptDiagram diagram="connection-enclosure" class="mt-6" />
+<D3ConceptDiagram diagram="connection-enclosure" class="mt-4" />
 
 <!--
 TALK TRACK (≈3–4 min)
@@ -790,7 +790,7 @@ Professional takeaway: treat the legend as part of the visualization, not an aft
 
 ## Missing Data ≠ Zero (A Common Interpretation Bug)
 
-<D3ConceptDiagram diagram="missing-vs-zero" class="mt-6" />
+<D3ConceptDiagram diagram="missing-vs-zero" class="mt-4" />
 
 <!--
 TALK TRACK (≈3–4 min)
