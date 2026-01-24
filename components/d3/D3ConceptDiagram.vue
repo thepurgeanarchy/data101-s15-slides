@@ -178,6 +178,65 @@ function edgePath(source: ResolvedNode, target: ResolvedNode) {
   return `M ${x1} ${y1} C ${x1} ${my}, ${x2} ${my}, ${x2} ${y2}`
 }
 
+function computeSceneBounds(
+  nodes: ResolvedNode[],
+  groups: Array<{ x: number; y: number; w: number; h: number }>,
+  edges: DiagramEdge[],
+  nodeById: Map<string, ResolvedNode>,
+) {
+  let minX = Number.POSITIVE_INFINITY
+  let minY = Number.POSITIVE_INFINITY
+  let maxX = Number.NEGATIVE_INFINITY
+  let maxY = Number.NEGATIVE_INFINITY
+
+  const expand = (x0: number, y0: number, x1: number, y1: number) => {
+    minX = Math.min(minX, x0)
+    minY = Math.min(minY, y0)
+    maxX = Math.max(maxX, x1)
+    maxY = Math.max(maxY, y1)
+  }
+
+  for (const g of groups) {
+    expand(g.x, g.y, g.x + g.w, g.y + g.h)
+  }
+
+  for (const n of nodes) {
+    if (n.shape === 'circle') {
+      const r = Math.min(n.w, n.h) / 2
+      expand(n.cx - r, n.cy - r, n.cx + r, n.cy + r)
+      continue
+    }
+    expand(n.cx - n.w / 2, n.cy - n.h / 2, n.cx + n.w / 2, n.cy + n.h / 2)
+  }
+
+  for (const e of edges) {
+    if (!e.label) continue
+    const source = nodeById.get(e.from)
+    const target = nodeById.get(e.to)
+    if (!source || !target) continue
+    const { x1, y1, x2, y2 } = edgeEndpoints(source, target)
+    const mx = (x1 + x2) / 2
+    const my = (y1 + y2) / 2
+    const label = e.label
+    const padX = 10
+    const padY = 6
+    const approxW = Math.min(220, Math.max(72, label.length * 7 + padX * 2))
+    const approxH = 22 + padY * 2
+    expand(mx - approxW / 2, my - approxH / 2, mx + approxW / 2, my + approxH / 2)
+  }
+
+  if (!Number.isFinite(minX) || !Number.isFinite(minY) || !Number.isFinite(maxX) || !Number.isFinite(maxY))
+    return null
+
+  const extra = 14
+  return {
+    x: minX - extra,
+    y: minY - extra,
+    w: Math.max(1, maxX - minX + extra * 2),
+    h: Math.max(1, maxY - minY + extra * 2),
+  }
+}
+
 function render() {
   if (!container.value) return
   d3.select(container.value).selectAll('*').remove()
@@ -365,20 +424,19 @@ function render() {
     drawTextCentered(g, node, text)
   })
 
-  // Auto-fit: scale and center the scene so it uses the available viewBox area.
-  const sceneNode = scene.node()
-  if (sceneNode) {
-    const bbox = sceneNode.getBBox()
+  // Auto-fit: scale and center using deterministic bounds (avoids getBBox flicker on hidden slides).
+  const bounds = computeSceneBounds(nodes, groups, edges, nodeById)
+  if (bounds) {
     const pad = isCompact ? 16 : 22
     const safeW = Math.max(1, width - pad * 2)
     const safeH = Math.max(1, height - pad * 2)
 
-    const scaleX = safeW / Math.max(1, bbox.width)
-    const scaleY = safeH / Math.max(1, bbox.height)
+    const scaleX = safeW / bounds.w
+    const scaleY = safeH / bounds.h
     const scale = Math.min(scaleX, scaleY)
 
-    const cx = bbox.x + bbox.width / 2
-    const cy = bbox.y + bbox.height / 2
+    const cx = bounds.x + bounds.w / 2
+    const cy = bounds.y + bounds.h / 2
     const tx = width / 2 - cx * scale
     const ty = height / 2 - cy * scale
 
