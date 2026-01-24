@@ -78,7 +78,7 @@ Include **at least 2** scholarly works that informed your choices (tasks, transf
 
 - **Allowed:** peer-reviewed journal/conference papers; academic books
 - **Not allowed:** blogs/tutorials; news; Wikipedia; non-scholarly web sources
-- **Format:** APA 7th edition
+- **Format:** Use a consistent scholarly citation format (author, year, title, venue/publisher) and include a DOI/URL.
 - **Links:** include a working DOI link (preferred) or a stable publisher/library page
 
 **Length guideline:** ~250–450 words total (excluding bullet labels).  
@@ -197,7 +197,7 @@ You may use a dataset idea from class, your program, or your interests. Here are
 | Data abstraction is correct and complete (types + transforms) | 3 |
 | Two task statements follow the required structure | 3 |
 | Design proposal maps to tasks + data with a defensible justification | 1 |
-| Scholarly references (APA + live links) | 1 |
+| Scholarly references (proper format + live links) | 1 |
 | Replies (2 required) provide specific, helpful critique | 1 |
 
 ## Suggested Scholarly Sources (Optional)
