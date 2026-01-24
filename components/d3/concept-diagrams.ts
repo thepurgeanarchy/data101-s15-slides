@@ -367,10 +367,10 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
     height: 260,
     ariaLabel: 'Decision flow for whether color is needed based on the task.',
     nodes: [
-      { id: 'Q', label: 'Do you need\ncolor?', x: 0.50, y: 0.16, w: 220, h: 64, variant: 'primary' },
-      { id: 'A', label: 'Yes:\nqualitative hues', x: 0.18, y: 0.56, w: 230, h: 64, variant: 'ok' },
-      { id: 'B', label: 'Maybe not:\nuse position', x: 0.50, y: 0.56, w: 240, h: 64, variant: 'ok' },
-      { id: 'C', label: 'Avoid:\nfacet or filter', x: 0.82, y: 0.56, w: 230, h: 64, variant: 'warn' },
+      { id: 'Q', label: 'Do you need\ncolor?', x: 0.50, y: 0.14, w: 220, h: 64, variant: 'primary' },
+      { id: 'A', label: 'Yes:\nqualitative hues', x: 0.18, y: 0.68, w: 230, h: 64, variant: 'ok' },
+      { id: 'B', label: 'Maybe not:\nuse position', x: 0.50, y: 0.68, w: 240, h: 64, variant: 'ok' },
+      { id: 'C', label: 'Avoid:\nfacet or filter', x: 0.82, y: 0.68, w: 230, h: 64, variant: 'warn' },
     ],
     edges: [
       { from: 'Q', to: 'A', label: 'Grouping a few\ncategories' },
