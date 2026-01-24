@@ -50,8 +50,8 @@ function drawTextCentered(
   fill: string,
 ) {
   const lines = node.label.split('\n')
-  const fontSize = node.fontSize ?? 13
-  const fontWeight = node.fontWeight ?? 650
+  const fontSize = node.fontSize ?? 14
+  const fontWeight = node.fontWeight ?? 700
   const lineHeight = Math.max(14, Math.round(fontSize * 1.15))
   const startY = node.cy - ((lines.length - 1) * lineHeight) / 2
 
@@ -228,7 +228,7 @@ function computeSceneBounds(
   if (!Number.isFinite(minX) || !Number.isFinite(minY) || !Number.isFinite(maxX) || !Number.isFinite(maxY))
     return null
 
-  const extra = 14
+  const extra = 10
   return {
     x: minX - extra,
     y: minY - extra,
@@ -244,8 +244,8 @@ function render() {
   const spec = getSpec(props.diagram)
   const width = spec.width ?? 960
   const height = spec.height
-  const margin = 26
   const isCompact = container.value.classList.contains('viz-compact')
+  const margin = isCompact ? 16 : 18
   const collisionGap = isCompact ? 10 : 14
 
   const nodes = resolveNodes(spec, width, height, margin)
@@ -269,20 +269,22 @@ function render() {
   defs
     .append('marker')
     .attr('id', arrowId)
+    .attr('markerUnits', 'userSpaceOnUse')
     .attr('viewBox', '0 0 10 10')
-    .attr('refX', 9)
+    .attr('refX', 9.5)
     .attr('refY', 5)
-    .attr('markerWidth', 8)
-    .attr('markerHeight', 8)
+    .attr('markerWidth', 10)
+    .attr('markerHeight', 10)
     .attr('orient', 'auto-start-reverse')
     .append('path')
     .attr('d', 'M 0 0 L 10 5 L 0 10 z')
-    .attr('fill', 'rgba(234,242,255,0.65)')
+    .attr('fill', 'rgba(147,197,253,0.92)')
 
   const scene = svg.append('g').attr('class', 'scene')
   const layerGroups = scene.append('g').attr('class', 'groups')
-  const layerEdges = scene.append('g').attr('class', 'edges')
   const layerNodes = scene.append('g').attr('class', 'nodes')
+  const layerEdges = scene.append('g').attr('class', 'edges').style('pointer-events', 'none')
+  const layerEdgeLabels = scene.append('g').attr('class', 'edge-labels')
 
   // Groups (background clusters)
   for (const g of groups) {
@@ -312,67 +314,44 @@ function render() {
     }
   }
 
-  // Edges
-  const edgeG = layerEdges
-    .selectAll('g.edge')
-    .data(edges)
-    .enter()
-    .append('g')
-    .attr('class', 'edge')
-
-  edgeG.each(function (edge: DiagramEdge) {
+  // Edge labels (below nodes to avoid covering content).
+  for (const edge of edges) {
     const source = nodeById.get(edge.from)
     const target = nodeById.get(edge.to)
-    if (!source || !target) return
+    if (!source || !target) continue
+    if (!edge.label) continue
 
-    const stroke = edge.stroke ?? 'rgba(147,197,253,0.62)'
-    const strokeWidth = edge.strokeWidth ?? 2
-    const arrow = edge.arrow ?? true
+    const { x1, y1, x2, y2 } = edgeEndpoints(source, target)
+    const mx = (x1 + x2) / 2
+    const my = (y1 + y2) / 2
+    const label = edge.label
+    const padX = 10
+    const padY = 6
+    const approxW = Math.min(240, Math.max(76, label.length * 7 + padX * 2))
+    const approxH = 22 + padY * 2
 
-    const p = d3.select(this)
-    p.append('path')
-      .attr('d', edgePath(source, target))
-      .attr('fill', 'none')
-      .attr('stroke', stroke)
-      .attr('stroke-width', strokeWidth)
-      .attr('stroke-linecap', 'round')
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-dasharray', edge.dashed ? '6 6' : null)
-      .attr('marker-end', arrow ? `url(#${arrowId})` : null)
-      .attr('opacity', edge.dashed ? 0.8 : 1)
+    const p = layerEdgeLabels.append('g').attr('class', 'edge-label')
+    p.append('rect')
+      .attr('x', mx - approxW / 2)
+      .attr('y', my - approxH / 2)
+      .attr('width', approxW)
+      .attr('height', approxH)
+      .attr('rx', 14)
+      .attr('ry', 14)
+      .attr('fill', 'rgba(11, 18, 32, 0.88)')
+      .attr('stroke', 'rgba(255,255,255,0.16)')
+      .attr('stroke-width', 1)
 
-    if (edge.label) {
-      const { x1, y1, x2, y2 } = edgeEndpoints(source, target)
-      const mx = (x1 + x2) / 2
-      const my = (y1 + y2) / 2
-      const label = edge.label
-      const padX = 10
-      const padY = 6
-      const approxW = Math.min(220, Math.max(72, label.length * 7 + padX * 2))
-      const approxH = 22 + padY * 2
-
-      p.append('rect')
-        .attr('x', mx - approxW / 2)
-        .attr('y', my - approxH / 2)
-        .attr('width', approxW)
-        .attr('height', approxH)
-        .attr('rx', 14)
-        .attr('ry', 14)
-        .attr('fill', 'rgba(11, 18, 32, 0.85)')
-        .attr('stroke', 'rgba(255,255,255,0.14)')
-        .attr('stroke-width', 1)
-
-      p.append('text')
-        .attr('x', mx)
-        .attr('y', my + 4)
-        .attr('text-anchor', 'middle')
-        .attr('fill', vizTheme.textMuted)
-        .attr('font-size', 11)
-        .attr('font-weight', 650)
-        .style('font-family', 'inherit')
-        .text(label)
-    }
-  })
+    p.append('text')
+      .attr('x', mx)
+      .attr('y', my + 4)
+      .attr('text-anchor', 'middle')
+      .attr('fill', vizTheme.textMuted)
+      .attr('font-size', 12)
+      .attr('font-weight', 700)
+      .style('font-family', 'inherit')
+      .text(label)
+  }
 
   // Nodes
   const nodeG = layerNodes
@@ -424,10 +403,33 @@ function render() {
     drawTextCentered(g, node, text)
   })
 
+  // Edge lines/arrows (above nodes so arrowheads are always visible).
+  for (const edge of edges) {
+    const source = nodeById.get(edge.from)
+    const target = nodeById.get(edge.to)
+    if (!source || !target) continue
+
+    const stroke = edge.stroke ?? 'rgba(147,197,253,0.76)'
+    const strokeWidth = edge.strokeWidth ?? 2.2
+    const arrow = edge.arrow ?? true
+
+    layerEdges
+      .append('path')
+      .attr('d', edgePath(source, target))
+      .attr('fill', 'none')
+      .attr('stroke', stroke)
+      .attr('stroke-width', strokeWidth)
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-dasharray', edge.dashed ? '6 6' : null)
+      .attr('marker-end', arrow ? `url(#${arrowId})` : null)
+      .attr('opacity', edge.dashed ? 0.85 : 1)
+  }
+
   // Auto-fit: scale and center using deterministic bounds (avoids getBBox flicker on hidden slides).
   const bounds = computeSceneBounds(nodes, groups, edges, nodeById)
   if (bounds) {
-    const pad = isCompact ? 16 : 22
+    const pad = isCompact ? 10 : 12
     const safeW = Math.max(1, width - pad * 2)
     const safeH = Math.max(1, height - pad * 2)
 
