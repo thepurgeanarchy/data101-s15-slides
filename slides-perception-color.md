@@ -469,9 +469,7 @@ So you can think of palette choice as a type check: does the palette type match 
 
 ## Match Color to Data Type + Task
 
-<div class="scale-80 origin-top -mt-2">
-<D3ConceptDiagram diagram="color-match-tree" />
-</div>
+<D3ConceptDiagram diagram="color-match-tree" class="mt-6" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -723,9 +721,9 @@ The goal is legibility and focus: neutrals for structure, a single accent for at
 
 ## Accessibility: CVD + Redundant Encoding
 
-<div class="grid grid-cols-2 gap-4 mt-6 items-start">
-  <div>
-<D3ConceptDiagram diagram="accessibility-redundancy" />
+<div class="grid grid-cols-2 gap-4 mt-6 items-stretch">
+  <div class="flex">
+    <D3ConceptDiagram diagram="accessibility-redundancy" class="viz-fill flex-1" />
   </div>
   <div class="grid gap-4">
   <div class="card">

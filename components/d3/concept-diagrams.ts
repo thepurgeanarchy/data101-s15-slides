@@ -77,23 +77,23 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
 
   'preattentive-ranking': {
     height: 280,
-    ariaLabel: 'Ranking of channel effectiveness from position to hue.',
+    ariaLabel: 'Ranking of channel effectiveness for magnitude comparison from position to hue.',
     nodes: [
-      { id: 'A', label: 'Most accurate\ncomparisons', x: 0.50, y: 0.10, w: 270, h: 62, variant: 'primary' },
-      { id: 'B', label: 'Position\n(common scale)', x: 0.50, y: 0.24, w: 250, h: 62, variant: 'note' },
-      { id: 'C', label: 'Length', x: 0.50, y: 0.36, w: 200, h: 52, variant: 'note' },
-      { id: 'D', label: 'Angle', x: 0.50, y: 0.48, w: 200, h: 52, variant: 'note' },
-      { id: 'E', label: 'Area', x: 0.50, y: 0.60, w: 200, h: 52, variant: 'note' },
-      { id: 'F', label: 'Color lightness', x: 0.50, y: 0.72, w: 220, h: 52, variant: 'note' },
-      { id: 'G', label: 'Hue (for groups)', x: 0.50, y: 0.86, w: 220, h: 52, variant: 'note' },
+      { id: 'T', label: 'More precise → less precise\n(for magnitude)', x: 0.50, y: 0.18, w: 470, h: 54, shape: 'pill', variant: 'primary' },
+
+      { id: 'P', label: 'Position\n(common scale)', x: 0.10, y: 0.52, w: 170, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'L', label: 'Length', x: 0.30, y: 0.52, w: 150, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'AA', label: 'Angle / Area', x: 0.50, y: 0.52, w: 160, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'CL', label: 'Color lightness', x: 0.70, y: 0.52, w: 180, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'H', label: 'Hue\n(for groups)', x: 0.90, y: 0.52, w: 160, h: 56, shape: 'pill', variant: 'ok' },
+
+      { id: 'B', label: 'Use hue for grouping,\nnot “how much”', x: 0.50, y: 0.84, w: 470, h: 54, shape: 'pill', variant: 'ok' },
     ],
     edges: [
-      { from: 'A', to: 'B' },
-      { from: 'B', to: 'C' },
-      { from: 'C', to: 'D' },
-      { from: 'D', to: 'E' },
-      { from: 'E', to: 'F' },
-      { from: 'F', to: 'G' },
+      { from: 'P', to: 'L' },
+      { from: 'L', to: 'AA' },
+      { from: 'AA', to: 'CL' },
+      { from: 'CL', to: 'H' },
     ],
   },
 
@@ -257,7 +257,7 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'color-match-tree': {
-    height: 320,
+    height: 360,
     ariaLabel: 'Decision tree mapping variable type to palette type and common mistakes to avoid.',
     nodes: [
       { id: 'Q', label: 'What is the\nvariable type?', x: 0.12, y: 0.52, w: 230, h: 64, variant: 'primary' },
@@ -290,16 +290,18 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'accessibility-redundancy': {
-    height: 320,
+    width: 720,
+    height: 480,
     ariaLabel: 'Accessibility flow: don’t rely on color alone; add redundant encoding such as labels, shape, position, and contrast checks.',
     nodes: [
-      { id: 'A', label: 'Assume some viewers\ncannot rely on red/green', x: 0.50, y: 0.14, w: 360, h: 74, variant: 'primary' },
-      { id: 'B', label: 'Don’t encode meaning\nwith color alone', x: 0.50, y: 0.32, w: 320, h: 74, variant: 'primary' },
-      { id: 'C', label: 'Add redundancy', x: 0.50, y: 0.50, w: 220, h: 58, variant: 'ok' },
-      { id: 'C1', label: 'Direct labels', x: 0.18, y: 0.78, w: 190, h: 54, variant: 'ok' },
-      { id: 'C2', label: 'Shape / markers', x: 0.40, y: 0.78, w: 210, h: 54, variant: 'ok' },
-      { id: 'C3', label: 'Position / facets', x: 0.62, y: 0.78, w: 220, h: 54, variant: 'ok' },
-      { id: 'D', label: 'Check contrast + legend', x: 0.84, y: 0.78, w: 240, h: 54, variant: 'ok' },
+      { id: 'A', label: 'Assume some viewers\ncannot rely on red/green', x: 0.50, y: 0.12, w: 410, h: 64, shape: 'pill', variant: 'primary' },
+      { id: 'B', label: 'Don’t encode meaning\nwith color alone', x: 0.50, y: 0.34, w: 380, h: 64, shape: 'pill', variant: 'primary' },
+      { id: 'C', label: 'Add redundancy', x: 0.50, y: 0.56, w: 240, h: 56, shape: 'pill', variant: 'ok' },
+
+      { id: 'C1', label: 'Direct labels', x: 0.30, y: 0.78, w: 240, h: 54, shape: 'pill', variant: 'ok' },
+      { id: 'C2', label: 'Shape / markers', x: 0.70, y: 0.78, w: 240, h: 54, shape: 'pill', variant: 'ok' },
+      { id: 'C3', label: 'Position / facets', x: 0.30, y: 0.92, w: 240, h: 54, shape: 'pill', variant: 'ok' },
+      { id: 'D', label: 'Check contrast + legend', x: 0.70, y: 0.92, w: 260, h: 54, shape: 'pill', variant: 'ok' },
     ],
     edges: [
       { from: 'A', to: 'B' },

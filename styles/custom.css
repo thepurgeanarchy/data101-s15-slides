@@ -215,3 +215,11 @@ a {
   height: auto;
   display: block;
 }
+
+.viz-frame.viz-fill {
+  height: 100%;
+}
+
+.viz-frame.viz-fill svg {
+  height: 100%;
+}
