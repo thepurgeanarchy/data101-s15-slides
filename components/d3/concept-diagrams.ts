@@ -52,17 +52,17 @@ const warnFill = '#1B0F19'
 
 export const conceptDiagrams: Record<string, DiagramSpec> = {
   'viz-pipeline': {
-    height: 300,
+    height: 340,
     ariaLabel: 'Visualization pipeline showing where errors enter: data, encoding, perception, interpretation, action.',
     nodes: [
-      { id: 'D', label: 'Data\n(measurements)', x: 0.09, y: 0.40, w: 150, h: 62, variant: 'primary' },
-      { id: 'E', label: 'Encoding\n(marks + channels)', x: 0.28, y: 0.40, w: 165, h: 62, variant: 'primary' },
-      { id: 'P', label: 'Perception\n(attention + comparison)', x: 0.49, y: 0.40, w: 185, h: 62, variant: 'primary' },
-      { id: 'I', label: 'Interpretation\n(meaning + story)', x: 0.71, y: 0.40, w: 185, h: 62, variant: 'primary' },
-      { id: 'A', label: 'Action\n(decision)', x: 0.91, y: 0.40, w: 150, h: 62, variant: 'primary' },
-      { id: 'Y', label: 'Wrong transform\n(counts vs rates)', x: 0.09, y: 0.80, w: 200, h: 62, variant: 'warn' },
-      { id: 'X', label: 'Wrong channel\nor wrong scale', x: 0.28, y: 0.80, w: 200, h: 62, variant: 'warn' },
-      { id: 'Z', label: 'Overload\n(too much to compare)', x: 0.49, y: 0.80, w: 220, h: 62, variant: 'warn' },
+      { id: 'D', label: 'Data\n(measurements)', x: 0.09, y: 0.30, w: 140, h: 62, variant: 'primary' },
+      { id: 'E', label: 'Encoding\n(marks + channels)', x: 0.28, y: 0.30, w: 160, h: 62, variant: 'primary' },
+      { id: 'P', label: 'Perception\n(attention + comparison)', x: 0.49, y: 0.30, w: 175, h: 62, variant: 'primary' },
+      { id: 'I', label: 'Interpretation\n(meaning + story)', x: 0.71, y: 0.30, w: 175, h: 62, variant: 'primary' },
+      { id: 'A', label: 'Action\n(decision)', x: 0.91, y: 0.30, w: 140, h: 62, variant: 'primary' },
+      { id: 'Y', label: 'Wrong transform\n(counts vs rates)', x: 0.09, y: 0.78, w: 200, h: 62, variant: 'warn' },
+      { id: 'X', label: 'Wrong channel\nor wrong scale', x: 0.28, y: 0.78, w: 200, h: 62, variant: 'warn' },
+      { id: 'Z', label: 'Overload\n(too much to compare)', x: 0.49, y: 0.78, w: 220, h: 62, variant: 'warn' },
     ],
     edges: [
       { from: 'D', to: 'E' },
@@ -81,11 +81,11 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
     nodes: [
       { id: 'T', label: 'More precise → less precise\n(for magnitude)', x: 0.50, y: 0.18, w: 470, h: 54, shape: 'pill', variant: 'primary' },
 
-      { id: 'P', label: 'Position\n(common scale)', x: 0.10, y: 0.52, w: 170, h: 56, shape: 'pill', variant: 'note' },
-      { id: 'L', label: 'Length', x: 0.30, y: 0.52, w: 150, h: 56, shape: 'pill', variant: 'note' },
-      { id: 'AA', label: 'Angle / Area', x: 0.50, y: 0.52, w: 160, h: 56, shape: 'pill', variant: 'note' },
-      { id: 'CL', label: 'Color lightness', x: 0.70, y: 0.52, w: 180, h: 56, shape: 'pill', variant: 'note' },
-      { id: 'H', label: 'Hue\n(for groups)', x: 0.90, y: 0.52, w: 160, h: 56, shape: 'pill', variant: 'ok' },
+      { id: 'P', label: 'Position\n(common scale)', x: 0.10, y: 0.52, w: 150, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'L', label: 'Length', x: 0.30, y: 0.52, w: 130, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'AA', label: 'Angle / Area', x: 0.50, y: 0.52, w: 140, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'CL', label: 'Color lightness', x: 0.70, y: 0.52, w: 150, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'H', label: 'Hue\n(for groups)', x: 0.90, y: 0.52, w: 150, h: 56, shape: 'pill', variant: 'ok' },
 
       { id: 'B', label: 'Use hue for grouping,\nnot “how much”', x: 0.50, y: 0.84, w: 470, h: 54, shape: 'pill', variant: 'ok' },
     ],
@@ -230,7 +230,7 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
     nodes: [
       { id: 'H', label: 'Headline:\nwhat matters', x: 0.22, y: 0.55, w: 250, h: 64, variant: 'primary' },
       { id: 'K', label: 'Key marks\nhighlighted', x: 0.52, y: 0.55, w: 230, h: 64, variant: 'primary' },
-      { id: 'D', label: 'Details\n(background context)', x: 0.80, y: 0.55, w: 260, h: 64, variant: 'muted' },
+      { id: 'D', label: 'Details\n(background context)', x: 0.84, y: 0.55, w: 250, h: 64, variant: 'muted' },
     ],
     edges: [
       { from: 'H', to: 'K' },
@@ -260,19 +260,19 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
     height: 360,
     ariaLabel: 'Decision tree mapping variable type to palette type and common mistakes to avoid.',
     nodes: [
-      { id: 'Q', label: 'What is the\nvariable type?', x: 0.12, y: 0.52, w: 230, h: 64, variant: 'primary' },
+      { id: 'Q', label: 'What is the\nvariable type?', x: 0.10, y: 0.52, w: 180, h: 64, variant: 'primary' },
 
-      { id: 'C', label: 'Categorical', x: 0.38, y: 0.20, w: 180, h: 56, variant: 'ok' },
-      { id: 'CH', label: 'Use distinct hues', x: 0.58, y: 0.20, w: 220, h: 56, variant: 'ok' },
-      { id: 'BAD1', label: 'Avoid:\ntoo many categories\n→ legend overload', x: 0.82, y: 0.20, w: 270, h: 76, variant: 'warn' },
+      { id: 'C', label: 'Categorical', x: 0.34, y: 0.20, w: 180, h: 56, variant: 'ok' },
+      { id: 'CH', label: 'Use distinct hues', x: 0.62, y: 0.20, w: 200, h: 56, variant: 'ok' },
+      { id: 'BAD1', label: 'Avoid:\ntoo many categories\n→ legend overload', x: 0.90, y: 0.20, w: 210, h: 76, variant: 'warn' },
 
-      { id: 'O', label: 'Ordered /\nQuantitative', x: 0.38, y: 0.52, w: 200, h: 64, variant: 'ok' },
-      { id: 'SEQ', label: 'Sequential\nlightness ramp', x: 0.58, y: 0.52, w: 230, h: 64, variant: 'ok' },
-      { id: 'BAD2', label: 'Avoid:\nrainbow / nonuniform\nscales', x: 0.82, y: 0.52, w: 260, h: 70, variant: 'warn' },
+      { id: 'O', label: 'Ordered /\nQuantitative', x: 0.34, y: 0.52, w: 200, h: 64, variant: 'ok' },
+      { id: 'SEQ', label: 'Sequential\nlightness ramp', x: 0.62, y: 0.52, w: 210, h: 64, variant: 'ok' },
+      { id: 'BAD2', label: 'Avoid:\nrainbow / nonuniform\nscales', x: 0.90, y: 0.52, w: 210, h: 70, variant: 'warn' },
 
-      { id: 'B', label: 'Baseline\ndifference', x: 0.38, y: 0.84, w: 200, h: 64, variant: 'ok' },
-      { id: 'DIV', label: 'Diverging scale\ncentered at\n0/baseline', x: 0.58, y: 0.84, w: 240, h: 76, variant: 'ok' },
-      { id: 'BAD3', label: 'Avoid:\nmidpoint not meaningful', x: 0.82, y: 0.84, w: 250, h: 64, variant: 'warn' },
+      { id: 'B', label: 'Baseline\ndifference', x: 0.34, y: 0.84, w: 200, h: 64, variant: 'ok' },
+      { id: 'DIV', label: 'Diverging scale\ncentered at\n0/baseline', x: 0.62, y: 0.84, w: 220, h: 76, variant: 'ok' },
+      { id: 'BAD3', label: 'Avoid:\nmidpoint not meaningful', x: 0.90, y: 0.84, w: 210, h: 64, variant: 'warn' },
     ],
     edges: [
       { from: 'Q', to: 'C' },
@@ -380,22 +380,22 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'chart-reading-checklist': {
-    height: 330,
+    height: 360,
     ariaLabel: 'An 8-step chart reading checklist from title through conclusion.',
     groups: [
-      { id: 'L', label: '1–4: framing + axes', x: 0.06, y: 0.10, w: 0.42, h: 0.82, stroke: 'rgba(255,255,255,0.12)' },
-      { id: 'R', label: '5–8: encoding + inference', x: 0.52, y: 0.10, w: 0.42, h: 0.82, stroke: 'rgba(255,255,255,0.12)' },
+      { id: 'L', label: '1–4: framing + axes', x: 0.06, y: 0.06, w: 0.42, h: 0.88, stroke: 'rgba(255,255,255,0.12)' },
+      { id: 'R', label: '5–8: encoding + inference', x: 0.52, y: 0.06, w: 0.42, h: 0.88, stroke: 'rgba(255,255,255,0.12)' },
     ],
     nodes: [
-      { id: 'A', label: '1. Title:\nwhat claim is being made?', x: 0.27, y: 0.20, w: 300, h: 64, variant: 'primary' },
-      { id: 'B', label: '2. Data:\nwhat is measured + missing?', x: 0.27, y: 0.38, w: 300, h: 64, variant: 'primary' },
-      { id: 'C', label: '3. Units:\ncounts vs rates vs %', x: 0.27, y: 0.56, w: 300, h: 64, variant: 'primary' },
-      { id: 'D', label: '4. Axes:\nscale + baseline + truncation', x: 0.27, y: 0.74, w: 320, h: 64, variant: 'primary' },
+      { id: 'A', label: '1. Title:\nwhat claim is being made?', x: 0.27, y: 0.22, w: 300, h: 64, variant: 'primary' },
+      { id: 'B', label: '2. Data:\nwhat is measured + missing?', x: 0.27, y: 0.44, w: 300, h: 64, variant: 'primary' },
+      { id: 'C', label: '3. Units:\ncounts vs rates vs %', x: 0.27, y: 0.66, w: 300, h: 64, variant: 'primary' },
+      { id: 'D', label: '4. Axes:\nscale + baseline + truncation', x: 0.27, y: 0.88, w: 320, h: 64, variant: 'primary' },
 
-      { id: 'E', label: '5. Encoding:\nposition vs area vs color', x: 0.73, y: 0.20, w: 320, h: 64, variant: 'primary' },
-      { id: 'F', label: '6. Grouping:\naggregation + subgroups', x: 0.73, y: 0.38, w: 320, h: 64, variant: 'primary' },
-      { id: 'G', label: '7. Uncertainty:\nsample size + variability', x: 0.73, y: 0.56, w: 320, h: 64, variant: 'primary' },
-      { id: 'H', label: '8. Conclusion:\ndoes the chart support the claim?', x: 0.73, y: 0.74, w: 340, h: 64, variant: 'note' },
+      { id: 'E', label: '5. Encoding:\nposition vs area vs color', x: 0.73, y: 0.22, w: 320, h: 64, variant: 'primary' },
+      { id: 'F', label: '6. Grouping:\naggregation + subgroups', x: 0.73, y: 0.44, w: 320, h: 64, variant: 'primary' },
+      { id: 'G', label: '7. Uncertainty:\nsample size + variability', x: 0.73, y: 0.66, w: 320, h: 64, variant: 'primary' },
+      { id: 'H', label: '8. Conclusion:\ndoes the chart support the claim?', x: 0.73, y: 0.88, w: 340, h: 64, variant: 'note' },
     ],
     edges: [
       { from: 'A', to: 'B' },
@@ -423,13 +423,13 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'counts-vs-rates': {
-    height: 300,
+    height: 340,
     ariaLabel: 'Counts vs rates: comparing different group sizes requires normalization.',
     nodes: [
-      { id: 'A', label: 'Comparing groups\nwith different sizes', x: 0.50, y: 0.14, w: 340, h: 74, variant: 'warn' },
-      { id: 'B', label: 'Counts can\nmislead', x: 0.50, y: 0.34, w: 240, h: 64, variant: 'warn' },
-      { id: 'C', label: 'Use rates or\nper-capita measures', x: 0.50, y: 0.56, w: 300, h: 64, variant: 'ok' },
-      { id: 'D', label: 'Always show\ndenominator (n)', x: 0.50, y: 0.78, w: 280, h: 64, variant: 'ok' },
+      { id: 'A', label: 'Comparing groups\nwith different sizes', x: 0.50, y: 0.18, w: 340, h: 74, variant: 'warn' },
+      { id: 'B', label: 'Counts can\nmislead', x: 0.50, y: 0.40, w: 240, h: 64, variant: 'warn' },
+      { id: 'C', label: 'Use rates or\nper-capita measures', x: 0.50, y: 0.62, w: 300, h: 64, variant: 'ok' },
+      { id: 'D', label: 'Always show\ndenominator (n)', x: 0.50, y: 0.84, w: 280, h: 64, variant: 'ok' },
     ],
     edges: [
       { from: 'A', to: 'B', stroke: 'rgba(252,165,165,0.8)' },
@@ -485,8 +485,8 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
       { id: 'B', label: 'Trend looks\ndramatic', x: 0.50, y: 0.34, w: 230, h: 64, variant: 'warn' },
       { id: 'C', label: 'Show context\nwindow', x: 0.24, y: 0.74, w: 230, h: 64, variant: 'ok' },
       { id: 'D', label: 'Trend becomes\ninterpretable', x: 0.50, y: 0.74, w: 250, h: 64, variant: 'ok' },
-      { id: 'E', label: 'Best practice', x: 0.74, y: 0.74, w: 210, h: 58, variant: 'ok' },
-      { id: 'F', label: 'Annotate why\nthe window matters', x: 0.86, y: 0.74, w: 260, h: 64, variant: 'ok' },
+      { id: 'E', label: 'Best practice', x: 0.80, y: 0.60, w: 220, h: 58, variant: 'ok' },
+      { id: 'F', label: 'Annotate why\nthe window matters', x: 0.80, y: 0.86, w: 270, h: 64, variant: 'ok' },
     ],
     edges: [
       { from: 'A', to: 'B', stroke: 'rgba(252,165,165,0.8)' },
@@ -499,12 +499,12 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
     height: 230,
     ariaLabel: 'Choropleths of raw counts are misleading; use rates and show the denominator.',
     nodes: [
-      { id: 'A', label: 'Choropleth\nmap', x: 0.18, y: 0.34, w: 190, h: 64, variant: 'warn' },
-      { id: 'B', label: 'Coloring by\nraw counts', x: 0.44, y: 0.34, w: 230, h: 64, variant: 'warn' },
-      { id: 'C', label: 'Large regions\ndominate', x: 0.70, y: 0.34, w: 220, h: 64, variant: 'warn' },
+      { id: 'A', label: 'Choropleth\nmap', x: 0.18, y: 0.34, w: 170, h: 64, variant: 'warn' },
+      { id: 'B', label: 'Coloring by\nraw counts', x: 0.44, y: 0.34, w: 200, h: 64, variant: 'warn' },
+      { id: 'C', label: 'Large regions\ndominate', x: 0.70, y: 0.34, w: 190, h: 64, variant: 'warn' },
       { id: 'D', label: 'Fix', x: 0.18, y: 0.74, w: 160, h: 58, variant: 'ok' },
-      { id: 'E', label: 'Use rates /\nper-capita', x: 0.44, y: 0.74, w: 220, h: 64, variant: 'ok' },
-      { id: 'F', label: 'Show\ndenominator', x: 0.70, y: 0.74, w: 210, h: 64, variant: 'ok' },
+      { id: 'E', label: 'Use rates /\nper-capita', x: 0.44, y: 0.74, w: 200, h: 64, variant: 'ok' },
+      { id: 'F', label: 'Show\ndenominator', x: 0.70, y: 0.74, w: 190, h: 64, variant: 'ok' },
     ],
     edges: [
       { from: 'A', to: 'B', stroke: 'rgba(252,165,165,0.8)' },
@@ -520,10 +520,10 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
     nodes: [
       { id: 'A', label: 'Small\nmultiples', x: 0.20, y: 0.34, w: 200, h: 64, variant: 'ok' },
       { id: 'B', label: 'If scales\ndiffer', x: 0.46, y: 0.34, w: 200, h: 64, variant: 'warn' },
-      { id: 'C', label: 'Comparisons become\ninvalid', x: 0.72, y: 0.34, w: 260, h: 64, variant: 'warn' },
+      { id: 'C', label: 'Comparisons become\ninvalid', x: 0.76, y: 0.34, w: 260, h: 64, variant: 'warn' },
       { id: 'D', label: 'Best\npractice', x: 0.20, y: 0.74, w: 200, h: 64, variant: 'ok' },
       { id: 'E', label: 'Share axes\nfor comparison', x: 0.46, y: 0.74, w: 240, h: 64, variant: 'ok' },
-      { id: 'F', label: 'If not,\nlabel clearly', x: 0.72, y: 0.74, w: 220, h: 64, variant: 'ok' },
+      { id: 'F', label: 'If not,\nlabel clearly', x: 0.76, y: 0.74, w: 220, h: 64, variant: 'ok' },
     ],
     edges: [
       { from: 'A', to: 'B', stroke: 'rgba(34,211,238,0.72)' },
@@ -537,10 +537,10 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
     height: 200,
     ariaLabel: 'Sorting categories makes ranking and comparison easier.',
     nodes: [
-      { id: 'A', label: 'Sort rule', x: 0.18, y: 0.55, w: 180, h: 58, variant: 'ok' },
-      { id: 'B', label: 'Rank by value', x: 0.40, y: 0.55, w: 200, h: 58, variant: 'note' },
-      { id: 'C', label: 'Or use domain\norder', x: 0.62, y: 0.55, w: 220, h: 64, variant: 'note' },
-      { id: 'D', label: 'Or group + sort\nwithin group', x: 0.84, y: 0.55, w: 260, h: 64, variant: 'note' },
+      { id: 'A', label: 'Sort rule', x: 0.16, y: 0.55, w: 180, h: 58, variant: 'ok' },
+      { id: 'B', label: 'Rank by value', x: 0.40, y: 0.55, w: 180, h: 58, variant: 'note' },
+      { id: 'C', label: 'Or use domain\norder', x: 0.64, y: 0.55, w: 190, h: 64, variant: 'note' },
+      { id: 'D', label: 'Or group + sort\nwithin group', x: 0.90, y: 0.55, w: 220, h: 64, variant: 'note' },
     ],
     edges: [
       { from: 'A', to: 'B' },
@@ -554,7 +554,7 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
     ariaLabel: 'A simple project color system: neutrals, category colors, one highlight, and optional status colors.',
     nodes: [
       { id: 'A', label: 'Define tokens', x: 0.50, y: 0.18, w: 220, h: 64, variant: 'primary' },
-      { id: 'N', label: 'Neutrals:\nbackground, surface, text', x: 0.20, y: 0.62, w: 300, h: 76, variant: 'note' },
+      { id: 'N', label: 'Neutrals:\nbackground, surface, text', x: 0.20, y: 0.62, w: 260, h: 76, variant: 'note' },
       { id: 'C', label: 'Category colors:\n4–6 max', x: 0.50, y: 0.62, w: 240, h: 64, variant: 'note' },
       { id: 'H', label: 'Highlight:\none accent', x: 0.80, y: 0.62, w: 220, h: 64, variant: 'note' },
       { id: 'S', label: 'Status:\ngood / warning / bad\n(optional)', x: 0.50, y: 0.86, w: 280, h: 76, variant: 'note' },

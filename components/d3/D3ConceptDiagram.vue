@@ -148,23 +148,44 @@ function resolveGroups(groups: DiagramGroup[] | undefined, width: number, height
 function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
   const dx = target.cx - source.cx
   const dy = target.cy - source.cy
-  if (Math.abs(dx) >= Math.abs(dy)) {
+  const gapH = Math.abs(dx) - (source.w / 2 + target.w / 2)
+  const gapV = Math.abs(dy) - (source.h / 2 + target.h / 2)
+
+  // Prefer the dominant direction, but avoid choosing an orientation where marks overlap on that axis.
+  // This keeps arrowheads outside nodes and preserves a visible line segment.
+  const preferH = Math.abs(dx) >= Math.abs(dy)
+  const minGap = 10
+  const okH = gapH >= minGap
+  const okV = gapV >= minGap
+
+  let orient: 'h' | 'v'
+  if (okH && okV)
+    orient = preferH ? 'h' : 'v'
+  else if (okH)
+    orient = 'h'
+  else if (okV)
+    orient = 'v'
+  else
+    orient = gapH >= gapV ? 'h' : 'v'
+
+  if (orient === 'h') {
     const sign = dx >= 0 ? 1 : -1
     return {
       x1: source.cx + sign * (source.w / 2),
       y1: source.cy,
       x2: target.cx - sign * (target.w / 2),
       y2: target.cy,
-      orient: 'h' as const,
+      orient,
     }
   }
+
   const sign = dy >= 0 ? 1 : -1
   return {
     x1: source.cx,
     y1: source.cy + sign * (source.h / 2),
     x2: target.cx,
     y2: target.cy - sign * (target.h / 2),
-    orient: 'v' as const,
+    orient,
   }
 }
 
@@ -271,10 +292,10 @@ function render() {
     .attr('id', arrowId)
     .attr('markerUnits', 'userSpaceOnUse')
     .attr('viewBox', '0 0 10 10')
-    .attr('refX', 9.5)
+    .attr('refX', 10)
     .attr('refY', 5)
-    .attr('markerWidth', 10)
-    .attr('markerHeight', 10)
+    .attr('markerWidth', 8)
+    .attr('markerHeight', 8)
     .attr('orient', 'auto-start-reverse')
     .append('path')
     .attr('d', 'M 0 0 L 10 5 L 0 10 z')
@@ -282,9 +303,9 @@ function render() {
 
   const scene = svg.append('g').attr('class', 'scene')
   const layerGroups = scene.append('g').attr('class', 'groups')
-  const layerNodes = scene.append('g').attr('class', 'nodes')
   const layerEdges = scene.append('g').attr('class', 'edges').style('pointer-events', 'none')
   const layerEdgeLabels = scene.append('g').attr('class', 'edge-labels')
+  const layerNodes = scene.append('g').attr('class', 'nodes')
 
   // Groups (background clusters)
   for (const g of groups) {
@@ -314,7 +335,30 @@ function render() {
     }
   }
 
-  // Edge labels (below nodes to avoid covering content).
+  // Edge lines/arrows (behind nodes to avoid drawing over marks).
+  for (const edge of edges) {
+    const source = nodeById.get(edge.from)
+    const target = nodeById.get(edge.to)
+    if (!source || !target) continue
+
+    const stroke = edge.stroke ?? 'rgba(147,197,253,0.76)'
+    const strokeWidth = edge.strokeWidth ?? 2.2
+    const arrow = edge.arrow ?? true
+
+    layerEdges
+      .append('path')
+      .attr('d', edgePath(source, target))
+      .attr('fill', 'none')
+      .attr('stroke', stroke)
+      .attr('stroke-width', strokeWidth)
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-dasharray', edge.dashed ? '6 6' : null)
+      .attr('marker-end', arrow ? `url(#${arrowId})` : null)
+      .attr('opacity', edge.dashed ? 0.85 : 1)
+  }
+
+  // Edge labels (above lines, still behind nodes).
   for (const edge of edges) {
     const source = nodeById.get(edge.from)
     const target = nodeById.get(edge.to)
@@ -403,33 +447,10 @@ function render() {
     drawTextCentered(g, node, text)
   })
 
-  // Edge lines/arrows (above nodes so arrowheads are always visible).
-  for (const edge of edges) {
-    const source = nodeById.get(edge.from)
-    const target = nodeById.get(edge.to)
-    if (!source || !target) continue
-
-    const stroke = edge.stroke ?? 'rgba(147,197,253,0.76)'
-    const strokeWidth = edge.strokeWidth ?? 2.2
-    const arrow = edge.arrow ?? true
-
-    layerEdges
-      .append('path')
-      .attr('d', edgePath(source, target))
-      .attr('fill', 'none')
-      .attr('stroke', stroke)
-      .attr('stroke-width', strokeWidth)
-      .attr('stroke-linecap', 'round')
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-dasharray', edge.dashed ? '6 6' : null)
-      .attr('marker-end', arrow ? `url(#${arrowId})` : null)
-      .attr('opacity', edge.dashed ? 0.85 : 1)
-  }
-
   // Auto-fit: scale and center using deterministic bounds (avoids getBBox flicker on hidden slides).
   const bounds = computeSceneBounds(nodes, groups, edges, nodeById)
   if (bounds) {
-    const pad = isCompact ? 10 : 12
+    const pad = isCompact ? 8 : 10
     const safeW = Math.max(1, width - pad * 2)
     const safeH = Math.max(1, height - pad * 2)
 
