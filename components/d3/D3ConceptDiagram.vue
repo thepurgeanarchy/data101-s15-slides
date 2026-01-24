@@ -1,0 +1,402 @@
+<script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import * as d3 from 'd3'
+import type { DiagramEdge, DiagramGroup, DiagramNode, DiagramSpec } from './concept-diagrams'
+import { conceptDiagrams } from './concept-diagrams'
+import { vizTheme } from './theme'
+
+const props = defineProps<{
+  diagram: string
+}>()
+
+const container = ref<HTMLDivElement | null>(null)
+const uid = Math.random().toString(36).slice(2, 10)
+
+type ResolvedNode = DiagramNode & {
+  cx: number
+  cy: number
+  w: number
+  h: number
+  shape: 'rect' | 'pill' | 'circle'
+}
+
+function getSpec(name: string): DiagramSpec {
+  const spec = conceptDiagrams[name]
+  if (!spec) {
+    return {
+      height: 200,
+      ariaLabel: `Unknown diagram: ${name}`,
+      nodes: [
+        { id: 'missing', label: `Unknown diagram:\n${name}`, x: 0.5, y: 0.5, w: 340, h: 90, variant: 'warn' },
+      ],
+      edges: [],
+    }
+  }
+  return spec
+}
+
+const variantStyles = {
+  primary: { fill: '#0F1B2D', stroke: vizTheme.primary, text: vizTheme.text, strokeWidth: 2 },
+  note: { fill: '#111C2E', stroke: vizTheme.seqEnd, text: vizTheme.text, strokeWidth: 2 },
+  ok: { fill: '#0B1220', stroke: vizTheme.cyan, text: vizTheme.text, strokeWidth: 2 },
+  warn: { fill: '#1B0F19', stroke: vizTheme.redSoft, text: '#FEE2E2', strokeWidth: 2 },
+  muted: { fill: vizTheme.panelFill, stroke: vizTheme.axis, text: vizTheme.textMuted, strokeWidth: 1.4 },
+  accent: { fill: '#0B1220', stroke: vizTheme.primary, text: vizTheme.text, strokeWidth: 2.2 },
+} as const
+
+function drawTextCentered(
+  selection: d3.Selection<SVGGElement, unknown, null, undefined>,
+  node: ResolvedNode,
+  fill: string,
+) {
+  const lines = node.label.split('\n')
+  const fontSize = node.fontSize ?? 13
+  const fontWeight = node.fontWeight ?? 650
+  const lineHeight = Math.max(14, Math.round(fontSize * 1.15))
+  const startY = node.cy - ((lines.length - 1) * lineHeight) / 2
+
+  const text = selection
+    .append('text')
+    .attr('x', node.cx)
+    .attr('y', startY)
+    .attr('text-anchor', 'middle')
+    .attr('fill', fill)
+    .attr('font-size', fontSize)
+    .attr('font-weight', fontWeight)
+    .style('font-family', 'inherit')
+
+  for (let i = 0; i < lines.length; i++) {
+    text
+      .append('tspan')
+      .attr('x', node.cx)
+      .attr('dy', i === 0 ? 0 : lineHeight)
+      .text(lines[i])
+  }
+}
+
+function resolveNodes(spec: DiagramSpec, width: number, height: number, margin: number): ResolvedNode[] {
+  const innerW = width - margin * 2
+  const innerH = height - margin * 2
+
+  return spec.nodes.map((n) => ({
+    ...n,
+    w: n.w ?? 200,
+    h: n.h ?? 62,
+    shape: n.shape ?? 'rect',
+    cx: margin + n.x * innerW,
+    cy: margin + n.y * innerH,
+  }))
+}
+
+function relaxOverlaps(nodes: ResolvedNode[], width: number, height: number, margin: number, gap: number) {
+  if (nodes.length < 2) return
+
+  const iterations = 14
+  for (let iter = 0; iter < iterations; iter++) {
+    let moved = false
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i]
+        const b = nodes[j]
+        const dx = b.cx - a.cx
+        const dy = b.cy - a.cy
+
+        const overlapX = a.w / 2 + b.w / 2 + gap - Math.abs(dx)
+        const overlapY = a.h / 2 + b.h / 2 + gap - Math.abs(dy)
+
+        if (overlapX <= 0 || overlapY <= 0) continue
+
+        moved = true
+        if (overlapX < overlapY) {
+          const shift = overlapX / 2
+          const sign = dx >= 0 ? 1 : -1
+          a.cx -= shift * sign
+          b.cx += shift * sign
+        }
+        else {
+          const shift = overlapY / 2
+          const sign = dy >= 0 ? 1 : -1
+          a.cy -= shift * sign
+          b.cy += shift * sign
+        }
+      }
+    }
+
+    for (const n of nodes) {
+      n.cx = Math.max(margin + n.w / 2, Math.min(width - margin - n.w / 2, n.cx))
+      n.cy = Math.max(margin + n.h / 2, Math.min(height - margin - n.h / 2, n.cy))
+    }
+
+    if (!moved) break
+  }
+}
+
+function resolveGroups(groups: DiagramGroup[] | undefined, width: number, height: number, margin: number) {
+  if (!groups?.length) return []
+  const innerW = width - margin * 2
+  const innerH = height - margin * 2
+  return groups.map((g) => ({
+    ...g,
+    rx: 18,
+    x: margin + g.x * innerW,
+    y: margin + g.y * innerH,
+    w: g.w * innerW,
+    h: g.h * innerH,
+  }))
+}
+
+function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
+  const dx = target.cx - source.cx
+  const dy = target.cy - source.cy
+  if (Math.abs(dx) >= Math.abs(dy)) {
+    const sign = dx >= 0 ? 1 : -1
+    return {
+      x1: source.cx + sign * (source.w / 2),
+      y1: source.cy,
+      x2: target.cx - sign * (target.w / 2),
+      y2: target.cy,
+      orient: 'h' as const,
+    }
+  }
+  const sign = dy >= 0 ? 1 : -1
+  return {
+    x1: source.cx,
+    y1: source.cy + sign * (source.h / 2),
+    x2: target.cx,
+    y2: target.cy - sign * (target.h / 2),
+    orient: 'v' as const,
+  }
+}
+
+function edgePath(source: ResolvedNode, target: ResolvedNode) {
+  const { x1, y1, x2, y2, orient } = edgeEndpoints(source, target)
+  if (orient === 'h') {
+    const mx = (x1 + x2) / 2
+    return `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`
+  }
+  const my = (y1 + y2) / 2
+  return `M ${x1} ${y1} C ${x1} ${my}, ${x2} ${my}, ${x2} ${y2}`
+}
+
+function render() {
+  if (!container.value) return
+  d3.select(container.value).selectAll('*').remove()
+
+  const spec = getSpec(props.diagram)
+  const width = spec.width ?? 960
+  const height = spec.height
+  const margin = 26
+  const isCompact = container.value.classList.contains('viz-compact')
+  const collisionGap = isCompact ? 10 : 14
+
+  const nodes = resolveNodes(spec, width, height, margin)
+  relaxOverlaps(nodes, width, height, margin, collisionGap)
+  const nodeById = new Map(nodes.map((n) => [n.id, n]))
+  const groups = resolveGroups(spec.groups, width, height, margin)
+  const edges = spec.edges ?? []
+
+  const svg = d3
+    .select(container.value)
+    .append('svg')
+    .attr('viewBox', `0 0 ${width} ${height}`)
+    .attr('preserveAspectRatio', 'xMidYMid meet')
+    .attr('role', 'img')
+    .attr('aria-label', spec.ariaLabel)
+    .style('font-family', 'inherit')
+
+  const defs = svg.append('defs')
+
+  const arrowId = `arrow-${uid}`
+  defs
+    .append('marker')
+    .attr('id', arrowId)
+    .attr('viewBox', '0 0 10 10')
+    .attr('refX', 9)
+    .attr('refY', 5)
+    .attr('markerWidth', 8)
+    .attr('markerHeight', 8)
+    .attr('orient', 'auto-start-reverse')
+    .append('path')
+    .attr('d', 'M 0 0 L 10 5 L 0 10 z')
+    .attr('fill', 'rgba(234,242,255,0.65)')
+
+  const scene = svg.append('g').attr('class', 'scene')
+  const layerGroups = scene.append('g').attr('class', 'groups')
+  const layerEdges = scene.append('g').attr('class', 'edges')
+  const layerNodes = scene.append('g').attr('class', 'nodes')
+
+  // Groups (background clusters)
+  for (const g of groups) {
+    layerGroups
+      .append('rect')
+      .attr('x', g.x)
+      .attr('y', g.y)
+      .attr('width', g.w)
+      .attr('height', g.h)
+      .attr('rx', 22)
+      .attr('ry', 22)
+      .attr('fill', g.fill ?? 'rgba(11, 18, 32, 0.32)')
+      .attr('stroke', g.stroke ?? vizTheme.primary)
+      .attr('stroke-width', 1.6)
+
+    if (g.label) {
+      layerGroups
+        .append('text')
+        .attr('x', g.x + g.w / 2)
+        .attr('y', g.y + 18)
+        .attr('text-anchor', 'middle')
+        .attr('fill', vizTheme.textMuted)
+        .attr('font-size', 12)
+        .attr('font-weight', 650)
+        .style('font-family', 'inherit')
+        .text(g.label)
+    }
+  }
+
+  // Edges
+  const edgeG = layerEdges
+    .selectAll('g.edge')
+    .data(edges)
+    .enter()
+    .append('g')
+    .attr('class', 'edge')
+
+  edgeG.each(function (edge: DiagramEdge) {
+    const source = nodeById.get(edge.from)
+    const target = nodeById.get(edge.to)
+    if (!source || !target) return
+
+    const stroke = edge.stroke ?? 'rgba(147,197,253,0.62)'
+    const strokeWidth = edge.strokeWidth ?? 2
+    const arrow = edge.arrow ?? true
+
+    const p = d3.select(this)
+    p.append('path')
+      .attr('d', edgePath(source, target))
+      .attr('fill', 'none')
+      .attr('stroke', stroke)
+      .attr('stroke-width', strokeWidth)
+      .attr('stroke-linecap', 'round')
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-dasharray', edge.dashed ? '6 6' : null)
+      .attr('marker-end', arrow ? `url(#${arrowId})` : null)
+      .attr('opacity', edge.dashed ? 0.8 : 1)
+
+    if (edge.label) {
+      const { x1, y1, x2, y2 } = edgeEndpoints(source, target)
+      const mx = (x1 + x2) / 2
+      const my = (y1 + y2) / 2
+      const label = edge.label
+      const padX = 10
+      const padY = 6
+      const approxW = Math.min(220, Math.max(72, label.length * 7 + padX * 2))
+      const approxH = 22 + padY * 2
+
+      p.append('rect')
+        .attr('x', mx - approxW / 2)
+        .attr('y', my - approxH / 2)
+        .attr('width', approxW)
+        .attr('height', approxH)
+        .attr('rx', 14)
+        .attr('ry', 14)
+        .attr('fill', 'rgba(11, 18, 32, 0.85)')
+        .attr('stroke', 'rgba(255,255,255,0.14)')
+        .attr('stroke-width', 1)
+
+      p.append('text')
+        .attr('x', mx)
+        .attr('y', my + 4)
+        .attr('text-anchor', 'middle')
+        .attr('fill', vizTheme.textMuted)
+        .attr('font-size', 11)
+        .attr('font-weight', 650)
+        .style('font-family', 'inherit')
+        .text(label)
+    }
+  })
+
+  // Nodes
+  const nodeG = layerNodes
+    .selectAll('g.node')
+    .data(nodes)
+    .enter()
+    .append('g')
+    .attr('class', 'node')
+
+  nodeG.each(function (node: ResolvedNode) {
+    const v = node.variant ?? 'primary'
+    const defaults = variantStyles[v]
+    const fill = node.fill ?? defaults.fill
+    const stroke = node.stroke ?? defaults.stroke
+    const text = node.text ?? defaults.text
+    const strokeWidth = defaults.strokeWidth
+
+    const g = d3.select(this)
+
+    if (node.shape === 'circle') {
+      const r = Math.min(node.w, node.h) / 2
+      g.append('circle')
+        .attr('cx', node.cx)
+        .attr('cy', node.cy)
+        .attr('r', r)
+        .attr('fill', fill)
+        .attr('stroke', stroke)
+        .attr('stroke-width', strokeWidth)
+
+      drawTextCentered(g, node, text)
+      return
+    }
+
+    const rx = node.shape === 'pill' ? Math.min(node.h / 2, 24) : 16
+    const x = node.cx - node.w / 2
+    const y = node.cy - node.h / 2
+
+    g.append('rect')
+      .attr('x', x)
+      .attr('y', y)
+      .attr('width', node.w)
+      .attr('height', node.h)
+      .attr('rx', rx)
+      .attr('ry', rx)
+      .attr('fill', fill)
+      .attr('stroke', stroke)
+      .attr('stroke-width', strokeWidth)
+
+    drawTextCentered(g, node, text)
+  })
+
+  // Auto-fit: scale and center the scene so it uses the available viewBox area.
+  const sceneNode = scene.node()
+  if (sceneNode) {
+    const bbox = sceneNode.getBBox()
+    const pad = isCompact ? 16 : 22
+    const safeW = Math.max(1, width - pad * 2)
+    const safeH = Math.max(1, height - pad * 2)
+
+    const scaleX = safeW / Math.max(1, bbox.width)
+    const scaleY = safeH / Math.max(1, bbox.height)
+    const scale = Math.min(scaleX, scaleY)
+
+    const cx = bbox.x + bbox.width / 2
+    const cy = bbox.y + bbox.height / 2
+    const tx = width / 2 - cx * scale
+    const ty = height / 2 - cy * scale
+
+    scene.attr('transform', `translate(${tx},${ty}) scale(${scale})`)
+  }
+}
+
+onMounted(render)
+watch(
+  () => props.diagram,
+  () => render(),
+)
+onBeforeUnmount(() => {
+  if (!container.value) return
+  d3.select(container.value).selectAll('*').remove()
+})
+</script>
+
+<template>
+  <div ref="container" class="viz-frame" />
+</template>

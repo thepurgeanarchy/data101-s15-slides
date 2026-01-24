@@ -3,16 +3,22 @@
   "private": true,
   "scripts": {
     "dev": "slidev slides.md --open",
+    "dev:perception": "slidev slides-perception-color.md --open",
     "build": "slidev build slides.md",
+    "build:perception": "slidev build slides-perception-color.md",
     "export": "slidev export slides.md --output data101-data-task-abstraction.pdf",
-    "check:fit": "node scripts/check-fit.mjs"
+    "export:perception": "slidev export slides-perception-color.md --output data101-perception-color.pdf",
+    "check:fit": "npm run build && node scripts/check-fit.mjs slides.md",
+    "check:fit:perception": "npm run build:perception && node scripts/check-fit.mjs slides-perception-color.md"
   },
   "devDependencies": {
     "@slidev/cli": "^52.11.3",
     "@slidev/theme-default": "^0.25.0",
+    "@types/d3": "^7.4.3",
     "playwright-chromium": "^1.55.0"
   },
   "dependencies": {
-    "@slidev/theme-apple-basic": "^0.25.1"
+    "@slidev/theme-apple-basic": "^0.25.1",
+    "d3": "^7.9.0"
   }
 }

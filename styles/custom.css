@@ -194,3 +194,24 @@ a {
 .mermaid .flowchart-link {
   stroke-width: 1.6px;
 }
+
+.viz-frame {
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--brand-surface-2);
+}
+
+.viz-frame.viz-compact {
+  padding: 0.55rem 0.75rem;
+  border-radius: 16px;
+}
+
+.viz-frame svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}

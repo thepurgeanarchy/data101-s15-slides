@@ -5,8 +5,10 @@ import { existsSync, createReadStream } from 'node:fs'
 import { chromium } from 'playwright-chromium'
 
 const projectRoot = process.cwd()
-const distDir = path.join(projectRoot, 'dist')
-const slidesPath = path.join(projectRoot, 'slides.md')
+const slideArg = process.argv[2] || 'slides.md'
+const distArg = process.argv[3] || 'dist'
+const distDir = path.isAbsolute(distArg) ? distArg : path.join(projectRoot, distArg)
+const slidesPath = path.isAbsolute(slideArg) ? slideArg : path.join(projectRoot, slideArg)
 
 function countSlides(markdown) {
   const lines = markdown.split(/\r?\n/)
@@ -109,7 +111,7 @@ async function startStaticServer(rootDir) {
 
 async function main() {
   if (!existsSync(distDir))
-    throw new Error('Missing `dist/`. Run `npm run build` first.')
+    throw new Error(`Missing \`${distArg}/\`. Run the matching Slidev build first.`)
 
   const slidesMd = await fs.readFile(slidesPath, 'utf8')
   const totalSlides = countSlides(slidesMd)
@@ -132,6 +134,14 @@ async function main() {
         const mermaids = Array.from(root.querySelectorAll('.mermaid'))
         return mermaids.every((m) => m.querySelector('svg'))
       }, no, { timeout: 10_000 }).catch(() => {})
+
+      // Give D3/Vue components a chance to mount SVGs.
+      await page.waitForFunction((slideNo) => {
+        const root = document.querySelector(`[data-slidev-no="${slideNo}"]`)
+        if (!root) return false
+        const frames = Array.from(root.querySelectorAll('.viz-frame'))
+        return frames.every((f) => f.querySelector('svg'))
+      }, no, { timeout: 5_000 }).catch(() => {})
 
       const result = await page.evaluate((slideNo) => {
         const root = document.querySelector(`[data-slidev-no="${slideNo}"]`)

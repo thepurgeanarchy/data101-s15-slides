@@ -230,17 +230,7 @@ So whenever you feel tempted to start with “which chart,” pause and translat
   </div>
 </div>
 
-```mermaid {scale: 0.74}
-flowchart LR
-  subgraph B["Chart-first (fragile)"]
-    direction LR
-    B1["Pick a chart"] --> B2["Force the data"] --> B3["Weak story"]
-  end
-  subgraph G["Abstraction-first (defensible)"]
-    direction LR
-    G1["Question"] --> G2["Tasks"] --> G3["Data + transforms"] --> G4["Encoding + interaction"]
-  end
-```
+<D3ConceptDiagram diagram="chart-first-trap" class="mt-5 viz-compact" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -260,15 +250,7 @@ The takeaway is not “never pick charts.” The takeaway is: charts are the con
 
 ## Munzner’s Nested Model (Where Abstraction Lives)
 
-```mermaid {scale: 0.86}
-flowchart TB
-  A["Domain problem (people + goals)"] --> B["Data & task abstraction"]
-  B --> C["Visual encoding & interaction"]
-  C --> D["Algorithm / implementation"]
-  B -.evaluate.-> A
-  C -.evaluate.-> B
-  D -.evaluate.-> C
-```
+<D3ConceptDiagram diagram="munzner-nested" class="mt-8" />
 
 <!--
 TALK TRACK (≈5 min)
@@ -304,10 +286,7 @@ layout: two-cols
   <div class="text-xl font-700 mt-1">Why → How → What</div>
 </div>
 
-```mermaid {scale: 0.8}
-flowchart TB
-  W["Why (goal)"] --> H["How (actions)"] --> T["What (targets)"]
-```
+<D3ConceptDiagram diagram="why-how-what-simple" class="mt-5 viz-compact" />
 
 ::right::
 <div class="card mt-4">
@@ -315,13 +294,7 @@ flowchart TB
   <div class="text-xl font-700 mt-1">Types → Variables → Transforms</div>
 </div>
 
-```mermaid {scale: 0.72}
-flowchart TB
-  DT["Dataset type(s)"] --> V["Variables + types"]
-  V --> TR["Transforms"]
-  V --> K["Keys / IDs"]
-  TR --> D["Derived measures"]
-```
+<D3ConceptDiagram diagram="data-spec-chain" class="mt-5 viz-compact" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -500,21 +473,7 @@ For our running example, you can already imagine multiple valid item definitions
 
 ## Dataset Types (Visualization Lens)
 
-```mermaid {scale: 0.88}
-mindmap
-  root((Dataset types))
-    Table
-    Temporal
-      Time series
-      Event sequence
-    Spatial
-      Geometry
-      Regions
-      Fields
-    Network
-    Hierarchy
-    Sets
-```
+<D3ConceptDiagram diagram="dataset-types-menu" class="mt-8" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -621,24 +580,12 @@ layout: two-cols
 ::left::
 **Hierarchy** (parent → child)
 
-```mermaid
-graph TD
-  A[College] --> B[Program]
-  A --> C[Program]
-  B --> D[Section]
-  C --> E[Section]
-```
+<D3ConceptDiagram diagram="hierarchy-example" class="mt-6" />
 
 ::right::
 **Network** (links between peers)
 
-```mermaid
-graph LR
-  S1[Student] --- S2[Student]
-  S2 --- S3[Student]
-  S3 --- S4[Student]
-  S1 --- S4
-```
+<D3ConceptDiagram diagram="network-example" class="mt-6" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -668,12 +615,7 @@ Quick check: if removing one edge can change the “parent” of a node, it’s 
 
 </v-clicks>
 
-```mermaid
-flowchart LR
-  A["Raw events"] --> B["Choose bin size"]
-  B --> C["Aggregate per bin"]
-  C --> D["Field/heatmap-ready data"]
-```
+<D3ConceptDiagram diagram="binning-pipeline" class="mt-6" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -728,17 +670,7 @@ Many datasets are **table + time + category** (and sometimes spatial).
 
 </v-clicks>
 
-```mermaid {scale: 0.84}
-flowchart TB
-  Q["What is the primary organizing key?"] --> T["Records (table)"]
-  Q --> TS["Time (ordered)"]
-  Q --> S["Space (coordinates/regions)"]
-  Q --> N["Links (network)"]
-  T --> R["Attach the rest as attributes"]
-  TS --> R
-  S --> R
-  N --> R
-```
+<D3ConceptDiagram diagram="hybrid-datasets" class="mt-5 viz-compact" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -933,15 +865,7 @@ When you write your data abstraction, I want you to list derived measures explic
 
 ## Granularity & Aggregation (Choose With Tasks)
 
-```mermaid
-flowchart LR
-  A["Event-level (each quiz attempt)"] --> B["Student-level"]
-  B --> C["Section-level"]
-  C --> D["Program-level"]
-  A --> E["Day-level"]
-  E --> F["Week-level"]
-  F --> G["Term-level"]
-```
+<D3ConceptDiagram diagram="granularity-ladders" class="mt-6" />
 
 <div class="muted">
 Aggregation hides variance; keep distributions when decisions affect individuals.
@@ -1153,12 +1077,7 @@ In the next slide, we’ll use a framework that helps you write tasks consistent
 
 ## A Strong Framework: WHY / HOW / WHAT
 
-```mermaid
-flowchart TB
-  W["WHY (goal)"] --> H["HOW (actions)"]
-  H --> T["WHAT (targets)"]
-  W --> T
-```
+<D3ConceptDiagram diagram="why-how-what-framework" class="mt-8" />
 
 <!--
 TALK TRACK (≈3–4 min)
@@ -1234,21 +1153,7 @@ In your own work, keep this vocabulary close. When you’re stuck, choose a goal
 
 ## Decompose the Running Example Into Subtasks
 
-```mermaid {scale: 0.74}
-mindmap
-  root((Are students struggling more?))
-    Compare
-      this term vs baseline
-      sections / programs
-    Detect
-      drop points
-      unusually low groups
-    Locate
-      when it started
-    Explain (if possible)
-      related events
-      workload changes
-```
+<D3ConceptDiagram diagram="subtasks-mindmap" class="mt-6" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -1268,12 +1173,7 @@ So when you approach a project, don’t start with “dashboard.” Start by lis
 
 ## Search Tasks: Lookup → Explore
 
-```mermaid
-flowchart LR
-  A["Lookup (known item, known place)"] --> B["Locate (known item, unknown place)"]
-  B --> C["Browse (unknown item, known place)"]
-  C --> D["Explore (unknown item, unknown place)"]
-```
+<D3ConceptDiagram diagram="search-tasks-spectrum" class="mt-6" />
 
 <v-clicks>
 
@@ -1384,13 +1284,7 @@ Professional credibility comes from making the strength of your claim match the 
 
 ## Tasks ↔ Interactions (Design on Purpose)
 
-```mermaid
-flowchart TB
-  T1["Compare / rank"] --> I1["Sort • align • small multiples"]
-  T2["Find outliers"] --> I2["Highlight • annotate • tooltips"]
-  T3["Explore"] --> I3["Filter • facet • drill down"]
-  T4["Monitor over time"] --> I4["Time brush • range slider"]
-```
+<D3ConceptDiagram diagram="tasks-to-interactions" class="mt-6" />
 
 <!--
 TALK TRACK (≈4 min)
@@ -1496,13 +1390,7 @@ As we go, keep asking: if someone challenged this design, could I defend it usin
 
 ## The 4-Step Abstraction Worksheet (Use This Every Time)
 
-```mermaid
-flowchart LR
-  A["1) Domain question"] --> B["2) Data abstraction"]
-  B --> C["3) Task abstraction"]
-  C --> D["4) Design (views + interactions)"]
-  D -.check.-> A
-```
+<D3ConceptDiagram diagram="abstraction-worksheet" class="mt-6" />
 
 <!--
 TALK TRACK (≈4 min)
@@ -1534,10 +1422,7 @@ layout: two-cols
   <div class="op80 mt-2 text-sm">Most precise → least precise</div>
 </div>
 
-```mermaid {scale: 0.76}
-flowchart TB
-  P["Position (common scale)"] --> L["Length"] --> AA["Angle / Area"] --> CS["Color / Shape"]
-```
+<D3ConceptDiagram diagram="channel-effectiveness" class="mt-6" />
 
 <div class="muted mt-2 text-sm">
 If the task is comparison, prioritize <strong>position</strong> and <strong>alignment</strong>.
@@ -1596,27 +1481,7 @@ If the type is wrong, the chart is wrong—even if it looks polished.
 </div>
 
 ::right::
-```mermaid {scale: 0.62}
-flowchart LR
-  subgraph Types["Attribute type"]
-    direction TB
-    Q["Quantitative"]
-    O["Ordinal"]
-    C["Categorical"]
-    T["Temporal"]
-  end
-  subgraph Channels["Best channels"]
-    direction TB
-    Q1["Position / length"]
-    O1["Position / ordered lightness"]
-    C1["Hue / shape / grouping"]
-    T1["Position on x + ordering"]
-  end
-  Q --> Q1
-  O --> O1
-  C --> C1
-  T --> T1
-```
+<D3ConceptDiagram diagram="type-to-channels" class="mt-6" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -1636,7 +1501,7 @@ So the professional workflow is: decide the type first, then choose channels tha
 
 ## Evaluation Checklist (Before You Submit a Viz)
 
-<div class="grid grid-cols-2 gap-4 mt-3">
+<div class="grid grid-cols-2 gap-3 mt-1">
   <div class="card">
     <div class="kicker">Tasks</div>
     <ul class="mt-3 text-sm leading-5 op85">
@@ -1671,12 +1536,7 @@ So the professional workflow is: decide the type first, then choose channels tha
   </div>
 </div>
 
-```mermaid {scale: 0.6}
-flowchart LR
-  D["Design draft"] --> T["Test tasks"]
-  T --> G["Fix gaps"]
-  G --> D
-```
+<D3ConceptDiagram diagram="iteration-cycle" class="mt-1 viz-compact" />
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -1706,12 +1566,7 @@ The cycle diagram is the mindset: draft, test, fix gaps, and iterate. And note t
 
 </v-clicks>
 
-```mermaid
-flowchart LR
-  O["Overview: section trends"] --> B["Brush a week range"]
-  B --> D["Details: distributions by section"]
-  D --> L["Lookup: student-level records (on demand)"]
-```
+<D3ConceptDiagram diagram="case-study-student-flow" class="mt-6" />
 
 <!--
 TALK TRACK (≈5 min)
@@ -1741,15 +1596,7 @@ This is what “defensible design” looks like: a clear chain from tasks to vie
 
 </v-clicks>
 
-```mermaid
-graph LR
-  A[Org A] --- B[Org B]
-  B --- C[Org C]
-  C --- D[Org D]
-  B --- E[Org E]
-  E --- F[Org F]
-  A --- F
-```
+<D3ConceptDiagram diagram="collaboration-network" class="mt-6" />
 
 <!--
 TALK TRACK (≈5 min)
@@ -1831,12 +1678,12 @@ After this, I’ll introduce the Python assignment that applies the same workflo
 
 ## Python Assignment (Take-Home): Abstraction → Design
 
-<div class="callout mt-6">
+<div class="callout mt-4">
   <div class="kicker">Goal</div>
   <div class="text-2xl font-700 mt-2">Turn a domain question into a defendable visualization workflow.</div>
 </div>
 
-<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="grid grid-cols-2 gap-4 mt-4">
   <div class="card">
     <div class="kicker">Write</div>
     <ul class="mt-3 text-sm leading-6 op85">
@@ -1855,13 +1702,7 @@ After this, I’ll introduce the Python assignment that applies the same workflo
   </div>
 </div>
 
-```mermaid {scale: 0.7}
-flowchart LR
-  Q["Domain question"] --> TA["Tasks (3+)"]
-  TA --> DA["Data abstraction<br/>(types + vars)"]
-  DA --> TR["Transforms<br/>(clean · tidy · derive)"]
-  TR --> V["Visual design<br/>(2 charts +<br/>justification)"]
-```
+<D3ConceptDiagram diagram="assignment-workflow" class="mt-3 viz-compact" />
 
 <!--
 TALK TRACK (≈5 min)
