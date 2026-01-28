@@ -75,8 +75,8 @@ function render() {
     .attr('x', 18)
     .attr('y', 30)
     .attr('fill', vizTheme.text)
-    .attr('font-size', 16)
-    .attr('font-weight', 800)
+    .style('font-size', '16px')
+    .style('font-weight', '800')
     .text((d) => d.title)
 
   panel
@@ -84,8 +84,8 @@ function render() {
     .attr('x', 18)
     .attr('y', 50)
     .attr('fill', vizTheme.textMuted)
-    .attr('font-size', 12)
-    .attr('font-weight', 600)
+    .style('font-size', '12px')
+    .style('font-weight', '600')
     .text((d) => d.subtitle)
 
   panel.each(function (panelData) {
@@ -161,7 +161,7 @@ function render() {
       .attr('x', 18)
       .attr('y', legendY + legendH + 14)
       .attr('fill', vizTheme.textMuted)
-      .attr('font-size', 11)
+      .style('font-size', '11px')
       .text('Low')
 
     group
@@ -169,7 +169,7 @@ function render() {
       .attr('x', panelWidth - 18)
       .attr('y', legendY + legendH + 14)
       .attr('fill', vizTheme.textMuted)
-      .attr('font-size', 11)
+      .style('font-size', '11px')
       .attr('text-anchor', 'end')
       .text('High')
   })

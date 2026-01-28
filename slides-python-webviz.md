@@ -7,6 +7,15 @@ layout: intro
 transition: fade-out
 author: Marc Reyes
 mdc: true
+addons:
+  - slidev-addon-python-runner
+monacoRun:
+  python:
+    loadPackagesFromImports: true
+python:
+  loadPackagesFromImports: true
+  suppressDeprecationWarnings: true
+  alwaysReload: false
 fonts:
   provider: none
   sans:
@@ -322,6 +331,7 @@ So treat pandas as the engine that produces chart-ready data, and treat the char
 
 ---
 layout: two-cols
+class: tight-layout
 ---
 
 # Code Demo A: Make a Chart-Ready Table
@@ -330,8 +340,9 @@ layout: two-cols
 <div class="kicker">Runnable Python</div>
 <div class="op70 mt-1 text-sm">Copy into a notebook and run.</div>
 
-```py
+```py {monaco-run outputHeight=120px}
 import pandas as pd
+
 df = pd.DataFrame(
     {
         "program": ["A", "A", "B", "B", "C", "C"],
@@ -342,11 +353,13 @@ df = pd.DataFrame(
 )
 
 df["pass_rate"] = df["n_pass"] / df["n_students"]
+
 weekly = (
     df.sort_values(["program", "week"])
     .assign(delta=lambda d: d.groupby("program")["pass_rate"].diff())
 )
-weekly
+
+print(weekly.to_string(index=False))
 ```
 
 ::right::
@@ -355,7 +368,7 @@ weekly
   <div class="op70 mt-2 text-sm">A tidy table with a derived rate + delta.</div>
 </div>
 
-<D3MiniTableDemo class="mt-5" />
+<D3MiniTableDemo class="mt-4" />
 
 <!--
 TALK TRACK (≈4–5 min, deep dive)
@@ -393,37 +406,37 @@ layout: two-cols
 # Code Demo B: Matplotlib → SVG Export
 
 ::left::
-<div class="card">
-  <div class="kicker">Runnable Python</div>
-  <div class="op70 mt-2 text-sm">Produces a line chart and saves an SVG.</div>
-</div>
+<div class="kicker">Runnable Python</div>
+<div class="op70 mt-1 text-sm">Produces a plot and exports SVG text (web-ready).</div>
 
-```py
-import matplotlib.pyplot as plt
+```py {monaco-run outputHeight=40px height=144px}
+import io
 import numpy as np
-
+import matplotlib.pyplot as plt
 x = np.arange(1, 7)
 y = np.array([0.70, 0.62, 0.75, 0.73, 0.80, 0.78])
-
-fig, ax = plt.subplots(figsize=(7.2, 3.6))
+fig, ax = plt.subplots(figsize=(7.2, 3.2))
 ax.plot(x, y, marker="o", linewidth=2)
 ax.set_title("Pass rate over weeks")
 ax.set_xlabel("Week")
 ax.set_ylabel("Pass rate")
 ax.set_ylim(0.5, 0.9)
 ax.grid(True, alpha=0.25)
-
 fig.tight_layout()
-fig.savefig("pass_rate.svg")
+
+buf = io.StringIO()
+fig.savefig(buf, format="svg")
+svg = buf.getvalue()
+print("SVG chars:", len(svg))
 ```
 
 ::right::
-<div class="card">
+<div class="card !p-3">
   <div class="kicker">Rendered result (illustration)</div>
-  <div class="op70 mt-2 text-sm">Your SVG will scale crisply in slides.</div>
+  <div class="op70 mt-1 text-sm">Your SVG will scale crisply in slides.</div>
 </div>
 
-<D3MiniLineDemo class="mt-5" />
+<D3MiniLineDemo class="mt-0.5 viz-compact" />
 
 <!--
 TALK TRACK (≈5 min, deep dive)
@@ -479,7 +492,7 @@ layout: two-cols
 
 <div class="text-[0.72rem] leading-[1.05] -mt-1">
 
-```py
+```py {monaco-run}
 import numpy as np, pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -494,6 +507,7 @@ sns.displot(
     facet_kws=dict(sharex=True, sharey=True),
     height=3, aspect=1.1
 )
+print(df.groupby("program")["score"].agg(["mean","std"]).round(2))
 plt.show()
 ```
 
@@ -640,9 +654,9 @@ layout: two-cols
 
 <div class="text-[0.72rem] leading-[1.05] -mt-1">
 
-```py
+```py {monaco-run outputHeight=130px height=220px}
 import pandas as pd
-import altair as alt
+import json
 
 df=pd.DataFrame({
     "x":[1,2,3,4,5,6],
@@ -650,12 +664,17 @@ df=pd.DataFrame({
     "term":["baseline"]*3 + ["current"]*3
 })
 
-alt.Chart(df).mark_circle(size=110).encode(
-    x="x:Q",
-    y=alt.Y("y:Q", scale=alt.Scale(domain=[0.5, 0.9])),
-    color="term:N",
-    tooltip=["x", "y", "term"],
-).properties(width=380, height=260, title="Encoded scatter with tooltip")
+spec={"mark":{"type":"circle","size":110},
+      "encoding":{"x":{"field":"x","type":"quantitative"},
+                  "y":{"field":"y","type":"quantitative","scale":{"domain":[0.5,0.9]}},
+                  "color":{"field":"term","type":"nominal"},
+                  "tooltip":[{"field":"x"},{"field":"y"},{"field":"term"}]}}
+
+print("First 3 rows:")
+print(df.head(3).to_string(index=False))
+print("\nEncoding spec (Vega-Lite style, excerpt):")
+spec_text = json.dumps(spec, indent=2).splitlines()
+print("\n".join(spec_text[:24] + ["..."]))
 ```
 
 </div>
@@ -958,6 +977,696 @@ TALK TRACK (≈3–5 min)
 This practice is about owning the full workflow.
 
 The chart can be simple. What matters is that you can deliver it in the right format for the right context, and you can explain why.
+-->
+
+---
+
+layout: section
+---
+
+<div class="kicker">Part 5 · Practice</div>
+
+# Python-first visualization craft
+
+Make charts that ship: readable, accessible, reusable.
+
+<!--
+TALK TRACK (≈3–4 min)
+
+Up to now we covered the “what” of web-ready outputs and the “how” of a Python pipeline.
+
+This last part is about craft: the habits that make your charts feel professional.
+That means: consistent styling, meaningful color, reusable chart templates, and a workflow that scales beyond one notebook.
+-->
+
+---
+
+## Styling is a constraint, not decoration
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Professional habit</div>
+    <div class="text-xl font-700 mt-1">Use one theme across charts</div>
+    <div class="op70 mt-2">Typography, sizes, gridlines, colors.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Why it matters</div>
+    <div class="text-xl font-700 mt-1">Consistency builds trust</div>
+    <div class="op70 mt-2">Viewers stop re-learning your chart style each slide.</div>
+  </div>
+</div>
+
+<div class="callout mt-6">
+  <div class="kicker">Design rule</div>
+  <div class="text-lg font-700 mt-1">Make the data loud. Keep the scaffolding quiet.</div>
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+Professional charts feel “calm” because the non-data ink is controlled:
+light gridlines, consistent fonts, aligned margins, predictable legends.
+
+Your job is to make the data the first thing people see—not your styling choices.
+-->
+
+---
+layout: two-cols
+---
+
+# Live Python: A consistent Matplotlib style
+
+::left::
+<div class="kicker">Runnable Python</div>
+<div class="op70 mt-1 text-sm">Sets a small style system and draws a chart.</div>
+
+```py {monaco-run outputHeight=56px height=160}
+import io
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.rcParams.update({"figure.dpi": 120, "font.size": 12})
+
+x = np.arange(1, 9)
+y = np.array([72, 71, 74, 76, 75, 78, 80, 79])
+
+fig, ax = plt.subplots(figsize=(7.2, 2.8))
+ax.plot(x, y, marker="o", linewidth=2)
+ax.set_title("Consistent style: readable by default")
+ax.set_xlabel("Week")
+ax.set_ylabel("Score")
+ax.grid(True, alpha=0.25)
+
+buf = io.StringIO()
+fig.savefig(buf, format="svg")
+print("SVG length:", len(buf.getvalue()))
+```
+
+::right::
+<div class="card !p-3">
+  <div class="kicker">What to notice</div>
+  <ul class="mt-2 space-y-0.5 op80 text-sm">
+    <li>Font sizes are intentional</li>
+    <li>Gridlines are subtle</li>
+    <li>Labels are complete (units when needed)</li>
+  </ul>
+</div>
+
+<!--
+TALK TRACK (≈4–5 min, deep dive)
+
+This is a small “style system.”
+
+The point isn’t the exact numbers. The point is: you can set defaults once and stop fighting readability on every chart.
+
+In project work, this is how you maintain a consistent visual language across dozens of figures.
+-->
+
+---
+
+## Color is a data encoding (not a theme)
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Match meaning</div>
+    <div class="text-xl font-700 mt-1">Type → palette</div>
+    <div class="op70 mt-2">Categorical, ordered magnitude, baseline differences.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Common failure</div>
+    <div class="text-xl font-700 mt-1">Pretty ≠ interpretable</div>
+    <div class="op70 mt-2">If the scale is wrong, the chart is wrong.</div>
+  </div>
+</div>
+
+<div class="mt-5">
+  <D3PaletteTypes />
+</div>
+
+<!--
+TALK TRACK (≈4 min)
+
+Color is not decoration in visualization—it is an encoding.
+
+So you choose palette types based on semantics:
+qualitative for categories, sequential for “how much,” diverging for “above vs below baseline.”
+
+Once you commit to that mindset, your color choices become defensible instead of subjective.
+-->
+
+---
+
+## Matplotlib colormaps: choose by semantics
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Sequential</div>
+    <div class="text-lg font-700 mt-1">Magnitude: low → high</div>
+    <div class="op70 mt-2">Use lightness ramps so order is visible.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Diverging</div>
+    <div class="text-lg font-700 mt-1">Difference: below ↔ above baseline</div>
+    <div class="op70 mt-2">Only when the midpoint is meaningful.</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <D3SequentialScale />
+  <D3DivergingScale />
+</div>
+
+<!--
+TALK TRACK (≈4–5 min)
+
+This slide is the “palette decision tree” in practice.
+
+If the viewer needs to read order, your palette must have a clear lightness progression.
+If the viewer needs to read direction around a baseline, diverging is appropriate—because neutral means something.
+-->
+
+---
+layout: two-cols
+---
+
+# Live Python: sampling colors from a colormap
+
+::left::
+<div class="kicker">Runnable Python</div>
+<div class="op70 mt-1 text-sm">Prints a few RGBA samples from a Matplotlib colormap.</div>
+
+```py {monaco-run}
+import matplotlib.cm as cm
+
+cmap = cm.get_cmap("viridis")
+samples = [cmap(i / 4) for i in range(5)]
+
+for i, rgba in enumerate(samples):
+    print(i, tuple(round(x, 3) for x in rgba))
+```
+
+::right::
+<div class="card !p-3">
+  <div class="kicker">Why this matters</div>
+  <div class="op70 mt-2 text-sm">
+    Colormaps are functions. You can sample them, test them, and keep them consistent across plots.
+  </div>
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+This is a simple but important idea: colormaps are not “magic.”
+They are functions that map numbers to colors.
+
+That means you can reason about them and apply them consistently across multiple charts.
+-->
+
+---
+
+## Accessibility basics for color
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Do</div>
+    <div class="text-xl font-700 mt-1">Add redundancy</div>
+    <div class="op70 mt-2">Labels, position, shape—don’t rely on color alone.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Avoid</div>
+    <div class="text-xl font-700 mt-1">Red/green-only meaning</div>
+    <div class="op70 mt-2">Many viewers cannot reliably distinguish it.</div>
+  </div>
+</div>
+
+<div class="mt-6">
+  <D3RainbowTrap />
+</div>
+
+<!--
+TALK TRACK (≈4–5 min, deep dive)
+
+Accessibility is not optional; it’s part of correctness.
+
+If a viewer cannot decode your chart because of color vision deficiency or low contrast, the visualization has failed its job.
+
+The professional solution is redundancy: encode meaning with more than one channel.
+-->
+
+---
+
+## Chart components as reusable code
+
+<div class="grid grid-cols-3 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Input</div>
+    <div class="text-lg font-700 mt-1">DataFrame</div>
+    <div class="op70 mt-2">Types + units + grain.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Process</div>
+    <div class="text-lg font-700 mt-1">Transform + encode</div>
+    <div class="op70 mt-2">Compute chart-ready columns.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Output</div>
+    <div class="text-lg font-700 mt-1">Figure object</div>
+    <div class="op70 mt-2">Exportable + consistent.</div>
+  </div>
+</div>
+
+<div class="callout mt-6">
+  <div class="text-lg font-700">If your chart can’t be wrapped as a function, it won’t scale to a project.</div>
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+Professional visualization is “software,” even when it looks like design.
+
+If you can parameterize it—data in, options in, figure out—you can reuse it and you can review it.
+That is what makes a chart robust across datasets and deadlines.
+-->
+
+---
+layout: two-cols
+---
+
+# Live Python: a reusable chart function (template)
+
+::left::
+<div class="kicker">Runnable Python</div>
+<div class="op70 mt-1 text-sm">A minimal “chart component” pattern.</div>
+
+```py {monaco-run}
+from dataclasses import dataclass
+
+@dataclass
+class ChartSpec:
+    title: str
+    x: str
+    y: str
+
+def describe_chart(spec: ChartSpec) -> str:
+    return f"{spec.title} | x={spec.x} | y={spec.y}"
+
+print(describe_chart(ChartSpec("Pass rate trend", "week", "pass_rate")))
+```
+
+::right::
+<div class="card !p-3">
+  <div class="kicker">How to use it</div>
+  <div class="op70 mt-2 text-sm">
+    Turn repeated chart decisions into parameters (titles, fields, scales, annotations).
+  </div>
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+This is intentionally tiny: it demonstrates the “component” mindset.
+
+Once you structure charts as parameterized components, your work becomes easier to maintain and easier to critique.
+-->
+
+---
+
+## Layout matters (even in notebooks)
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Good layout</div>
+    <div class="text-xl font-700 mt-1">Aligned comparisons</div>
+    <div class="op70 mt-2">Shared scales; predictable reading order.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Bad layout</div>
+    <div class="text-xl font-700 mt-1">Legend hunting</div>
+    <div class="op70 mt-2">Too many colors; misaligned axes; crowded labels.</div>
+  </div>
+</div>
+
+<div class="mt-5">
+  <D3ConceptDiagram diagram="chart-components" class="viz-compact" />
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+Layout is part of encoding.
+If you want comparisons, align scales and place related views near each other.
+
+This is why small multiples are such a powerful default: they outsource less work to the viewer.
+-->
+
+---
+
+## Performance: reduce complexity before you draw
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">When data is large</div>
+    <div class="text-xl font-700 mt-1">Aggregate or bin</div>
+    <div class="op70 mt-2">Histograms, hexbin, summaries.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">When data is dense</div>
+    <div class="text-xl font-700 mt-1">Sample or faceting</div>
+    <div class="op70 mt-2">Downsample; split into panels.</div>
+  </div>
+</div>
+
+<div class="callout mt-6">
+  <div class="text-lg font-700">If you draw every point, you are encoding latency.</div>
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+Performance problems are often design problems.
+
+When you have too much data to draw directly, your job is to transform it into a view that supports the task:
+bins for distributions, aggregation for summaries, sampling for exploration, and faceting for comparisons.
+-->
+
+---
+
+## Publishing checklist (before you export)
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Text</div>
+    <ul class="mt-2 space-y-0.5 op80 text-sm">
+      <li>Readable title + labels</li>
+      <li>Units included</li>
+      <li>Consistent font sizes</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Scales</div>
+    <ul class="mt-2 space-y-0.5 op80 text-sm">
+      <li>Baselines correct</li>
+      <li>Domains chosen intentionally</li>
+      <li>Comparisons are aligned</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Color</div>
+    <ul class="mt-2 space-y-0.5 op80 text-sm">
+      <li>Meaning matches palette</li>
+      <li>Contrast is sufficient</li>
+      <li>No color-only decoding</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Export</div>
+    <ul class="mt-2 space-y-0.5 op80 text-sm">
+      <li>SVG for vector (slides)</li>
+      <li>PNG for raster (photos)</li>
+      <li>HTML for interaction</li>
+    </ul>
+  </div>
+</div>
+
+<!--
+TALK TRACK (≈4 min)
+
+This checklist is what makes your output feel “finished.”
+
+Most mistakes that hurt credibility are avoidable: missing units, unclear labels, incorrect baselines, or an inappropriate color mapping.
+
+Treat export as part of design constraints, not a last step.
+-->
+
+---
+
+## Mini exercise (in-class)
+
+<div class="callout mt-8">
+  <div class="kicker">Prompt</div>
+  <div class="text-2xl font-800 mt-2">Turn one messy table into a chart-ready table.</div>
+  <div class="op70 mt-3">Then choose a single chart and justify it in 4 sentences.</div>
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Deliverable</div>
+    <div class="op80 mt-2 text-sm">A tidy table + one exported figure (SVG or PNG).</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Justification</div>
+    <div class="op80 mt-2 text-sm">Task → transform → encoding → why it’s readable.</div>
+  </div>
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+This is the workflow compressed into one exercise:
+clean/reshape, compute measures, then pick an encoding that matches the task.
+
+The justification is what makes it “professional.” You are not just showing a chart—you are defending a design choice.
+-->
+
+---
+
+## Export formats: choose the right artifact
+
+<div class="grid grid-cols-3 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">SVG</div>
+    <div class="text-xl font-800 mt-2">Slides + print</div>
+    <ul class="mt-3 space-y-1 op80 text-sm">
+      <li>Crisp at any zoom</li>
+      <li>Searchable/selectable text</li>
+      <li>Editable in Figma/Illustrator</li>
+    </ul>
+    <div class="op60 mt-3 text-sm">Use when marks + labels must stay sharp.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">PNG</div>
+    <div class="text-xl font-800 mt-2">Screens + photos</div>
+    <ul class="mt-3 space-y-1 op80 text-sm">
+      <li>Reliable everywhere</li>
+      <li>Good for raster layers (maps)</li>
+      <li>Predictable file size</li>
+    </ul>
+    <div class="op60 mt-3 text-sm">Use when you have imagery or heavy density.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">HTML</div>
+    <div class="text-xl font-800 mt-2">Interaction</div>
+    <ul class="mt-3 space-y-1 op80 text-sm">
+      <li>Tooltips + selections</li>
+      <li>Responsive layouts</li>
+      <li>Shareable dashboards</li>
+    </ul>
+    <div class="op60 mt-3 text-sm">Use when interaction supports a task.</div>
+  </div>
+</div>
+
+<div class="card mt-4 !p-3">
+  <div class="kicker">Rule of thumb</div>
+  <div class="op80 mt-2 text-sm">If it needs to be read, prefer `SVG`. If it needs to be explored, prefer `HTML`. If it’s an image, prefer `PNG`.</div>
+</div>
+
+<!--
+TALK TRACK (≈4–5 min)
+
+Professional output starts with picking the artifact intentionally.
+
+SVG is your default for slides because typography stays sharp.
+PNG is the safe choice when you have heavy raster backgrounds or extremely dense marks.
+HTML is for interactive tasks—when the user will click, filter, brush, or inspect.
+
+If you can’t explain why you exported a format, you probably picked it by accident.
+-->
+
+---
+
+## Web-ready exports: what “done” looks like
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Ship with context</div>
+    <ul class="mt-3 space-y-1 op80 text-sm">
+      <li>A one-sentence caption (what + why)</li>
+      <li>Units + time window + data source</li>
+      <li>A note for missing data / caveats</li>
+    </ul>
+    <div class="op60 mt-3 text-sm">A chart without context is a decoration.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Ship with structure</div>
+    <ul class="mt-3 space-y-1 op80 text-sm">
+      <li>Consistent title sizing</li>
+      <li>Aligned margins across figures</li>
+      <li>Filenames: `topic_metric_scope_date.svg`</li>
+    </ul>
+    <div class="op60 mt-3 text-sm">The “professional” look is mostly layout discipline.</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-3 gap-4 mt-4">
+  <div class="card !p-3">
+    <div class="kicker">Export</div>
+    <div class="op80 mt-2 text-sm">Save at intended size (don’t “resize later”).</div>
+  </div>
+  <div class="card !p-3">
+    <div class="kicker">Check</div>
+    <div class="op80 mt-2 text-sm">Open the file and verify labels/units are intact.</div>
+  </div>
+  <div class="card !p-3">
+    <div class="kicker">Embed</div>
+    <div class="op80 mt-2 text-sm">Place it into the final layout (slides, PDF, web page).</div>
+  </div>
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+Students often stop at “the plot appeared.” That’s not the finish line.
+
+“Done” means the chart is understandable without you in the room and looks consistent when placed next to other figures.
+
+Treat the export file as a deliverable: name it, open it, and proofread it.
+-->
+
+---
+
+## Accessibility basics (for charts you publish)
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Legibility</div>
+    <ul class="mt-3 space-y-1 op80 text-sm">
+      <li>Contrast passes “squint test”</li>
+      <li>Text is large enough at 100% zoom</li>
+      <li>Direct labels when possible</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Robustness</div>
+    <ul class="mt-3 space-y-1 op80 text-sm">
+      <li>No color-only meaning</li>
+      <li>Patterns/markers for redundancy</li>
+      <li>Clear “no data” encoding</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card mt-4">
+  <div class="kicker">Professional habit</div>
+  <div class="text-xl font-800 mt-2">Assume your chart will be viewed in bad conditions.</div>
+  <div class="op70 mt-2 text-sm">Low brightness, projector washout, grayscale print, or viewers with color-vision differences.</div>
+</div>
+
+<!--
+TALK TRACK (≈4–5 min, deep dive)
+
+Accessibility is not a “nice to have.” It’s part of being trustworthy.
+
+You can’t control the projector or the phone screen. So you design with redundancy:
+labels plus color, markers plus color, and clear handling of missing values.
+
+If the chart fails when color is removed, it was never fully readable.
+-->
+
+---
+
+## Case study: from overview to actionable detail
+
+<D3ConceptDiagram diagram="case-study-student-flow" class="mt-10" />
+
+<div class="card mt-6 !p-3">
+  <div class="kicker">Why this pattern works</div>
+  <div class="op80 mt-2 text-sm">Start broad (see trends), then narrow (choose a range), then inspect (compare distributions), then lookup only when necessary.</div>
+</div>
+
+<!--
+TALK TRACK (≈4 min)
+
+This is a classic dashboard interaction flow.
+
+Overview shows you where to look. Brushing lets you focus. Details answer the “why.” Lookup is expensive, so you do it last and only when you need it.
+
+Even in Python, you can produce this workflow: charts for overview + a selection widget in a notebook, or export an interactive HTML artifact.
+-->
+
+---
+
+## Common export bugs (and quick fixes)
+
+<div class="grid grid-cols-3 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Bug</div>
+    <div class="text-xl font-800 mt-2">Tiny text in the final file</div>
+    <div class="op70 mt-2 text-sm">It looked fine in the notebook, then became unreadable.</div>
+    <div class="kicker mt-4">Fix</div>
+    <div class="op80 mt-2 text-sm">Set figure size + font sizes explicitly before export.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Bug</div>
+    <div class="text-xl font-800 mt-2">Cropping / clipped labels</div>
+    <div class="op70 mt-2 text-sm">Axis labels or legends get cut off.</div>
+    <div class="kicker mt-4">Fix</div>
+    <div class="op80 mt-2 text-sm">Use `tight_layout()` / constrained layout and verify the file.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Bug</div>
+    <div class="text-xl font-800 mt-2">Misleading scales after export</div>
+    <div class="op70 mt-2 text-sm">Domains/baselines changed across charts.</div>
+    <div class="kicker mt-4">Fix</div>
+    <div class="op80 mt-2 text-sm">Lock domains for comparisons; label units; avoid implicit defaults.</div>
+  </div>
+</div>
+
+<div class="card mt-5 !p-3">
+  <div class="kicker">Rule</div>
+  <div class="op80 mt-2 text-sm">Always open the exported file and proofread it like a report.</div>
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+These are not “beginner mistakes.” They happen in real teams.
+
+The fix is a habit: explicit sizing, explicit labels, explicit domains, and always verifying the exported artifact.
+-->
+
+---
+
+## Exit ticket (2 minutes)
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">1</div>
+    <div class="text-xl font-800 mt-2">What is your dataset’s “grain” after your transform?</div>
+    <div class="op70 mt-2 text-sm">Example: one row = program × week.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">2</div>
+    <div class="text-xl font-800 mt-2">Which channel is doing the “hard work”?</div>
+    <div class="op70 mt-2 text-sm">Position? Length? Lightness? (Name it.)</div>
+  </div>
+  <div class="card">
+    <div class="kicker">3</div>
+    <div class="text-xl font-800 mt-2">What did you export, and why that format?</div>
+    <div class="op70 mt-2 text-sm">SVG vs PNG vs HTML.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">4</div>
+    <div class="text-xl font-800 mt-2">One improvement you would make next iteration</div>
+    <div class="op70 mt-2 text-sm">Labeling, domain, transform, or layout.</div>
+  </div>
+</div>
+
+<!--
+TALK TRACK (≈3 min)
+
+These questions force “engineering clarity.”
+
+If you can state the grain, name the channel, justify your export, and propose a next iteration, you are thinking like a visualization practitioner.
 -->
 
 ---

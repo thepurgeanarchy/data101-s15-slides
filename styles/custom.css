@@ -224,3 +224,16 @@ a {
 .viz-frame.viz-fill svg {
   height: 100%;
 }
+
+/* Slide-level fit tweaks (only applied when explicitly opted-in). */
+.slidev-layout.tight-layout {
+  padding-top: 2.2rem;
+  padding-bottom: 2.2rem;
+}
+
+/* Monaco Runner tuning (keeps runnable Python demos from overflowing slides). */
+.slidev-runner-output {
+  padding: 0.55rem 0.85rem !important;
+  line-height: 1.05rem !important;
+  overflow: auto;
+}

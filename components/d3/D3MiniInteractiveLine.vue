@@ -72,20 +72,27 @@ const hover = computed(() => data.find((d) => d.week === hoverWeek.value) ?? nul
           opacity="0.92"
           :stroke="vizTheme.panelStroke"
         />
-        <text :x="x(hover.week) + 30" :y="y(hover.pass_rate) - 16" :fill="vizTheme.text" font-size="12" font-weight="800">
+        <text :x="x(hover.week) + 30" :y="y(hover.pass_rate) - 16" :fill="vizTheme.text" :style="{ fontSize: '12px', fontWeight: 800 }">
           week {{ hover.week }}
         </text>
-        <text :x="x(hover.week) + 30" :y="y(hover.pass_rate) + 6" :fill="vizTheme.textMuted" font-size="12" font-weight="700">
+        <text :x="x(hover.week) + 30" :y="y(hover.pass_rate) + 6" :fill="vizTheme.textMuted" :style="{ fontSize: '12px', fontWeight: 700 }">
           pass_rate: {{ hover.pass_rate.toFixed(2) }}
         </text>
-        <text :x="x(hover.week) + 30" :y="y(hover.pass_rate) + 26" :fill="vizTheme.textMuted" font-size="11" font-weight="600">
+        <text :x="x(hover.week) + 30" :y="y(hover.pass_rate) + 26" :fill="vizTheme.textMuted" :style="{ fontSize: '11px', fontWeight: 600 }">
           click points to “hover”
         </text>
       </g>
 
-      <text :x="margin.left" :y="26" :fill="vizTheme.text" font-size="16" font-weight="800">Interactive line (HTML)</text>
-      <text :x="width - margin.right" :y="26" :fill="vizTheme.textMuted" font-size="12" font-weight="700" text-anchor="end">tooltip + zoom</text>
+      <text :x="margin.left" :y="26" :fill="vizTheme.text" :style="{ fontSize: '16px', fontWeight: 800 }">Interactive line (HTML)</text>
+      <text
+        :x="width - margin.right"
+        :y="26"
+        :fill="vizTheme.textMuted"
+        text-anchor="end"
+        :style="{ fontSize: '12px', fontWeight: 700 }"
+      >
+        tooltip + zoom
+      </text>
     </svg>
   </div>
 </template>
-

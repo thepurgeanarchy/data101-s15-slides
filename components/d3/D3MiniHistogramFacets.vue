@@ -70,12 +70,12 @@ function barHeight(n: number) {
     >
       <rect x="0" y="0" :width="width" :height="height" :fill="vizTheme.panelFill" rx="18" />
 
-      <text x="24" y="28" :fill="vizTheme.text" font-size="14" font-weight="800">Score distributions (small multiples)</text>
-      <text x="24" y="48" :fill="vizTheme.textMuted" font-size="11" font-weight="650">Aligned panels reveal spread differences</text>
+      <text x="24" y="28" :fill="vizTheme.text" :style="{ fontSize: '14px', fontWeight: 800 }">Score distributions (small multiples)</text>
+      <text x="24" y="48" :fill="vizTheme.textMuted" :style="{ fontSize: '11px', fontWeight: 650 }">Aligned panels reveal spread differences</text>
 
       <g v-for="(p, idx) in panels" :key="p.label" :transform="`translate(${pad + idx * (panelW + pad)}, 64)`">
         <rect x="0" y="0" :width="panelW" :height="panelH" rx="16" :fill="vizTheme.bg" opacity="0.25" :stroke="vizTheme.panelStroke" />
-        <text x="12" y="22" :fill="vizTheme.text" font-size="13" font-weight="800">{{ p.label }}</text>
+        <text x="12" y="22" :fill="vizTheme.text" :style="{ fontSize: '13px', fontWeight: 800 }">{{ p.label }}</text>
 
         <!-- baseline -->
         <line x1="12" :x2="panelW - 12" :y1="panelH - 26" :y2="panelH - 26" :stroke="vizTheme.axis" />
@@ -96,8 +96,8 @@ function barHeight(n: number) {
         </g>
 
         <!-- x ticks -->
-        <text x="12" :y="panelH - 6" :fill="vizTheme.textMuted" font-size="11" font-weight="700">low</text>
-        <text :x="panelW - 12" :y="panelH - 6" text-anchor="end" :fill="vizTheme.textMuted" font-size="11" font-weight="700">high</text>
+        <text x="12" :y="panelH - 6" :fill="vizTheme.textMuted" :style="{ fontSize: '11px', fontWeight: 700 }">low</text>
+        <text :x="panelW - 12" :y="panelH - 6" text-anchor="end" :fill="vizTheme.textMuted" :style="{ fontSize: '11px', fontWeight: 700 }">high</text>
       </g>
     </svg>
   </div>

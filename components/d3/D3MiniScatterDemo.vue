@@ -64,13 +64,25 @@ const yTicks = computed(() => y.value.ticks(4).map((t) => ({ t, py: y.value(t) }
       <!-- ticks -->
       <g v-for="tick in xTicks" :key="`xt-${tick.t}`">
         <line :x1="tick.px" :x2="tick.px" :y1="height - margin.bottom" :y2="height - margin.bottom + 6" :stroke="vizTheme.axis" />
-        <text :x="tick.px" :y="height - margin.bottom + 22" text-anchor="middle" :fill="vizTheme.textMuted" font-size="12" font-weight="600">
+        <text
+          :x="tick.px"
+          :y="height - margin.bottom + 22"
+          text-anchor="middle"
+          :fill="vizTheme.textMuted"
+          :style="{ fontSize: '12px', fontWeight: 600 }"
+        >
           {{ tick.t }}
         </text>
       </g>
       <g v-for="tick in yTicks" :key="`yt-${tick.t}`">
         <line :x1="margin.left - 6" :x2="margin.left" :y1="tick.py" :y2="tick.py" :stroke="vizTheme.axis" />
-        <text :x="margin.left - 10" :y="tick.py + 4" text-anchor="end" :fill="vizTheme.textMuted" font-size="12" font-weight="600">
+        <text
+          :x="margin.left - 10"
+          :y="tick.py + 4"
+          text-anchor="end"
+          :fill="vizTheme.textMuted"
+          :style="{ fontSize: '12px', fontWeight: 600 }"
+        >
           {{ tick.t.toFixed(1) }}
         </text>
       </g>
@@ -92,23 +104,32 @@ const yTicks = computed(() => y.value.ticks(4).map((t) => ({ t, py: y.value(t) }
       <!-- legend -->
       <g>
         <circle :cx="width - margin.right - 120" :cy="margin.top + 8" r="6" :fill="vizTheme.bg" :stroke="vizTheme.primary" stroke-width="3" />
-        <text :x="width - margin.right - 106" :y="margin.top + 12" :fill="vizTheme.textMuted" font-size="12" font-weight="700">baseline</text>
+        <text :x="width - margin.right - 106" :y="margin.top + 12" :fill="vizTheme.textMuted" :style="{ fontSize: '12px', fontWeight: 700 }">
+          baseline
+        </text>
         <circle :cx="width - margin.right - 42" :cy="margin.top + 8" r="6" :fill="vizTheme.bg" :stroke="vizTheme.cyan" stroke-width="3" />
-        <text :x="width - margin.right - 28" :y="margin.top + 12" :fill="vizTheme.textMuted" font-size="12" font-weight="700">current</text>
+        <text :x="width - margin.right - 28" :y="margin.top + 12" :fill="vizTheme.textMuted" :style="{ fontSize: '12px', fontWeight: 700 }">
+          current
+        </text>
       </g>
 
-      <text :x="margin.left" :y="26" :fill="vizTheme.text" font-size="14" font-weight="800">Encoded scatter</text>
-      <text :x="(margin.left + width - margin.right) / 2" :y="height - 10" :fill="vizTheme.textMuted" font-size="12" font-weight="600" text-anchor="middle">
+      <text :x="margin.left" :y="26" :fill="vizTheme.text" :style="{ fontSize: '14px', fontWeight: 800 }">Encoded scatter</text>
+      <text
+        :x="(margin.left + width - margin.right) / 2"
+        :y="height - 10"
+        :fill="vizTheme.textMuted"
+        text-anchor="middle"
+        :style="{ fontSize: '12px', fontWeight: 600 }"
+      >
         x
       </text>
       <text
         :x="14"
         :y="(margin.top + height - margin.bottom) / 2"
         :fill="vizTheme.textMuted"
-        font-size="12"
-        font-weight="600"
         text-anchor="middle"
         transform="rotate(-90 14 170)"
+        :style="{ fontSize: '12px', fontWeight: 600 }"
       >
         y
       </text>

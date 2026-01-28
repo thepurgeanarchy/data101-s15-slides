@@ -61,8 +61,9 @@ function drawTextCentered(
     .attr('y', startY)
     .attr('text-anchor', 'middle')
     .attr('fill', fill)
-    .attr('font-size', fontSize)
-    .attr('font-weight', fontWeight)
+    // Use inline styles so theme/global CSS can’t accidentally override SVG text sizing.
+    .style('font-size', `${fontSize}px`)
+    .style('font-weight', `${fontWeight}`)
     .style('font-family', 'inherit')
 
   for (let i = 0; i < lines.length; i++) {
@@ -95,8 +96,9 @@ function drawMultilineTextCentered(
     .attr('y', startY)
     .attr('text-anchor', 'middle')
     .attr('fill', fill)
-    .attr('font-size', fontSize)
-    .attr('font-weight', fontWeight)
+    // Use inline styles so theme/global CSS can’t accidentally override SVG text sizing.
+    .style('font-size', `${fontSize}px`)
+    .style('font-weight', `${fontWeight}`)
     .style('font-family', 'inherit')
 
   for (let i = 0; i < lines.length; i++) {
@@ -367,8 +369,8 @@ function render() {
         .attr('y', g.y + 18)
         .attr('text-anchor', 'middle')
         .attr('fill', vizTheme.textMuted)
-        .attr('font-size', 12)
-        .attr('font-weight', 650)
+        .style('font-size', '12px')
+        .style('font-weight', '650')
         .style('font-family', 'inherit')
         .text(g.label)
     }
@@ -504,7 +506,9 @@ function render() {
 
     const scaleX = safeW / bounds.w
     const scaleY = safeH / bounds.h
-    const scale = Math.min(scaleX, scaleY)
+    // Never scale up. This avoids huge/overlapping text when fonts are still loading and
+    // computed bounds are underestimated on first render (common during Slidev export).
+    const scale = Math.min(scaleX, scaleY, 1)
 
     const cx = bounds.x + bounds.w / 2
     const cy = bounds.y + bounds.h / 2

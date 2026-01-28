@@ -73,8 +73,7 @@ const yTicks = computed(() => y.value.ticks(4).map((t) => ({ t, py: y.value(t) }
             :y="tick.py + 4"
             text-anchor="end"
             :fill="vizTheme.textMuted"
-            font-size="12"
-            font-weight="600"
+            :style="{ fontSize: '12px', fontWeight: 600 }"
           >
             {{ tick.t.toFixed(1) }}
           </text>
@@ -84,7 +83,13 @@ const yTicks = computed(() => y.value.ticks(4).map((t) => ({ t, py: y.value(t) }
       <!-- x tick labels -->
       <g v-for="tick in xTicks" :key="`xt-${tick.t}`">
         <line :x1="tick.px" :x2="tick.px" :y1="height - margin.bottom" :y2="height - margin.bottom + 6" :stroke="vizTheme.axis" />
-        <text :x="tick.px" :y="height - margin.bottom + 22" text-anchor="middle" :fill="vizTheme.textMuted" font-size="12" font-weight="600">
+        <text
+          :x="tick.px"
+          :y="height - margin.bottom + 22"
+          text-anchor="middle"
+          :fill="vizTheme.textMuted"
+          :style="{ fontSize: '12px', fontWeight: 600 }"
+        >
           {{ tick.t }}
         </text>
       </g>
@@ -107,25 +112,37 @@ const yTicks = computed(() => y.value.ticks(4).map((t) => ({ t, py: y.value(t) }
       </g>
 
       <!-- title -->
-      <text :x="margin.left" :y="26" :fill="vizTheme.text" font-size="16" font-weight="800">Pass rate over weeks</text>
-      <text :x="width - margin.right" :y="26" :fill="vizTheme.textMuted" font-size="12" font-weight="600" text-anchor="end">SVG-ready</text>
+      <text :x="margin.left" :y="26" :fill="vizTheme.text" :style="{ fontSize: '16px', fontWeight: 800 }">Pass rate over weeks</text>
+      <text
+        :x="width - margin.right"
+        :y="26"
+        :fill="vizTheme.textMuted"
+        text-anchor="end"
+        :style="{ fontSize: '12px', fontWeight: 600 }"
+      >
+        SVG-ready
+      </text>
 
       <!-- axis labels -->
-      <text :x="(margin.left + width - margin.right) / 2" :y="height - 10" :fill="vizTheme.textMuted" font-size="12" font-weight="600" text-anchor="middle">
+      <text
+        :x="(margin.left + width - margin.right) / 2"
+        :y="height - 10"
+        :fill="vizTheme.textMuted"
+        text-anchor="middle"
+        :style="{ fontSize: '12px', fontWeight: 600 }"
+      >
         Week
       </text>
       <text
         :x="14"
         :y="(margin.top + height - margin.bottom) / 2"
         :fill="vizTheme.textMuted"
-        font-size="12"
-        font-weight="600"
         text-anchor="middle"
         transform="rotate(-90 14 170)"
+        :style="{ fontSize: '12px', fontWeight: 600 }"
       >
         Pass rate
       </text>
     </svg>
   </div>
 </template>
-

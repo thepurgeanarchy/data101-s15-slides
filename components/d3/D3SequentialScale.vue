@@ -9,7 +9,8 @@ const uid = Math.random().toString(36).slice(2, 10)
 function drawAxis(axisGroup: d3.Selection<SVGGElement, unknown, null, undefined>) {
   axisGroup.selectAll('path').attr('stroke', vizTheme.axis).attr('stroke-width', 1)
   axisGroup.selectAll('line').attr('stroke', vizTheme.axis).attr('stroke-width', 1)
-  axisGroup.selectAll('text').attr('fill', vizTheme.textMuted).attr('font-size', 12)
+  // Use inline styles so theme/global CSS can’t accidentally override SVG text sizing.
+  axisGroup.selectAll('text').attr('fill', vizTheme.textMuted).style('font-size', '12px')
 }
 
 function render() {
@@ -35,8 +36,8 @@ function render() {
     .attr('x', padding)
     .attr('y', 34)
     .attr('fill', vizTheme.text)
-    .attr('font-size', 16)
-    .attr('font-weight', 700)
+    .style('font-size', '16px')
+    .style('font-weight', '700')
     .text('Lightness ramp (ordered magnitude)')
 
   const rampX = padding
@@ -96,8 +97,8 @@ function render() {
     .attr('x', padding)
     .attr('y', 148)
     .attr('fill', vizTheme.textMuted)
-    .attr('font-size', 12)
-    .attr('font-weight', 600)
+    .style('font-size', '12px')
+    .style('font-weight', '600')
     .text('Example: same values as a heatmap (higher = lighter)')
 
   const rows = 4

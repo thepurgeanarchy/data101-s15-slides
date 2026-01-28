@@ -8,7 +8,8 @@ const container = ref<HTMLDivElement | null>(null)
 function styleAxis(axisGroup: d3.Selection<SVGGElement, unknown, null, undefined>) {
   axisGroup.selectAll('path').attr('stroke', vizTheme.axis).attr('stroke-width', 1)
   axisGroup.selectAll('line').attr('stroke', vizTheme.axis).attr('stroke-width', 1)
-  axisGroup.selectAll('text').attr('fill', vizTheme.textMuted).attr('font-size', 11)
+  // Use inline styles so theme/global CSS can’t accidentally override SVG text sizing.
+  axisGroup.selectAll('text').attr('fill', vizTheme.textMuted).style('font-size', '11px')
 }
 
 function render() {
@@ -64,8 +65,8 @@ function render() {
     .attr('x', 18)
     .attr('y', 30)
     .attr('fill', vizTheme.text)
-    .attr('font-size', 15)
-    .attr('font-weight', 800)
+    .style('font-size', '15px')
+    .style('font-weight', '800')
     .text((d) => d.title)
 
   panel
@@ -73,8 +74,8 @@ function render() {
     .attr('x', 18)
     .attr('y', 50)
     .attr('fill', vizTheme.textMuted)
-    .attr('font-size', 12)
-    .attr('font-weight', 600)
+    .style('font-size', '12px')
+    .style('font-weight', '600')
     .text((d) => d.subtitle)
 
   const inner = { left: 44, right: 24, top: 62, bottom: 30 }
@@ -149,8 +150,8 @@ function render() {
       .attr('y', (d) => y(d.value) - 10)
       .attr('text-anchor', 'middle')
       .attr('fill', vizTheme.text)
-      .attr('font-size', 12)
-      .attr('font-weight', 700)
+      .style('font-size', '12px')
+      .style('font-weight', '700')
       .text((d) => d.value.toFixed(0))
   })
 }
