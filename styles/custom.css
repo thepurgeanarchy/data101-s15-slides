@@ -231,6 +231,23 @@ a {
   padding-bottom: 2.2rem;
 }
 
+/* Code-only slides: maximize space for editor + output while keeping clear margins. */
+.slidev-layout.code-only {
+  padding-top: 1.9rem;
+  padding-bottom: 2.4rem;
+}
+
+.slidev-layout.code-only h1 {
+  margin-bottom: 0.6rem;
+}
+
+/* In static export/build, runnable blocks may render as Shiki code. Keep them scrollable. */
+.slidev-layout.code-only pre,
+.slidev-layout.code-only .shiki {
+  max-height: 420px;
+  overflow: auto;
+}
+
 /* Monaco Runner tuning (keeps runnable Python demos from overflowing slides). */
 .slidev-runner-output {
   padding: 0.55rem 0.85rem !important;

@@ -331,16 +331,52 @@ So treat pandas as the engine that produces chart-ready data, and treat the char
 
 ---
 layout: two-cols
-class: tight-layout
 ---
 
-# Code Demo A: Make a Chart-Ready Table
+# Demo A: Chart-ready tables (rates + deltas)
 
 ::left::
-<div class="kicker">Runnable Python</div>
-<div class="op70 mt-1 text-sm">Copy into a notebook and run.</div>
+<div class="card !p-3">
+  <div class="kicker">Goal</div>
+  <div class="text-lg font-700 mt-1">Turn counts into comparable measures</div>
+  <ul class="mt-2 space-y-0.5 op80 text-sm">
+    <li>Counts → rate (pass_rate)</li>
+    <li>Rate over time → delta (change)</li>
+    <li>One row = one observation (tidy)</li>
+  </ul>
+</div>
 
-```py {monaco-run outputHeight=120px}
+<div class="card !p-3 mt-4">
+  <div class="kicker">Professional habit</div>
+  <div class="text-lg font-700 mt-1">Write the table before the chart</div>
+  <div class="op70 mt-2 text-sm">If the table is wrong, the chart will be wrong—no matter how polished it looks.</div>
+</div>
+
+::right::
+<div class="mt-2">
+  <D3MiniTableDemo />
+</div>
+
+<!--
+TALK TRACK (≈4–5 min, deep dive)
+
+This example is small on purpose. The goal is to make the “chart-ready table” idea concrete.
+
+We start with counts: passes and students. Then we derive the measure we actually care about for comparison: pass_rate.
+
+Then we compute a delta over time per program. That delta becomes a powerful visual variable: it tells you direction and change.
+
+Notice what we did not do: we did not pick a chart first. We prepared the data so multiple charts become possible: a time trend, a ranked delta view, or a small-multiples comparison.
+-->
+
+---
+layout: default
+class: code-only
+---
+
+# Code Demo A — Run
+
+```py {monaco-run height=320px outputHeight=220px}
 import pandas as pd
 
 df = pd.DataFrame(
@@ -354,32 +390,20 @@ df = pd.DataFrame(
 
 df["pass_rate"] = df["n_pass"] / df["n_students"]
 
-weekly = (
-    df.sort_values(["program", "week"])
-    .assign(delta=lambda d: d.groupby("program")["pass_rate"].diff())
+weekly = df.sort_values(["program", "week"]).assign(
+    delta=lambda d: d.groupby("program")["pass_rate"].diff()
 )
 
 print(weekly.to_string(index=False))
 ```
 
-::right::
-<div class="card">
-  <div class="kicker">Output you should see</div>
-  <div class="op70 mt-2 text-sm">A tidy table with a derived rate + delta.</div>
-</div>
-
-<D3MiniTableDemo class="mt-4" />
-
 <!--
-TALK TRACK (≈4–5 min, deep dive)
+TALK TRACK (≈3–4 min)
 
-This example is small on purpose. The goal is to make the “chart-ready table” idea concrete.
+I’ll run this once so you see what “chart-ready” looks like as a table.
 
-We start with counts: passes and students. Then we derive the measure we actually care about for comparison: pass_rate.
-
-Then we compute a delta over time per program. That delta becomes a powerful visual variable: it tells you direction and change.
-
-Notice what we did not do: we did not pick a chart first. We prepared the data so multiple charts become possible: a time trend, a ranked delta view, or a small-multiples comparison.
+The output is the deliverable before any chart:
+one row per program-week, a comparable measure (pass_rate), and a change metric (delta).
 -->
 
 ---
@@ -403,32 +427,23 @@ If you understand figure vs axes vs artists, you can control layout and export r
 layout: two-cols
 ---
 
-# Code Demo B: Matplotlib → SVG Export
+# Demo B: Matplotlib → SVG export (web-ready)
 
 ::left::
-<div class="kicker">Runnable Python</div>
-<div class="op70 mt-1 text-sm">Produces a plot and exports SVG text (web-ready).</div>
+<div class="card !p-3">
+  <div class="kicker">Why SVG</div>
+  <div class="text-lg font-700 mt-1">Crisp + editable + searchable</div>
+  <ul class="mt-2 space-y-0.5 op80 text-sm">
+    <li>Perfect for slides + PDF export</li>
+    <li>Shapes editable in Figma/Illustrator</li>
+    <li>Text stays selectable (accessibility + search)</li>
+  </ul>
+</div>
 
-```py {monaco-run outputHeight=40px height=144px}
-import io
-import numpy as np
-import matplotlib.pyplot as plt
-x = np.arange(1, 7)
-y = np.array([0.70, 0.62, 0.75, 0.73, 0.80, 0.78])
-fig, ax = plt.subplots(figsize=(7.2, 3.2))
-ax.plot(x, y, marker="o", linewidth=2)
-ax.set_title("Pass rate over weeks")
-ax.set_xlabel("Week")
-ax.set_ylabel("Pass rate")
-ax.set_ylim(0.5, 0.9)
-ax.grid(True, alpha=0.25)
-fig.tight_layout()
-
-buf = io.StringIO()
-fig.savefig(buf, format="svg")
-svg = buf.getvalue()
-print("SVG chars:", len(svg))
-```
+<div class="callout mt-4">
+  <div class="kicker">Habit</div>
+  <div class="text-lg font-700 mt-1">Export intentionally (don’t screenshot)</div>
+</div>
 
 ::right::
 <div class="card !p-3">
@@ -448,6 +463,48 @@ We choose a figure size intentionally and label everything. That’s already a p
 Then we export to SVG. SVG is ideal for slides and PDFs because it stays sharp at any zoom.
 
 The practical habit: always set figure size, always set labels and limits intentionally, and always export explicitly—don’t rely on screenshots.
+-->
+
+---
+layout: default
+class: code-only
+---
+
+# Code Demo B — Run
+
+```py {monaco-run height=300px outputHeight=180px}
+import io
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.arange(1, 7)
+y = np.array([0.70, 0.62, 0.75, 0.73, 0.80, 0.78])
+
+fig, ax = plt.subplots(figsize=(7.2, 3.2))
+ax.plot(x, y, marker="o", linewidth=2)
+ax.set_title("Pass rate over weeks")
+ax.set_xlabel("Week")
+ax.set_ylabel("Pass rate")
+ax.set_ylim(0.5, 0.9)
+ax.grid(True, alpha=0.25)
+fig.tight_layout()
+
+buf = io.StringIO()
+fig.savefig(buf, format="svg")
+svg = buf.getvalue()
+
+print("SVG chars:", len(svg))
+print("Starts with:", svg.splitlines()[0][:72] + "…")
+```
+
+<!--
+TALK TRACK (≈3–4 min)
+
+When this runs, the key point is that the SVG is text.
+That’s why it scales without getting blurry.
+
+In practice: decide your export format early, then design labels and spacing for that format.
 -->
 
 ---
@@ -487,30 +544,12 @@ layout: two-cols
 # Code Demo C: Faceted Histograms
 
 ::left::
-<div class="kicker">Runnable Python</div>
-<div class="op70 mt-1 text-sm">Shows why distribution beats averages.</div>
-
-<div class="text-[0.72rem] leading-[1.05] -mt-1">
-
-```py {monaco-run}
-import numpy as np, pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-rng=np.random.default_rng(7)
-program=np.repeat(list("ABC"), 250)
-score=np.r_[rng.normal(76, 6, 250), rng.normal(76, 14, 250), rng.normal(70, 8, 250)]
-df=pd.DataFrame({"program": program, "score": score})
-
-sns.displot(
-    df, x="score", col="program", bins=18,
-    facet_kws=dict(sharex=True, sharey=True),
-    height=3, aspect=1.1
-)
-print(df.groupby("program")["score"].agg(["mean","std"]).round(2))
-plt.show()
-```
-
+<div class="card !p-3">
+  <div class="kicker">Runnable next slide</div>
+  <div class="text-lg font-700 mt-1">Generate data + summarize spread</div>
+  <div class="op70 mt-2 text-sm">
+    We’ll compute stats and histogram bin counts (what a faceted histogram is actually drawing).
+  </div>
 </div>
 
 ::right::
@@ -533,6 +572,53 @@ We create three programs where the “center” can look similar, but the spread
 Faceting makes this comparison easy because axes are aligned. The viewer can compare shapes without doing legend hunting.
 
 So the design principle is: when the task involves fairness and decisions about people, distribution views are often necessary.
+-->
+
+---
+layout: default
+class: code-only
+---
+
+# Code Demo C — Run
+
+```py {monaco-run height=320px outputHeight=220px}
+import numpy as np
+import pandas as pd
+
+rng = np.random.default_rng(7)
+program = np.repeat(list("ABC"), 250)
+score = np.concatenate(
+    [
+        rng.normal(76, 6, 250),
+        rng.normal(76, 14, 250),
+        rng.normal(70, 8, 250),
+    ]
+)
+df = pd.DataFrame({"program": program, "score": score})
+
+summary = df.groupby("program")["score"].agg(["mean", "std", "min", "max"]).round(2)
+print("Summary stats (mean can be similar while spread differs):")
+print(summary.to_string())
+
+bins = np.linspace(df["score"].min(), df["score"].max(), 19)
+counts = (
+    df.assign(bin=pd.cut(df["score"], bins=bins, include_lowest=True))
+    .groupby(["program", "bin"])
+    .size()
+    .rename("count")
+)
+print("\nFirst 6 histogram bins for Program A:")
+print(counts.loc["A"].head(6).to_string())
+```
+
+<!--
+TALK TRACK (≈3–4 min)
+
+This is runnable without plotting libraries.
+
+I’m generating three groups with different spreads, then printing:
+- summary stats (especially std),
+- and the first few histogram bin counts (the “data” behind the chart).
 -->
 
 ---
@@ -649,34 +735,12 @@ layout: two-cols
 # Code Demo D: Altair Encodings
 
 ::left::
-<div class="kicker">Runnable Python</div>
-<div class="op70 mt-1 text-sm">Data → encoding → interactive tooltip.</div>
-
-<div class="text-[0.72rem] leading-[1.05] -mt-1">
-
-```py {monaco-run outputHeight=130px height=220px}
-import pandas as pd
-import json
-
-df=pd.DataFrame({
-    "x":[1,2,3,4,5,6],
-    "y":[0.70,0.62,0.75,0.73,0.80,0.78],
-    "term":["baseline"]*3 + ["current"]*3
-})
-
-spec={"mark":{"type":"circle","size":110},
-      "encoding":{"x":{"field":"x","type":"quantitative"},
-                  "y":{"field":"y","type":"quantitative","scale":{"domain":[0.5,0.9]}},
-                  "color":{"field":"term","type":"nominal"},
-                  "tooltip":[{"field":"x"},{"field":"y"},{"field":"term"}]}}
-
-print("First 3 rows:")
-print(df.head(3).to_string(index=False))
-print("\nEncoding spec (Vega-Lite style, excerpt):")
-spec_text = json.dumps(spec, indent=2).splitlines()
-print("\n".join(spec_text[:24] + ["..."]))
-```
-
+<div class="card !p-3">
+  <div class="kicker">Grammar-style visualization</div>
+  <div class="text-lg font-700 mt-1">Field → channel mappings</div>
+  <div class="op70 mt-2 text-sm">
+    A spec is a contract between data and marks. You can critique it before any pixels are rendered.
+  </div>
 </div>
 
 ::right::
@@ -697,6 +761,52 @@ This is the grammar-of-graphics idea in practice.
 We define a mark type (circles), then encode fields to channels: x-position, y-position, and color. We also add tooltip, which is often the simplest “high value” interaction.
 
 The professional habit here is: treat encoding as a contract. If a field is categorical, use categorical channels. If it’s quantitative, use a quantitative scale. And always control your y-domain when comparison matters—don’t let defaults hide the story.
+-->
+
+---
+layout: default
+class: code-only
+---
+
+# Code Demo D — Run
+
+```py {monaco-run height=320px outputHeight=220px}
+import json
+
+import pandas as pd
+
+df = pd.DataFrame(
+    {
+        "x": [1, 2, 3, 4, 5, 6],
+        "y": [0.70, 0.62, 0.75, 0.73, 0.80, 0.78],
+        "term": ["baseline"] * 3 + ["current"] * 3,
+    }
+)
+
+spec = {
+    "mark": {"type": "circle", "size": 110},
+    "encoding": {
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {"field": "y", "type": "quantitative", "scale": {"domain": [0.5, 0.9]}},
+        "color": {"field": "term", "type": "nominal"},
+        "tooltip": [{"field": "x"}, {"field": "y"}, {"field": "term"}],
+    },
+}
+
+print("First 3 rows:")
+print(df.head(3).to_string(index=False))
+print("\nEncoding spec (Vega-Lite style, excerpt):")
+spec_text = json.dumps(spec, indent=2).splitlines()
+print("\n".join(spec_text[:26] + ["..."]))
+```
+
+<!--
+TALK TRACK (≈3–4 min)
+
+This is runnable without any special chart library.
+
+I’m showing that “encoding” is information:
+we can inspect it, critique it, and make domains explicit before we render anything.
 -->
 
 ---
@@ -804,30 +914,23 @@ Interactivity is only professional when it supports a named task.
 layout: two-cols
 ---
 
-# Code Demo E: Plotly for Interactive HTML
+# Demo E: Interactive HTML artifacts
 
 ::left::
-<div class="card">
-  <div class="kicker">Runnable Python</div>
-  <div class="op70 mt-2 text-sm">Exports an interactive chart to HTML.</div>
+<div class="card !p-3">
+  <div class="kicker">When to use HTML</div>
+  <div class="text-lg font-700 mt-1">Interactivity supports a task</div>
+  <ul class="mt-2 space-y-0.5 op80 text-sm">
+    <li>Hover to confirm exact values</li>
+    <li>Zoom/pan for dense time series</li>
+    <li>Highlight/filter to compare groups</li>
+  </ul>
 </div>
 
-```py
-import pandas as pd
-import plotly.express as px
-
-df = pd.DataFrame(
-    {
-        "week": [1, 2, 3, 4, 5, 6],
-        "pass_rate": [0.70, 0.62, 0.75, 0.73, 0.80, 0.78],
-    }
-)
-
-fig = px.line(df, x="week", y="pass_rate", markers=True, title="Pass rate over weeks")
-fig.update_yaxes(range=[0.5, 0.9])
-fig.write_html("pass_rate.html", include_plotlyjs="cdn")
-fig
-```
+<div class="callout mt-4">
+  <div class="kicker">Deliverable</div>
+  <div class="text-lg font-700 mt-1">A single HTML file you can share</div>
+</div>
 
 ::right::
 <div class="card">
@@ -842,9 +945,119 @@ TALK TRACK (≈4–5 min, deep dive)
 
 This is the fastest path from Python to an interactive web artifact.
 
-Plotly produces an HTML file you can host or submit. The key is that the output is self-contained enough to share.
+HTML is an artifact: you can host it, submit it, or embed it.
 
 But remember: the purpose is not “interaction for interaction’s sake.” Use it when the task benefits—like inspecting exact values, exploring ranges, or supporting drill-down.
+-->
+
+---
+layout: default
+class: code-only
+---
+
+# Code Demo E — Run
+
+```py {monaco-run height=360px outputHeight=220px}
+import pandas as pd
+
+df = pd.DataFrame(
+    {"week": [1, 2, 3, 4, 5, 6], "pass_rate": [0.70, 0.62, 0.75, 0.73, 0.80, 0.78]}
+)
+
+width, height = 720, 320
+pad_l, pad_r, pad_t, pad_b = 56, 18, 22, 44
+
+xmin, xmax = df["week"].min(), df["week"].max()
+ymin, ymax = 0.5, 0.9
+
+
+def sx(x: float) -> float:
+    return pad_l + (x - xmin) / (xmax - xmin) * (width - pad_l - pad_r)
+
+
+def sy(y: float) -> float:
+    return pad_t + (1 - (y - ymin) / (ymax - ymin)) * (height - pad_t - pad_b)
+
+
+pts = [(sx(r.week), sy(r.pass_rate)) for r in df.itertuples(index=False)]
+path = "M " + " L ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+
+circles = []
+for r in df.itertuples(index=False):
+    circles.append(
+        f"<circle cx='{sx(r.week):.1f}' cy='{sy(r.pass_rate):.1f}' r='6' "
+        f"data-week='{r.week}' data-rate='{r.pass_rate:.2f}' />"
+    )
+
+svg = f"""
+<svg viewBox='0 0 {width} {height}' width='{width}' height='{height}' xmlns='http://www.w3.org/2000/svg'>
+  <style>
+    .axis {{ stroke: #94a3b8; stroke-opacity: 0.5; }}
+    .line {{ fill: none; stroke: #60a5fa; stroke-width: 3; }}
+    circle {{ fill: #0ea5e9; stroke: #0b1220; stroke-width: 2; cursor: default; }}
+    text {{ fill: #cbd5e1; font: 12px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; }}
+  </style>
+  <text x='{pad_l}' y='16' font-weight='700'>Pass rate over weeks (HTML + SVG)</text>
+  <line class='axis' x1='{pad_l}' y1='{height - pad_b}' x2='{width - pad_r}' y2='{height - pad_b}' />
+  <line class='axis' x1='{pad_l}' y1='{pad_t}' x2='{pad_l}' y2='{height - pad_b}' />
+  <path class='line' d='{path}' />
+  {''.join(circles)}
+</svg>
+""".strip()
+
+html_doc = f"""<!doctype html>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Pass rate over weeks</title>
+<style>
+  body {{ margin: 0; background: #0b1220; color: #e5e7eb;
+         font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; }}
+  .wrap {{ padding: 16px; }}
+  .tip {{ position: fixed; pointer-events: none; background: rgba(17,24,39,0.92);
+          border: 1px solid rgba(148,163,184,0.35); border-radius: 10px;
+          padding: 8px 10px; font-size: 12px; opacity: 0; }}
+</style>
+</head>
+<body>
+<div class='wrap'>
+{svg}
+</div>
+<div class='tip' id='tip'></div>
+<script>
+  const tip = document.getElementById('tip');
+  function showTip(e) {{
+    const w = e.target.getAttribute('data-week');
+    const r = e.target.getAttribute('data-rate');
+    if (!w || !r) return;
+    tip.textContent = `Week ${w} · pass_rate ${r}`;
+    tip.style.left = (e.clientX + 12) + 'px';
+    tip.style.top = (e.clientY + 12) + 'px';
+    tip.style.opacity = 1;
+  }}
+  function hideTip() {{ tip.style.opacity = 0; }}
+  document.querySelectorAll('circle').forEach(c => {{
+    c.addEventListener('mousemove', showTip);
+    c.addEventListener('mouseleave', hideTip);
+  }});
+</script>
+</body>
+</html>"""
+
+print("HTML chars:", len(html_doc))
+print("First 12 lines:")
+for line in html_doc.splitlines()[:12]:
+    print(line)
+```
+
+<!--
+TALK TRACK (≈4–5 min, deep dive)
+
+This generates a self-contained HTML file (inline SVG + tooltip).
+
+The point is to make the artifact idea concrete:
+SVG is a mark layer, HTML is the container, and a tiny script can add “details on demand.”
 -->
 
 ---
@@ -1037,30 +1250,20 @@ layout: two-cols
 # Live Python: A consistent Matplotlib style
 
 ::left::
-<div class="kicker">Runnable Python</div>
-<div class="op70 mt-1 text-sm">Sets a small style system and draws a chart.</div>
+<div class="card !p-3">
+  <div class="kicker">What you’re building</div>
+  <div class="text-lg font-700 mt-1">A tiny “style system”</div>
+  <ul class="mt-2 space-y-0.5 op80 text-sm">
+    <li>Figure size is intentional (export-ready)</li>
+    <li>Typography is consistent</li>
+    <li>Gridlines are subtle</li>
+  </ul>
+</div>
 
-```py {monaco-run outputHeight=56px height=160}
-import io
-import matplotlib.pyplot as plt
-import numpy as np
-
-plt.rcParams.update({"figure.dpi": 120, "font.size": 12})
-
-x = np.arange(1, 9)
-y = np.array([72, 71, 74, 76, 75, 78, 80, 79])
-
-fig, ax = plt.subplots(figsize=(7.2, 2.8))
-ax.plot(x, y, marker="o", linewidth=2)
-ax.set_title("Consistent style: readable by default")
-ax.set_xlabel("Week")
-ax.set_ylabel("Score")
-ax.grid(True, alpha=0.25)
-
-buf = io.StringIO()
-fig.savefig(buf, format="svg")
-print("SVG length:", len(buf.getvalue()))
-```
+<div class="callout mt-4">
+  <div class="kicker">Rule</div>
+  <div class="text-lg font-700 mt-1">Make the data loud. Keep scaffolding quiet.</div>
+</div>
 
 ::right::
 <div class="card !p-3">
@@ -1080,6 +1283,48 @@ This is a small “style system.”
 The point isn’t the exact numbers. The point is: you can set defaults once and stop fighting readability on every chart.
 
 In project work, this is how you maintain a consistent visual language across dozens of figures.
+-->
+
+---
+layout: default
+class: code-only
+---
+
+# Live Python — Run
+
+```py {monaco-run height=320px outputHeight=180px}
+import io
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.rcParams.update({"figure.dpi": 120, "font.size": 12})
+
+x = np.arange(1, 9)
+y = np.array([72, 71, 74, 76, 75, 78, 80, 79])
+
+fig, ax = plt.subplots(figsize=(7.2, 2.8))
+ax.plot(x, y, marker="o", linewidth=2)
+ax.set_title("Consistent style: readable by default")
+ax.set_xlabel("Week")
+ax.set_ylabel("Score")
+ax.grid(True, alpha=0.25)
+fig.tight_layout()
+
+buf = io.StringIO()
+fig.savefig(buf, format="svg")
+svg = buf.getvalue()
+print("SVG length:", len(svg))
+print("Starts with:", svg.splitlines()[0][:72] + "…")
+```
+
+<!--
+TALK TRACK (≈3–4 min)
+
+When I run this, I want you to notice the habit:
+explicit size + explicit labels + quiet grid + explicit export format.
+
+Those four things create “professional” by default.
 -->
 
 ---
@@ -1152,18 +1397,13 @@ layout: two-cols
 # Live Python: sampling colors from a colormap
 
 ::left::
-<div class="kicker">Runnable Python</div>
-<div class="op70 mt-1 text-sm">Prints a few RGBA samples from a Matplotlib colormap.</div>
-
-```py {monaco-run}
-import matplotlib.cm as cm
-
-cmap = cm.get_cmap("viridis")
-samples = [cmap(i / 4) for i in range(5)]
-
-for i, rgba in enumerate(samples):
-    print(i, tuple(round(x, 3) for x in rgba))
-```
+<div class="card !p-3">
+  <div class="kicker">Concept</div>
+  <div class="text-lg font-700 mt-1">Colormaps are functions</div>
+  <div class="op70 mt-2 text-sm">
+    You can sample them, test them, and keep them consistent across many charts.
+  </div>
+</div>
 
 ::right::
 <div class="card !p-3">
@@ -1180,6 +1420,32 @@ This is a simple but important idea: colormaps are not “magic.”
 They are functions that map numbers to colors.
 
 That means you can reason about them and apply them consistently across multiple charts.
+-->
+
+---
+layout: default
+class: code-only
+---
+
+# Live Python — Run
+
+```py {monaco-run height=240px outputHeight=180px}
+import matplotlib.cm as cm
+
+cmap = cm.get_cmap("viridis")
+samples = [cmap(i / 4) for i in range(5)]
+
+for i, rgba in enumerate(samples):
+    print(i, tuple(round(x, 3) for x in rgba))
+```
+
+<!--
+TALK TRACK (≈3–4 min)
+
+I’m running this to make one idea concrete:
+color is generated by a mapping, not “picked” manually.
+
+Once you treat palettes as mappings, you can standardize them across a whole project.
 -->
 
 ---
@@ -1255,23 +1521,13 @@ layout: two-cols
 # Live Python: a reusable chart function (template)
 
 ::left::
-<div class="kicker">Runnable Python</div>
-<div class="op70 mt-1 text-sm">A minimal “chart component” pattern.</div>
-
-```py {monaco-run}
-from dataclasses import dataclass
-
-@dataclass
-class ChartSpec:
-    title: str
-    x: str
-    y: str
-
-def describe_chart(spec: ChartSpec) -> str:
-    return f"{spec.title} | x={spec.x} | y={spec.y}"
-
-print(describe_chart(ChartSpec("Pass rate trend", "week", "pass_rate")))
-```
+<div class="card !p-3">
+  <div class="kicker">Pattern</div>
+  <div class="text-lg font-700 mt-1">A “chart component” mindset</div>
+  <div class="op70 mt-2 text-sm">
+    Turn repeated chart decisions into parameters (fields, scales, annotations, export).
+  </div>
+</div>
 
 ::right::
 <div class="card !p-3">
@@ -1287,6 +1543,39 @@ TALK TRACK (≈3–4 min)
 This is intentionally tiny: it demonstrates the “component” mindset.
 
 Once you structure charts as parameterized components, your work becomes easier to maintain and easier to critique.
+-->
+
+---
+layout: default
+class: code-only
+---
+
+# Live Python — Run
+
+```py {monaco-run height=260px outputHeight=160px}
+from dataclasses import dataclass
+
+
+@dataclass
+class ChartSpec:
+    title: str
+    x: str
+    y: str
+
+
+def describe_chart(spec: ChartSpec) -> str:
+    return f"{spec.title} | x={spec.x} | y={spec.y}"
+
+
+print(describe_chart(ChartSpec("Pass rate trend", "week", "pass_rate")))
+```
+
+<!--
+TALK TRACK (≈3–4 min)
+
+This is intentionally tiny: it shows the idea that your chart has a spec.
+
+When you write the spec as parameters, you can reuse, review, and standardize your charts.
 -->
 
 ---
