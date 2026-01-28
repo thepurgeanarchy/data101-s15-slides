@@ -47,3 +47,10 @@ Recommended filename:
 ## Academic Integrity
 Use your own words. If you consulted outside sources (including tools), acknowledge them in your References section.
 
+## Generative AI (DLSU Policy)
+This assignment follows the **DLSU Generative AI Policy for Higher Education**. If you use any generative AI tool (e.g., ChatGPT, Claude, Copilot), you must follow the policy and the course rules below:
+
+- **Disclosure required:** Add a short disclosure in your notebook’s **References** section stating (1) the tool used, (2) what you used it for (e.g., outlining, editing), and (3) a brief summary of prompts/outputs used.
+- **Keep authorship:** Your critique must reflect your group’s own analysis. Do not submit AI-generated critiques as your final answers.
+- **Verify + cite:** You are responsible for correctness. Do not include fabricated sources, quotations, or claims. If a tool suggests sources, verify them and cite the real originals.
+- **Privacy:** Do not upload personal, identifiable, or sensitive data to third-party tools.

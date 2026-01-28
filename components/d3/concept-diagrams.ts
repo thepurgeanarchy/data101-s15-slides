@@ -1037,4 +1037,227 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
       { from: 'TR', to: 'V' },
     ],
   },
+
+  // -----------------------------
+  // Python + web visualization deck
+  // -----------------------------
+
+  'web-viz-stack': {
+    height: 260,
+    ariaLabel: 'Web visualization stack for charts: HTML structure, CSS styling, SVG drawing.',
+    nodes: [
+      { id: 'H', label: 'HTML\nstructure', x: 0.50, y: 0.22, w: 320, h: 70, shape: 'pill', variant: 'primary' },
+      { id: 'C', label: 'CSS\ntypography · spacing · layout', x: 0.50, y: 0.50, w: 420, h: 76, shape: 'pill', variant: 'note' },
+      { id: 'S', label: 'SVG\nmarks · axes · labels', x: 0.50, y: 0.78, w: 360, h: 70, shape: 'pill', variant: 'ok' },
+    ],
+    edges: [
+      { from: 'H', to: 'C' },
+      { from: 'C', to: 'S' },
+    ],
+  },
+
+  'svg-coordinates': {
+    height: 280,
+    ariaLabel: 'SVG coordinate system: origin at top-left, x increases to the right, y increases downward.',
+    nodes: [
+      { id: 'O', label: '(0, 0)\norigin', x: 0.18, y: 0.24, w: 170, h: 60, variant: 'muted' },
+      { id: 'X', label: 'x →', x: 0.62, y: 0.24, w: 140, h: 54, shape: 'pill', variant: 'note' },
+      { id: 'Y', label: 'y ↓', x: 0.18, y: 0.70, w: 140, h: 54, shape: 'pill', variant: 'note' },
+      { id: 'M', label: 'Marks live in a box:\nwidth × height', x: 0.65, y: 0.70, w: 420, h: 76, variant: 'primary' },
+    ],
+    edges: [
+      { from: 'O', to: 'X' },
+      { from: 'O', to: 'Y' },
+    ],
+  },
+
+  'css-for-charts': {
+    height: 300,
+    ariaLabel: 'CSS for charts: typography, spacing, contrast, and layout around the visualization.',
+    nodes: [
+      { id: 'root', label: 'CSS', x: 0.50, y: 0.52, w: 140, h: 140, shape: 'circle', variant: 'primary' },
+      { id: 'typo', label: 'Typography\n(type scale)', x: 0.22, y: 0.28, w: 220, h: 66, variant: 'note' },
+      { id: 'space', label: 'Spacing\n(margins, grid)', x: 0.22, y: 0.74, w: 220, h: 66, variant: 'note' },
+      { id: 'layout', label: 'Layout\n(responsive)', x: 0.78, y: 0.30, w: 220, h: 66, variant: 'note' },
+      { id: 'contrast', label: 'Contrast\n(readability)', x: 0.78, y: 0.74, w: 220, h: 66, variant: 'note' },
+    ],
+    edges: [
+      { from: 'root', to: 'typo', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3.2 },
+      { from: 'root', to: 'space', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3.2 },
+      { from: 'root', to: 'layout', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3.2 },
+      { from: 'root', to: 'contrast', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3.2 },
+    ],
+  },
+
+  'python-viz-pipeline': {
+    height: 240,
+    ariaLabel: 'Python visualization pipeline from data loading to transforms, chart, export, and publish.',
+    nodes: [
+      { id: 'L', label: 'Load', x: 0.12, y: 0.45, w: 130, h: 56, shape: 'pill', variant: 'note' },
+      { id: 'V', label: 'Validate\n(types/units)', x: 0.28, y: 0.45, w: 170, h: 66, shape: 'pill', variant: 'note' },
+      { id: 'T', label: 'Transform\n(group/derive/tidy)', x: 0.47, y: 0.45, w: 210, h: 66, shape: 'pill', variant: 'primary' },
+      { id: 'P', label: 'Plot', x: 0.66, y: 0.45, w: 130, h: 56, shape: 'pill', variant: 'ok' },
+      { id: 'E', label: 'Export\nSVG · PNG · HTML', x: 0.84, y: 0.45, w: 210, h: 66, shape: 'pill', variant: 'ok' },
+      { id: 'S', label: 'Ship\n(slides/report/web)', x: 0.84, y: 0.78, w: 210, h: 60, shape: 'pill', variant: 'muted' },
+    ],
+    edges: [
+      { from: 'L', to: 'V' },
+      { from: 'V', to: 'T' },
+      { from: 'T', to: 'P' },
+      { from: 'P', to: 'E' },
+      { from: 'E', to: 'S', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+    ],
+  },
+
+  'tidy-to-chart': {
+    height: 220,
+    ariaLabel: 'From raw data to tidy table to encoding and chart.',
+    nodes: [
+      { id: 'R', label: 'Raw data\n(messy)', x: 0.18, y: 0.55, w: 220, h: 76, variant: 'warn' },
+      { id: 'TD', label: 'Tidy table\n(one row = one observation)', x: 0.46, y: 0.55, w: 300, h: 76, variant: 'primary' },
+      { id: 'EN', label: 'Encode\n(field → channel)', x: 0.72, y: 0.55, w: 240, h: 76, variant: 'note' },
+      { id: 'CH', label: 'Chart\n(legible)', x: 0.90, y: 0.55, w: 180, h: 66, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'R', to: 'TD' },
+      { from: 'TD', to: 'EN' },
+      { from: 'EN', to: 'CH' },
+    ],
+  },
+
+  'matplotlib-anatomy': {
+    height: 300,
+    ariaLabel: 'Matplotlib mental model: figure contains axes; axes contain marks and guides.',
+    groups: [
+      { id: 'fig', label: 'Figure', x: 0.10, y: 0.16, w: 0.80, h: 0.68, stroke: vizTheme.primary, fill: 'rgba(77,163,255,0.06)' },
+      { id: 'ax', label: 'Axes', x: 0.18, y: 0.28, w: 0.64, h: 0.42, stroke: 'rgba(147,197,253,0.65)', fill: 'rgba(255,255,255,0.02)' },
+    ],
+    nodes: [
+      { id: 'm', label: 'Marks\n(lines/points/bars)', x: 0.36, y: 0.48, w: 240, h: 70, variant: 'note' },
+      { id: 'sc', label: 'Scales', x: 0.66, y: 0.40, w: 150, h: 56, shape: 'pill', variant: 'ok' },
+      { id: 'axl', label: 'Axes\n(ticks/labels)', x: 0.66, y: 0.60, w: 170, h: 62, shape: 'pill', variant: 'ok' },
+      { id: 'ex', label: 'Export:\nSVG/PNG/PDF', x: 0.86, y: 0.84, w: 200, h: 66, variant: 'primary' },
+    ],
+    edges: [
+      { from: 'm', to: 'sc', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'm', to: 'axl', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'axl', to: 'ex' },
+    ],
+  },
+
+  'seaborn-when': {
+    height: 250,
+    ariaLabel: 'When to use Seaborn: distributions, category comparisons, small multiples, quick statistical views.',
+    nodes: [
+      { id: 'S', label: 'Seaborn', x: 0.50, y: 0.30, w: 220, h: 70, shape: 'pill', variant: 'primary' },
+      { id: 'D', label: 'Distributions', x: 0.22, y: 0.66, w: 200, h: 62, shape: 'pill', variant: 'note' },
+      { id: 'C', label: 'Category\ncomparisons', x: 0.50, y: 0.66, w: 220, h: 70, shape: 'pill', variant: 'note' },
+      { id: 'F', label: 'Small multiples\n(FacetGrid)', x: 0.78, y: 0.66, w: 240, h: 70, shape: 'pill', variant: 'note' },
+    ],
+    edges: [
+      { from: 'S', to: 'D', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3 },
+      { from: 'S', to: 'C', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3 },
+      { from: 'S', to: 'F', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3 },
+    ],
+  },
+
+  'chart-components': {
+    height: 260,
+    ariaLabel: 'Modern chart components: data, transforms, scales, axes, marks, guides, annotations, interaction, layout.',
+    nodes: [
+      { id: 'D', label: 'Data', x: 0.10, y: 0.45, w: 120, h: 54, shape: 'pill', variant: 'note' },
+      { id: 'T', label: 'Transforms', x: 0.23, y: 0.45, w: 160, h: 54, shape: 'pill', variant: 'primary' },
+      { id: 'S', label: 'Scales', x: 0.36, y: 0.45, w: 130, h: 54, shape: 'pill', variant: 'note' },
+      { id: 'A', label: 'Axes', x: 0.48, y: 0.45, w: 120, h: 54, shape: 'pill', variant: 'note' },
+      { id: 'M', label: 'Marks', x: 0.60, y: 0.45, w: 130, h: 54, shape: 'pill', variant: 'ok' },
+      { id: 'G', label: 'Guides', x: 0.72, y: 0.45, w: 130, h: 54, shape: 'pill', variant: 'ok' },
+      { id: 'N', label: 'Annotations', x: 0.84, y: 0.32, w: 170, h: 54, shape: 'pill', variant: 'accent' },
+      { id: 'I', label: 'Interaction', x: 0.84, y: 0.58, w: 170, h: 54, shape: 'pill', variant: 'accent' },
+      { id: 'L', label: 'Layout', x: 0.50, y: 0.78, w: 220, h: 60, shape: 'pill', variant: 'muted' },
+    ],
+    edges: [
+      { from: 'D', to: 'T' },
+      { from: 'T', to: 'S' },
+      { from: 'S', to: 'A' },
+      { from: 'A', to: 'M' },
+      { from: 'M', to: 'G' },
+      { from: 'G', to: 'N', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'G', to: 'I', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'T', to: 'L', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+    ],
+  },
+
+  'binding-to-spec': {
+    height: 240,
+    ariaLabel: 'Data binding idea in spec-based tools: dataframe to encoding spec to renderer to output.',
+    nodes: [
+      { id: 'DF', label: 'DataFrame\n(rows)', x: 0.20, y: 0.55, w: 210, h: 76, variant: 'primary' },
+      { id: 'SP', label: 'Spec\n(field → channel)', x: 0.50, y: 0.55, w: 240, h: 76, variant: 'note' },
+      { id: 'RE', label: 'Renderer\n(Vega/JS)', x: 0.74, y: 0.55, w: 200, h: 76, variant: 'note' },
+      { id: 'OUT', label: 'Output\nSVG/HTML', x: 0.92, y: 0.55, w: 180, h: 66, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'DF', to: 'SP' },
+      { from: 'SP', to: 'RE' },
+      { from: 'RE', to: 'OUT' },
+    ],
+  },
+
+  'tooltip-rule': {
+    height: 220,
+    ariaLabel: 'Tooltip rule: tooltips confirm values; chart should remain readable without hovering.',
+    nodes: [
+      { id: 'C', label: 'Chart', x: 0.22, y: 0.52, w: 200, h: 70, variant: 'primary' },
+      { id: 'T', label: 'Tooltip', x: 0.52, y: 0.52, w: 200, h: 70, variant: 'note' },
+      { id: 'R', label: 'Rule:\nConfirm, don’t decode', x: 0.82, y: 0.52, w: 280, h: 76, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'C', to: 'T' },
+      { from: 'T', to: 'R' },
+    ],
+  },
+
+  'selection-patterns': {
+    height: 280,
+    ariaLabel: 'Interaction patterns: selection, brushing, and filtering mapped to common tasks.',
+    nodes: [
+      { id: 'SEL', label: 'Selection\n(click a group)', x: 0.22, y: 0.30, w: 240, h: 76, variant: 'primary' },
+      { id: 'BR', label: 'Brushing\n(select a range)', x: 0.50, y: 0.30, w: 240, h: 76, variant: 'primary' },
+      { id: 'FIL', label: 'Filtering\n(reduce space)', x: 0.78, y: 0.30, w: 240, h: 76, variant: 'primary' },
+      { id: 'T1', label: 'Compare a focus group\nvs others', x: 0.22, y: 0.70, w: 260, h: 76, variant: 'note' },
+      { id: 'T2', label: 'Focus on a time window\nor region', x: 0.50, y: 0.70, w: 260, h: 76, variant: 'note' },
+      { id: 'T3', label: 'Handle many categories\nor large data', x: 0.78, y: 0.70, w: 260, h: 76, variant: 'note' },
+    ],
+    edges: [
+      { from: 'SEL', to: 'T1', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'BR', to: 'T2', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'FIL', to: 'T3', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+    ],
+  },
+
+  'tool-chooser-python': {
+    height: 320,
+    ariaLabel: 'Practical chooser for Python visualization tools based on artifact needs.',
+    nodes: [
+      { id: 'Q', label: 'What do you need\nto deliver?', x: 0.18, y: 0.50, w: 260, h: 76, variant: 'primary' },
+      { id: 'S', label: 'Static,\nfull control', x: 0.48, y: 0.28, w: 200, h: 70, variant: 'note' },
+      { id: 'ST', label: 'Stats plots\n+ facets', x: 0.48, y: 0.50, w: 200, h: 70, variant: 'note' },
+      { id: 'G', label: 'Grammar spec\n(+ light interaction)', x: 0.48, y: 0.72, w: 240, h: 76, variant: 'note' },
+      { id: 'M', label: 'Matplotlib', x: 0.78, y: 0.28, w: 200, h: 66, variant: 'ok' },
+      { id: 'SB', label: 'Seaborn', x: 0.78, y: 0.50, w: 200, h: 66, variant: 'ok' },
+      { id: 'A', label: 'Altair', x: 0.78, y: 0.72, w: 200, h: 66, variant: 'ok' },
+      { id: 'P', label: 'Interactive\nHTML dashboard', x: 0.78, y: 0.90, w: 240, h: 76, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'Q', to: 'S' },
+      { from: 'Q', to: 'ST' },
+      { from: 'Q', to: 'G' },
+      { from: 'S', to: 'M' },
+      { from: 'ST', to: 'SB' },
+      { from: 'G', to: 'A' },
+      { from: 'A', to: 'P', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'SB', to: 'P', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'M', to: 'P', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+    ],
+  },
 }
