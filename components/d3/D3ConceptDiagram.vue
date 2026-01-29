@@ -181,6 +181,11 @@ function resolveGroups(groups: DiagramGroup[] | undefined, width: number, height
 }
 
 function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
+  // Keep arrowheads visible by ending paths *before* the target shape.
+  // Since edges are drawn behind nodes, arrowheads at the node boundary get hidden.
+  const endPad = 16
+  const startPad = 2
+
   const dx = target.cx - source.cx
   const dy = target.cy - source.cy
   const gapH = Math.abs(dx) - (source.w / 2 + target.w / 2)
@@ -189,7 +194,7 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
   // Prefer the dominant direction, but avoid choosing an orientation where marks overlap on that axis.
   // This keeps arrowheads outside nodes and preserves a visible line segment.
   const preferH = Math.abs(dx) >= Math.abs(dy)
-  const minGap = 10
+  const minGap = 18
   const okH = gapH >= minGap
   const okV = gapV >= minGap
 
@@ -206,9 +211,9 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
   if (orient === 'h') {
     const sign = dx >= 0 ? 1 : -1
     return {
-      x1: source.cx + sign * (source.w / 2),
+      x1: source.cx + sign * (source.w / 2 + startPad),
       y1: source.cy,
-      x2: target.cx - sign * (target.w / 2),
+      x2: target.cx - sign * (target.w / 2 + endPad),
       y2: target.cy,
       orient,
     }
@@ -217,9 +222,9 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
   const sign = dy >= 0 ? 1 : -1
   return {
     x1: source.cx,
-    y1: source.cy + sign * (source.h / 2),
+    y1: source.cy + sign * (source.h / 2 + startPad),
     x2: target.cx,
-    y2: target.cy - sign * (target.h / 2),
+    y2: target.cy - sign * (target.h / 2 + endPad),
     orient,
   }
 }
@@ -304,22 +309,22 @@ function render() {
   d3.select(container.value).selectAll('*').remove()
 
   const spec = getSpec(props.diagram)
-  const width = spec.width ?? 960
-  const height = spec.height
+  const baseW = spec.width ?? 960
+  const baseH = spec.height
   const isCompact = container.value.classList.contains('viz-compact')
   const margin = isCompact ? 16 : 18
   const collisionGap = isCompact ? 10 : 14
 
-  const nodes = resolveNodes(spec, width, height, margin)
-  relaxOverlaps(nodes, width, height, margin, collisionGap)
+  const nodes = resolveNodes(spec, baseW, baseH, margin)
+  relaxOverlaps(nodes, baseW, baseH, margin, collisionGap)
   const nodeById = new Map(nodes.map((n) => [n.id, n]))
-  const groups = resolveGroups(spec.groups, width, height, margin)
+  const groups = resolveGroups(spec.groups, baseW, baseH, margin)
   const edges = spec.edges ?? []
 
   const svg = d3
     .select(container.value)
     .append('svg')
-    .attr('viewBox', `0 0 ${width} ${height}`)
+    .attr('viewBox', `0 0 ${baseW} ${baseH}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
     .attr('role', 'img')
     .attr('aria-label', spec.ariaLabel)
@@ -500,22 +505,36 @@ function render() {
   // Auto-fit: scale and center using deterministic bounds (avoids getBBox flicker on hidden slides).
   const bounds = computeSceneBounds(nodes, groups, edges, nodeById)
   if (bounds) {
-    const pad = isCompact ? 8 : 10
-    const safeW = Math.max(1, width - pad * 2)
-    const safeH = Math.max(1, height - pad * 2)
+    const pad = isCompact ? 18 : 22
 
-    const scaleX = safeW / bounds.w
-    const scaleY = safeH / bounds.h
-    // Never scale up. This avoids huge/overlapping text when fonts are still loading and
-    // computed bounds are underestimated on first render (common during Slidev export).
-    const scale = Math.min(scaleX, scaleY, 1)
+    // Prefer the actual rendered container ratio so the diagram “uses the space”
+    // instead of leaving a big band of empty area.
+    const rect = container.value.getBoundingClientRect()
+    const viewportRatio = rect.width > 32 && rect.height > 32 ? rect.width / rect.height : 16 / 9
 
-    const cx = bounds.x + bounds.w / 2
-    const cy = bounds.y + bounds.h / 2
-    const tx = width / 2 - cx * scale
-    const ty = height / 2 - cy * scale
+    // Expand bounds to match viewport ratio (no cropping; just more breathing room).
+    let x = bounds.x - pad
+    let y = bounds.y - pad
+    let w = bounds.w + pad * 2
+    let h = bounds.h + pad * 2
 
-    scene.attr('transform', `translate(${tx},${ty}) scale(${scale})`)
+    const ratio = w / h
+    if (ratio > viewportRatio) {
+      // Too wide → add vertical space.
+      const newH = w / viewportRatio
+      const extra = newH - h
+      y -= extra / 2
+      h = newH
+    }
+    else if (ratio < viewportRatio) {
+      // Too tall → add horizontal space.
+      const newW = h * viewportRatio
+      const extra = newW - w
+      x -= extra / 2
+      w = newW
+    }
+
+    svg.attr('viewBox', `${x} ${y} ${Math.max(1, w)} ${Math.max(1, h)}`)
   }
 }
 

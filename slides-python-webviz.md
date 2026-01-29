@@ -75,22 +75,22 @@ You’ll also see runnable code snippets. The point is not memorizing APIs—it�
 <div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
     <div class="kicker">01 · Web outputs</div>
-    <div class="text-2xl font-700 mt-1">HTML, CSS, SVG</div>
+    <div class="text-2xl font-700 mt-1"><carbon:application-web class="inline-block mr-2 text-[1.05em] align-[-0.14em]" />HTML, CSS, SVG</div>
     <div class="op70 mt-2">What the browser actually renders.</div>
   </div>
   <div class="card">
     <div class="kicker">02 · Python workflow</div>
-    <div class="text-2xl font-700 mt-1">Notebook → chart → export</div>
+    <div class="text-2xl font-700 mt-1"><carbon:logo-python class="inline-block mr-2 text-[1.05em] align-[-0.14em]" />Notebook → chart → export</div>
     <div class="op70 mt-2">Reproducible visuals you can ship.</div>
   </div>
   <div class="card">
     <div class="kicker">03 · Modern components</div>
-    <div class="text-2xl font-700 mt-1">Scales, marks, guides</div>
+    <div class="text-2xl font-700 mt-1"><carbon:assembly-cluster class="inline-block mr-2 text-[1.05em] align-[-0.14em]" />Scales, marks, guides</div>
     <div class="op70 mt-2">A reusable mental model.</div>
   </div>
   <div class="card">
     <div class="kicker">04 · Interactivity</div>
-    <div class="text-2xl font-700 mt-1">Selections + tooltips</div>
+    <div class="text-2xl font-700 mt-1"><carbon:cursor-1 class="inline-block mr-2 text-[1.05em] align-[-0.14em]" />Selections + tooltips</div>
     <div class="op70 mt-2">When interactivity is worth it.</div>
   </div>
 </div>
@@ -154,7 +154,7 @@ layout: section
 
 <div class="kicker">Part 1 · Web Outputs</div>
 
-# What the browser understands
+# <carbon:application-web class="inline-block mr-3 text-[1.08em] align-[-0.14em]" />What the browser understands
 
 HTML + CSS + SVG as the delivery layer for charts
 
@@ -168,10 +168,14 @@ If you know what the browser understands, you can export correctly and fix layou
 -->
 
 ---
+class: viz-slide
+---
 
 ## The Web Output Stack (for Charts)
 
-<D3ConceptDiagram diagram="web-viz-stack" class="mt-8" />
+<div class="viz-grow mt-6">
+  <D3ConceptDiagram diagram="web-viz-stack" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -190,6 +194,8 @@ Plotly can export to HTML with interactive JavaScript inside.
 If you can point to which layer is responsible for which part, you can fix issues without guessing.
 -->
 
+---
+class: viz-slide
 ---
 
 ## SVG: The “Native” Format of Many Charts
@@ -213,7 +219,9 @@ If you can point to which layer is responsible for which part, you can fix issue
   </div>
 </div>
 
-<D3ConceptDiagram diagram="svg-coordinates" class="mt-3 viz-compact" />
+<div class="viz-grow mt-3">
+  <D3ConceptDiagram diagram="svg-coordinates" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -263,7 +271,7 @@ layout: section
 
 <div class="kicker">Part 2 · Python Workflow</div>
 
-# Notebook → chart → export
+# <carbon:logo-python class="inline-block mr-3 text-[1.08em] align-[-0.14em]" />Notebook → chart → export
 
 Reproducible visuals you can ship
 
@@ -275,10 +283,14 @@ Professional visualization is repeatable: you can rerun it next week, change a d
 -->
 
 ---
+class: viz-slide
+---
 
 ## A Repeatable Python Visualization Pipeline
 
-<D3ConceptDiagram diagram="python-viz-pipeline" class="mt-8" />
+<div class="viz-grow mt-6">
+  <D3ConceptDiagram diagram="python-viz-pipeline" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -407,10 +419,14 @@ one row per program-week, a comparable measure (pass_rate), and a change metric 
 -->
 
 ---
+class: viz-slide
+---
 
 ## Matplotlib: The “Artist” Model (Mental Map)
 
-<D3ConceptDiagram diagram="matplotlib-anatomy" class="mt-8" />
+<div class="viz-grow mt-6">
+  <D3ConceptDiagram diagram="matplotlib-anatomy" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -665,7 +681,7 @@ layout: section
 
 <div class="kicker">Part 3 · Modern Components</div>
 
-# Think in chart parts
+# <carbon:assembly-cluster class="inline-block mr-3 text-[1.08em] align-[-0.14em]" />Think in chart parts
 
 Build charts like reusable UI components
 
@@ -677,10 +693,14 @@ This is the bridge to professional work: you stop thinking “a chart,” and st
 -->
 
 ---
+class: viz-slide
+---
 
 ## The Modern Chart Component Checklist
 
-<D3ConceptDiagram diagram="chart-components" class="mt-8" />
+<div class="viz-grow mt-6">
+  <D3ChartComponentsAnnotated class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -700,10 +720,12 @@ When something looks wrong, debug by component: “my scale domain is wrong,” 
 -->
 
 ---
+class: viz-slide
+---
 
 ## “D3 Concepts” in a Python World
 
-<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="grid grid-cols-2 gap-4 mt-5">
   <div class="card">
     <div class="kicker">Core idea</div>
     <div class="text-xl font-700 mt-1">Data ↔ marks mapping</div>
@@ -716,7 +738,9 @@ When something looks wrong, debug by component: “my scale domain is wrong,” 
   </div>
 </div>
 
-<D3ConceptDiagram diagram="binding-to-spec" class="mt-6" />
+<div class="viz-grow mt-4">
+  <D3ConceptDiagram diagram="binding-to-spec" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4 min)
@@ -853,7 +877,7 @@ layout: section
 
 <div class="kicker">Part 4 · Interactivity</div>
 
-# Interactivity with purpose
+# <carbon:cursor-1 class="inline-block mr-3 text-[1.08em] align-[-0.14em]" />Interactivity with purpose
 
 Tooltips, selection, filtering, and readable dashboards
 
@@ -865,10 +889,12 @@ So we focus on “purposeful” interactions: ones that directly support a task.
 -->
 
 ---
+class: viz-slide
+---
 
 ## Tooltips Are “Details on Demand”
 
-<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="grid grid-cols-2 gap-4 mt-5">
   <div class="card">
     <div class="kicker">Good tooltip</div>
     <div class="text-lg font-700 mt-1">Confirms values</div>
@@ -881,7 +907,9 @@ So we focus on “purposeful” interactions: ones that directly support a task.
   </div>
 </div>
 
-<D3ConceptDiagram diagram="tooltip-rule" class="mt-6" />
+<div class="viz-grow mt-4">
+  <D3ConceptDiagram diagram="tooltip-rule" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈3–4 min)
@@ -892,10 +920,14 @@ If the chart is not readable without hovering every mark, the encoding or layout
 -->
 
 ---
+class: viz-slide
+---
 
 ## Selections, Brushing, and Filtering (Task-Driven)
 
-<D3ConceptDiagram diagram="selection-patterns" class="mt-8" />
+<div class="viz-grow mt-6">
+  <D3ConceptDiagram diagram="selection-patterns" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4–5 min)
@@ -1061,10 +1093,14 @@ SVG is a mark layer, HTML is the container, and a tiny script can add “details
 -->
 
 ---
+class: viz-slide
+---
 
 ## Choosing the Right Tool (A Practical Heuristic)
 
-<D3ConceptDiagram diagram="tool-chooser-python" class="mt-8" />
+<div class="viz-grow mt-6">
+  <D3ConceptDiagram diagram="tool-chooser-python" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4 min)
@@ -1579,10 +1615,12 @@ When you write the spec as parameters, you can reuse, review, and standardize yo
 -->
 
 ---
+class: viz-slide
+---
 
 ## Layout matters (even in notebooks)
 
-<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="grid grid-cols-2 gap-4 mt-5">
   <div class="card">
     <div class="kicker">Good layout</div>
     <div class="text-xl font-700 mt-1">Aligned comparisons</div>
@@ -1595,8 +1633,8 @@ When you write the spec as parameters, you can reuse, review, and standardize yo
   </div>
 </div>
 
-<div class="mt-5">
-  <D3ConceptDiagram diagram="chart-components" class="viz-compact" />
+<div class="viz-grow mt-4">
+  <D3ConceptDiagram diagram="chart-components" class="viz-fill" />
 </div>
 
 <!--

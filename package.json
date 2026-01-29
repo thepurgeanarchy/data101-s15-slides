@@ -19,6 +19,7 @@
     "@slidev/cli": "^52.11.3",
     "@slidev/theme-default": "^0.25.0",
     "@types/d3": "^7.4.3",
+    "@iconify-json/carbon": "^1.2.10",
     "playwright-chromium": "^1.55.0",
     "slidev-addon-python-runner": "^0.1.3"
   },

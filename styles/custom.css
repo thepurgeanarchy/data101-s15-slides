@@ -5,6 +5,8 @@
   --brand-bg: #0b0f17;
   --brand-surface: rgba(255, 255, 255, 0.06);
   --brand-surface-2: rgba(255, 255, 255, 0.09);
+  /* Space reserved so visuals don't collide with the footer line + metadata. */
+  --footer-safe: 3.6rem;
 }
 
 html.dark {
@@ -222,6 +224,23 @@ a {
 }
 
 .viz-frame.viz-fill svg {
+  height: 100%;
+}
+
+/* Diagram-first slides: give the viz the remaining space until the footer. */
+.slidev-layout.viz-slide {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: calc(var(--footer-safe) + 0.4rem);
+}
+
+.slidev-layout.viz-slide .viz-grow {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.slidev-layout.viz-slide .viz-grow > .viz-frame {
   height: 100%;
 }
 
