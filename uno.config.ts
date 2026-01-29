@@ -1,4 +1,4 @@
-import { defineConfig } from 'unocss'
+import { defineConfig, presetIcons, presetWind3 } from 'unocss'
 
 const systemSans = [
   '-apple-system',
@@ -22,6 +22,16 @@ const systemMono = [
 ].join(',')
 
 export default defineConfig({
+  presets: [
+    presetWind3(),
+    presetIcons({
+      scale: 1.1,
+      extraProperties: {
+        display: 'inline-block',
+        'vertical-align': '-0.14em',
+      },
+    }),
+  ],
   theme: {
     fontFamily: {
       sans: systemSans,
@@ -29,4 +39,3 @@ export default defineConfig({
     },
   },
 })
-

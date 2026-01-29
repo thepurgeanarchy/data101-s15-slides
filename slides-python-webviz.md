@@ -75,22 +75,22 @@ You’ll also see runnable code snippets. The point is not memorizing APIs—it�
 <div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
     <div class="kicker">01 · Web outputs</div>
-    <div class="text-2xl font-700 mt-1"><carbon:application-web class="inline-block mr-2 text-[1.05em] align-[-0.14em]" />HTML, CSS, SVG</div>
+    <div class="text-2xl font-700 mt-1"><span class="icon-inline sm i-carbon:application-web mr-2"></span>HTML, CSS, SVG</div>
     <div class="op70 mt-2">What the browser actually renders.</div>
   </div>
   <div class="card">
     <div class="kicker">02 · Python workflow</div>
-    <div class="text-2xl font-700 mt-1"><carbon:logo-python class="inline-block mr-2 text-[1.05em] align-[-0.14em]" />Notebook → chart → export</div>
+    <div class="text-2xl font-700 mt-1"><span class="icon-inline sm i-carbon:logo-python mr-2"></span>Notebook → chart → export</div>
     <div class="op70 mt-2">Reproducible visuals you can ship.</div>
   </div>
   <div class="card">
     <div class="kicker">03 · Modern components</div>
-    <div class="text-2xl font-700 mt-1"><carbon:assembly-cluster class="inline-block mr-2 text-[1.05em] align-[-0.14em]" />Scales, marks, guides</div>
+    <div class="text-2xl font-700 mt-1"><span class="icon-inline sm i-carbon:assembly-cluster mr-2"></span>Scales, marks, guides</div>
     <div class="op70 mt-2">A reusable mental model.</div>
   </div>
   <div class="card">
     <div class="kicker">04 · Interactivity</div>
-    <div class="text-2xl font-700 mt-1"><carbon:cursor-1 class="inline-block mr-2 text-[1.05em] align-[-0.14em]" />Selections + tooltips</div>
+    <div class="text-2xl font-700 mt-1"><span class="icon-inline sm i-carbon:cursor-1 mr-2"></span>Selections + tooltips</div>
     <div class="op70 mt-2">When interactivity is worth it.</div>
   </div>
 </div>
@@ -154,7 +154,7 @@ layout: section
 
 <div class="kicker">Part 1 · Web Outputs</div>
 
-# <carbon:application-web class="inline-block mr-3 text-[1.08em] align-[-0.14em]" />What the browser understands
+# <span class="icon-inline i-carbon:application-web mr-3"></span>What the browser understands
 
 HTML + CSS + SVG as the delivery layer for charts
 
@@ -271,7 +271,7 @@ layout: section
 
 <div class="kicker">Part 2 · Python Workflow</div>
 
-# <carbon:logo-python class="inline-block mr-3 text-[1.08em] align-[-0.14em]" />Notebook → chart → export
+# <span class="icon-inline i-carbon:logo-python mr-3"></span>Notebook → chart → export
 
 Reproducible visuals you can ship
 
@@ -681,7 +681,7 @@ layout: section
 
 <div class="kicker">Part 3 · Modern Components</div>
 
-# <carbon:assembly-cluster class="inline-block mr-3 text-[1.08em] align-[-0.14em]" />Think in chart parts
+# <span class="icon-inline i-carbon:assembly-cluster mr-3"></span>Think in chart parts
 
 Build charts like reusable UI components
 
@@ -877,7 +877,7 @@ layout: section
 
 <div class="kicker">Part 4 · Interactivity</div>
 
-# <carbon:cursor-1 class="inline-block mr-3 text-[1.08em] align-[-0.14em]" />Interactivity with purpose
+# <span class="icon-inline i-carbon:cursor-1 mr-3"></span>Interactivity with purpose
 
 Tooltips, selection, filtering, and readable dashboards
 

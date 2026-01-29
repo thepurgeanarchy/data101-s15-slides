@@ -158,6 +158,18 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
+.icon-inline {
+  display: inline-block;
+  vertical-align: -0.14em;
+  font-size: 1.08em;
+  width: 1em;
+  height: 1em;
+}
+
+.icon-inline.sm {
+  font-size: 1.05em;
+}
+
 .mermaid {
   margin: 0 auto;
   max-width: 100%;
@@ -258,6 +270,11 @@ a {
 
 .slidev-layout.code-only h1 {
   margin-bottom: 0.6rem;
+}
+
+/* Code-only slides should not have the footer overlapping outputs. */
+.slidev-layout.code-only .slide-footer {
+  display: none;
 }
 
 /* In static export/build, runnable blocks may render as Shiki code. Keep them scrollable. */

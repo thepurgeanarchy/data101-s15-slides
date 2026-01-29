@@ -13,7 +13,8 @@
     "export:webviz": "slidev export slides-python-webviz.md --output data101-python-webviz.pdf",
     "check:fit": "npm run build && node scripts/check-fit.mjs slides.md",
     "check:fit:perception": "npm run build:perception && node scripts/check-fit.mjs slides-perception-color.md",
-    "check:fit:webviz": "npm run build:webviz && node scripts/check-fit.mjs slides-python-webviz.md"
+    "check:fit:webviz": "npm run build:webviz && node scripts/check-fit.mjs slides-python-webviz.md",
+    "inspect:webviz": "npm run build:webviz && node scripts/inspect-slides.mjs slides-python-webviz.md dist inspect"
   },
   "devDependencies": {
     "@slidev/cli": "^52.11.3",
