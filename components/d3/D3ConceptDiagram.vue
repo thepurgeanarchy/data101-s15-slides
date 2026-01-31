@@ -180,11 +180,8 @@ function resolveGroups(groups: DiagramGroup[] | undefined, width: number, height
   }))
 }
 
-function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
-  // Keep arrowheads visible by ending paths *before* the target shape.
-  // Since edges are drawn behind nodes, arrowheads at the node boundary get hidden.
-  const endPad = 16
-  const startPad = 2
+function edgeEndpoints(source: ResolvedNode, target: ResolvedNode, edge: DiagramEdge) {
+  const arrow = edge.arrow ?? true
 
   const dx = target.cx - source.cx
   const dy = target.cy - source.cy
@@ -194,7 +191,7 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
   // Prefer the dominant direction, but avoid choosing an orientation where marks overlap on that axis.
   // This keeps arrowheads outside nodes and preserves a visible line segment.
   const preferH = Math.abs(dx) >= Math.abs(dy)
-  const minGap = 18
+  const minGap = arrow ? 16 : 0
   const okH = gapH >= minGap
   const okV = gapV >= minGap
 
@@ -207,6 +204,14 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
     orient = 'v'
   else
     orient = gapH >= gapV ? 'h' : 'v'
+
+  const gapAxis = orient === 'h' ? gapH : gapV
+  // Edges are drawn behind nodes. For arrow edges, offset the end point slightly so the arrowhead
+  // remains visible. For non-arrow edges, connect cleanly to node boundaries.
+  const baseEndPad = arrow ? 10 : 0
+  const minSegment = arrow ? 16 : 0
+  const endPad = arrow ? Math.max(baseEndPad, Math.max(0, gapAxis - minSegment)) : 0
+  const startPad = arrow ? 2 : 0
 
   if (orient === 'h') {
     const sign = dx >= 0 ? 1 : -1
@@ -229,8 +234,8 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode) {
   }
 }
 
-function edgePath(source: ResolvedNode, target: ResolvedNode) {
-  const { x1, y1, x2, y2, orient } = edgeEndpoints(source, target)
+function edgePath(source: ResolvedNode, target: ResolvedNode, edge: DiagramEdge) {
+  const { x1, y1, x2, y2, orient } = edgeEndpoints(source, target, edge)
   if (orient === 'h') {
     const mx = (x1 + x2) / 2
     return `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`
@@ -275,7 +280,7 @@ function computeSceneBounds(
     const source = nodeById.get(e.from)
     const target = nodeById.get(e.to)
     if (!source || !target) continue
-    const { x1, y1, x2, y2 } = edgeEndpoints(source, target)
+    const { x1, y1, x2, y2 } = edgeEndpoints(source, target, e)
     const mx = (x1 + x2) / 2
     const my = (y1 + y2) / 2
     const label = e.label
@@ -316,7 +321,8 @@ function render() {
   const collisionGap = isCompact ? 10 : 14
 
   const nodes = resolveNodes(spec, baseW, baseH, margin)
-  relaxOverlaps(nodes, baseW, baseH, margin, collisionGap)
+  if (spec.relax !== false)
+    relaxOverlaps(nodes, baseW, baseH, margin, collisionGap)
   const nodeById = new Map(nodes.map((n) => [n.id, n]))
   const groups = resolveGroups(spec.groups, baseW, baseH, margin)
   const edges = spec.edges ?? []
@@ -338,14 +344,18 @@ function render() {
     .attr('id', arrowId)
     .attr('markerUnits', 'userSpaceOnUse')
     .attr('viewBox', '0 0 10 10')
-    .attr('refX', 10)
+    // Place the tip of the arrowhead at the path end so it stays visible
+    // even when edges are drawn behind nodes.
+    .attr('refX', 9)
     .attr('refY', 5)
-    .attr('markerWidth', 8)
-    .attr('markerHeight', 8)
+    .attr('markerWidth', 10)
+    .attr('markerHeight', 10)
     .attr('orient', 'auto-start-reverse')
     .append('path')
-    .attr('d', 'M 0 0 L 10 5 L 0 10 z')
-    .attr('fill', 'rgba(147,197,253,0.92)')
+    // Small padding prevents clipping on some renderers.
+    .attr('d', 'M 1 1 L 9 5 L 1 9 z')
+    // Use the edge stroke color for the arrowhead.
+    .attr('fill', 'context-stroke')
 
   const scene = svg.append('g').attr('class', 'scene')
   const layerGroups = scene.append('g').attr('class', 'groups')
@@ -393,7 +403,7 @@ function render() {
 
     layerEdges
       .append('path')
-      .attr('d', edgePath(source, target))
+      .attr('d', edgePath(source, target, edge))
       .attr('fill', 'none')
       .attr('stroke', stroke)
       .attr('stroke-width', strokeWidth)
@@ -401,7 +411,6 @@ function render() {
       .attr('stroke-linejoin', 'round')
       .attr('stroke-dasharray', edge.dashed ? '6 6' : null)
       .attr('marker-end', arrow ? `url(#${arrowId})` : null)
-      .attr('opacity', edge.dashed ? 0.85 : 1)
   }
 
   // Edge labels (above lines, still behind nodes).
@@ -411,7 +420,7 @@ function render() {
     if (!source || !target) continue
     if (!edge.label) continue
 
-    const { x1, y1, x2, y2 } = edgeEndpoints(source, target)
+    const { x1, y1, x2, y2 } = edgeEndpoints(source, target, edge)
     const mx = (x1 + x2) / 2
     const my = (y1 + y2) / 2
     const label = edge.label
@@ -507,33 +516,12 @@ function render() {
   if (bounds) {
     const pad = isCompact ? 18 : 22
 
-    // Prefer the actual rendered container ratio so the diagram “uses the space”
-    // instead of leaving a big band of empty area.
-    const rect = container.value.getBoundingClientRect()
-    const viewportRatio = rect.width > 32 && rect.height > 32 ? rect.width / rect.height : 16 / 9
-
-    // Expand bounds to match viewport ratio (no cropping; just more breathing room).
-    let x = bounds.x - pad
-    let y = bounds.y - pad
-    let w = bounds.w + pad * 2
-    let h = bounds.h + pad * 2
-
-    const ratio = w / h
-    if (ratio > viewportRatio) {
-      // Too wide → add vertical space.
-      const newH = w / viewportRatio
-      const extra = newH - h
-      y -= extra / 2
-      h = newH
-    }
-    else if (ratio < viewportRatio) {
-      // Too tall → add horizontal space.
-      const newW = h * viewportRatio
-      const extra = newW - w
-      x -= extra / 2
-      w = newW
-    }
-
+    // Fit tightly to content bounds (maximizes readability). We intentionally do NOT
+    // expand to match viewport ratio, because that shrinks marks and makes arrows hard to see.
+    const x = bounds.x - pad
+    const y = bounds.y - pad
+    const w = bounds.w + pad * 2
+    const h = bounds.h + pad * 2
     svg.attr('viewBox', `${x} ${y} ${Math.max(1, w)} ${Math.max(1, h)}`)
   }
 }

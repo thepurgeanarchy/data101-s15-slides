@@ -36,7 +36,7 @@ const yTicks = computed(() => y.value.ticks(4).map((t) => ({ t, py: y.value(t) }
   <div class="viz-frame">
     <svg
       :viewBox="`${-viewPad} ${-viewPad} ${width + viewPad * 2} ${height + viewPad * 2}`"
-      preserveAspectRatio="xMidYMid slice"
+      preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label="Scatter plot demo (illustration)"
     >

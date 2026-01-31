@@ -237,6 +237,8 @@ For this course, SVG is a strong default for publication-quality static visuals.
 -->
 
 ---
+class: viz-slide
+---
 
 ## CSS: The Hidden Part of “Professional”
 
@@ -253,7 +255,9 @@ For this course, SVG is a strong default for publication-quality static visuals.
   </div>
 </div>
 
-<D3ConceptDiagram diagram="css-for-charts" class="mt-3 viz-compact" />
+<div class="viz-grow mt-3">
+  <D3ConceptDiagram diagram="css-for-charts" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈3–4 min)
@@ -306,6 +310,8 @@ The key professional shift is that export is not an afterthought—it’s part o
 -->
 
 ---
+class: viz-slide
+---
 
 ## Pandas as the “Chart Data Engine”
 
@@ -326,7 +332,9 @@ The key professional shift is that export is not an afterthought—it’s part o
   </div>
 </div>
 
-<D3ConceptDiagram diagram="tidy-to-chart" class="mt-3 viz-compact" />
+<div class="viz-grow mt-3">
+  <D3ConceptDiagram diagram="tidy-to-chart" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈4 min)
@@ -339,6 +347,53 @@ you aggregated at the wrong level,
 or you didn’t reshape for the chart you intend to make.
 
 So treat pandas as the engine that produces chart-ready data, and treat the charting library as the renderer.
+-->
+
+---
+class: viz-slide
+---
+
+## Concrete D3 examples (class dataset)
+
+<div class="card mt-4 !p-3">
+  <div class="kicker">Real data</div>
+  <div class="op80 mt-2 text-sm">These charts use the DATA101 class CSV (same dataset used in the guided activity).</div>
+</div>
+
+<div class="viz-grow mt-4">
+  <D3RealExamplesData101 class="viz-fill" />
+</div>
+
+<!--
+TALK TRACK (≈4–5 min)
+
+These are real aggregates from the class dataset:
+one line chart over weeks, and one delta chart across programs.
+
+The point is that the pipeline results in concrete, readable outputs—
+not just “toy data.”
+-->
+
+---
+class: viz-slide
+---
+
+## Concrete D3 example: distributions (real data)
+
+<div class="card mt-4 !p-3">
+  <div class="kicker">Real distribution</div>
+  <div class="op80 mt-2 text-sm">Avg score histograms per program (shared scales, same bins).</div>
+</div>
+
+<div class="viz-grow mt-4">
+  <D3RealDistributionData101 class="viz-fill" />
+</div>
+
+<!--
+TALK TRACK (≈3–4 min)
+
+This is the same idea as small multiples: keep scales aligned so
+the viewer can compare distributions without extra mental math.
 -->
 
 ---
@@ -524,6 +579,8 @@ In practice: decide your export format early, then design labels and spacing for
 -->
 
 ---
+class: viz-slide
+---
 
 ## Seaborn: Statistics Defaults + Cleaner Styles
 
@@ -543,7 +600,9 @@ In practice: decide your export format early, then design labels and spacing for
   </div>
 </div>
 
-<D3ConceptDiagram diagram="seaborn-when" class="mt-3 viz-compact" />
+<div class="viz-grow mt-3">
+  <D3ConceptDiagram diagram="seaborn-when" class="viz-fill" />
+</div>
 
 <!--
 TALK TRACK (≈3–4 min)
@@ -638,30 +697,32 @@ I’m generating three groups with different spreads, then printing:
 -->
 
 ---
-layout: two-cols
+class: viz-slide
 ---
 
-# Code Demo C (Output): Small Multiples Reveal Spread
+## Code Demo C (Output): Small Multiples Reveal Spread
 
-::left::
-<div class="card !p-3">
-  <div class="kicker">Interpretation</div>
-  <div class="text-lg font-700 mt-1">Same mean, different risk</div>
-  <ul class="mt-2 space-y-0.5 op80 text-sm">
-    <li>Wider distributions imply more extreme outcomes</li>
-    <li>Aligned panels make differences obvious</li>
-    <li>Label bins and units when you publish</li>
-  </ul>
-</div>
-
-::right::
-<div class="card !p-3">
-  <div class="kicker">Rendered result (illustration)</div>
-  <div class="op70 mt-2 text-sm">This is what your FacetGrid histogram should resemble.</div>
-</div>
-
-<div class="mt-3 h-[360px]">
-  <D3MiniHistogramFacets class="viz-fill" />
+<div class="viz-grow mt-5">
+  <div class="grid grid-cols-5 gap-4 h-full">
+    <div class="col-span-2 flex flex-col gap-4">
+      <div class="card !p-3">
+        <div class="kicker">Interpretation</div>
+        <div class="text-lg font-700 mt-1">Same mean, different risk</div>
+        <ul class="mt-2 space-y-0.5 op80 text-sm">
+          <li>Wider distributions imply more extreme outcomes</li>
+          <li>Aligned panels make differences obvious</li>
+          <li>Label bins and units when you publish</li>
+        </ul>
+      </div>
+      <div class="card !p-3">
+        <div class="kicker">Why this works</div>
+        <div class="op70 mt-2 text-sm">Small multiples outsource less work to the viewer: same axes, same units, clean comparison.</div>
+      </div>
+    </div>
+    <div class="col-span-3 h-full">
+      <D3MiniHistogramFacets class="viz-fill" />
+    </div>
+  </div>
 </div>
 
 <!--
@@ -834,30 +895,32 @@ we can inspect it, critique it, and make domains explicit before we render anyth
 -->
 
 ---
-layout: two-cols
+class: viz-slide
 ---
 
-# Code Demo D (Output): Encoded Scatter + Tooltip
+## Code Demo D (Output): Encoded Scatter + Tooltip
 
-::left::
-<div class="card !p-3">
-  <div class="kicker">Design note</div>
-  <div class="text-lg font-700 mt-1">Encoding is a contract</div>
-  <ul class="mt-2 space-y-0.5 op80 text-sm">
-    <li>Quantitative → position/scale</li>
-    <li>Categorical → hue/grouping</li>
-    <li>Set domains when comparisons matter</li>
-  </ul>
-</div>
-
-::right::
-<div class="card !p-3">
-  <div class="kicker">Rendered result (illustration)</div>
-  <div class="op70 mt-2 text-sm">Your Altair chart should match this structure.</div>
-</div>
-
-<div class="mt-3 h-[360px]">
-  <D3MiniScatterDemo class="viz-fill" />
+<div class="viz-grow mt-5">
+  <div class="grid grid-cols-5 gap-4 h-full">
+    <div class="col-span-2 flex flex-col gap-4">
+      <div class="card !p-3">
+        <div class="kicker">Design Note</div>
+        <div class="text-lg font-700 mt-1">Encoding is a contract</div>
+        <ul class="mt-2 space-y-0.5 op80 text-sm">
+          <li>Quantitative → position/scale</li>
+          <li>Categorical → hue/grouping</li>
+          <li>Set domains when comparisons matter</li>
+        </ul>
+      </div>
+      <div class="card !p-3">
+        <div class="kicker">Rendered Result</div>
+        <div class="op70 mt-2 text-sm">Legend + axes carry the structure; tooltip adds detail without clutter.</div>
+      </div>
+    </div>
+    <div class="col-span-3 h-full">
+      <D3MiniScatterDemo class="viz-fill" />
+    </div>
+  </div>
 </div>
 
 <!--
@@ -1203,6 +1266,47 @@ Use this checklist before you export or submit anything.
 -->
 
 ---
+layout: two-cols
+---
+
+# Bonus: Animations (when they help)
+
+::left::
+<div class="card !p-3">
+  <div class="kicker">Use animation when</div>
+  <ul class="mt-2 space-y-0.5 op80 text-sm">
+    <li>The task is to <span class="font-700">see change over time</span></li>
+    <li>You keep a <span class="font-700">fixed scale</span> (so frames are comparable)</li>
+    <li>You also provide a <span class="font-700">static alternative</span> for precise comparison</li>
+  </ul>
+</div>
+
+<div class="card !p-3 mt-4">
+  <div class="kicker">Python option</div>
+  <div class="text-lg font-700 mt-1">Plotly animations</div>
+  <div class="op70 mt-2 text-sm">A single HTML file with frames + controls.</div>
+</div>
+
+::right::
+<div class="card !p-3">
+  <div class="kicker">D3 demo (auto-advancing)</div>
+  <div class="op70 mt-2 text-sm">Same data, same scale — watch the marks move.</div>
+</div>
+
+<D3AnimatedPassRateDots class="mt-4" />
+
+<!--
+TALK TRACK (≈3–4 min)
+
+Animation is just a transition between states.
+
+It can be helpful when the task is literally “watch it change”, but it can hurt comparison.
+If the user needs to compare week 5 vs week 13 precisely, a static view (small multiples or overlays) wins.
+
+Plotly docs: https://plotly.com/python/animations/
+-->
+
+---
 
 ## Practice (In Class): Make One Chart, Three Exports
 
@@ -1212,13 +1316,23 @@ Use this checklist before you export or submit anything.
   <div class="op70 mt-2">Then explain which format you would submit for: slides, a PDF report, and an interactive critique.</div>
 </div>
 
-<v-clicks>
-
-- Pick a simple dataset (10–200 rows)
-- Include units and a baseline if relevant
-- Write 2–3 sentences justifying your export choices
-
-</v-clicks>
+<div class="grid grid-cols-3 gap-4 mt-8">
+  <div class="card !p-3">
+    <div class="kicker">1</div>
+    <div class="text-lg font-700 mt-2">Pick a simple dataset</div>
+    <div class="op70 mt-2 text-sm">10–200 rows.</div>
+  </div>
+  <div class="card !p-3">
+    <div class="kicker">2</div>
+    <div class="text-lg font-700 mt-2">Include units + baseline</div>
+    <div class="op70 mt-2 text-sm">If relevant.</div>
+  </div>
+  <div class="card !p-3">
+    <div class="kicker">3</div>
+    <div class="text-lg font-700 mt-2">Justify your export choices</div>
+    <div class="op70 mt-2 text-sm">Write 2–3 sentences.</div>
+  </div>
+</div>
 
 <!--
 TALK TRACK (≈3–5 min)
@@ -1229,7 +1343,6 @@ The chart can be simple. What matters is that you can deliver it in the right fo
 -->
 
 ---
-
 layout: section
 ---
 
@@ -1447,6 +1560,10 @@ layout: two-cols
   <div class="op70 mt-2 text-sm">
     Colormaps are functions. You can sample them, test them, and keep them consistent across plots.
   </div>
+</div>
+
+<div class="mt-4">
+  <D3ColormapSampling class="viz-compact" />
 </div>
 
 <!--
@@ -1900,14 +2017,18 @@ If the chart fails when color is removed, it was never fully readable.
 -->
 
 ---
+class: viz-slide
+---
 
 ## Case study: from overview to actionable detail
 
-<D3ConceptDiagram diagram="case-study-student-flow" class="mt-10" />
-
-<div class="card mt-6 !p-3">
+<div class="card mt-4 !p-3">
   <div class="kicker">Why this pattern works</div>
   <div class="op80 mt-2 text-sm">Start broad (see trends), then narrow (choose a range), then inspect (compare distributions), then lookup only when necessary.</div>
+</div>
+
+<div class="viz-grow mt-4">
+  <D3ConceptDiagram diagram="case-study-student-flow" class="viz-fill" />
 </div>
 
 <!--
@@ -1919,6 +2040,16 @@ Overview shows you where to look. Brushing lets you focus. Details answer the �
 
 Even in Python, you can produce this workflow: charts for overview + a selection widget in a notebook, or export an interactive HTML artifact.
 -->
+
+---
+class: viz-slide
+---
+
+## Case study (interactive demo): brush → distribution
+
+<div class="viz-grow mt-4">
+  <D3CaseStudyOverviewDetail class="viz-fill" />
+</div>
 
 ---
 
@@ -2000,14 +2131,28 @@ If you can state the grain, name the channel, justify your export, and propose a
 
 ## Key Takeaways
 
-<v-clicks>
-
-- Web outputs matter: SVG/HTML are common “final forms”
-- Python workflow: data → transforms → chart → export
-- Modern charts are components: scales, marks, axes, guides, interaction
-- Interactivity is only “professional” when it supports a task
-
-</v-clicks>
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Web outputs</div>
+    <div class="text-xl font-700 mt-1">SVG/HTML are common “final forms”</div>
+    <div class="op70 mt-2">Export for the medium you ship to.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Python workflow</div>
+    <div class="text-xl font-700 mt-1">Data → transforms → chart → export</div>
+    <div class="op70 mt-2">Re-run it tomorrow and get the same result.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Modern components</div>
+    <div class="text-xl font-700 mt-1">Scales, marks, axes, guides, interaction</div>
+    <div class="op70 mt-2">Name the parts to design and debug faster.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Interactivity</div>
+    <div class="text-xl font-700 mt-1">Only “professional” when it supports a task</div>
+    <div class="op70 mt-2">Tooltips confirm; charts should still read.</div>
+  </div>
+</div>
 
 <!--
 TALK TRACK (≈3–4 min)

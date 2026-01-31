@@ -34,3 +34,5 @@ npm run check:fit:perception
 ## JupyterHub Activity
 
 Guided notebook: `notebooks/data-task-abstraction-activity.ipynb`
+
+Live coding follow-along: `notebooks/python-webviz-live-coding.ipynb`

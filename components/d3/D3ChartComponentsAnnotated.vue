@@ -3,6 +3,9 @@ import * as d3 from 'd3'
 import { computed } from 'vue'
 import { vizTheme } from './theme'
 
+const uid = Math.random().toString(36).slice(2, 10)
+const calloutArrowId = `callout-arrow-${uid}`
+
 const width = 960
 const height = 460
 const margin = { top: 56, right: 28, bottom: 56, left: 74 }
@@ -43,6 +46,26 @@ const linePath = computed(() => {
 const yTicks = computed(() => y.value.ticks(4).map((t) => ({ t, py: y.value(t) })))
 const xTicks = computed(() => x.value.ticks(6).map((t) => ({ t, px: x.value(t) })))
 
+const calloutBox = { w: 156, h: 44, rx: 14 } as const
+
+function calloutAnchor(c: { x0: number; y0: number; x1: number; y1: number }) {
+  const hw = calloutBox.w / 2
+  const hh = calloutBox.h / 2
+  const dx = c.x0 - c.x1
+  const dy = c.y0 - c.y1
+  const adx = Math.max(1e-6, Math.abs(dx))
+  const ady = Math.max(1e-6, Math.abs(dy))
+  const s = Math.min(hw / adx, hh / ady)
+  return { x: c.x1 + dx * s, y: c.y1 + dy * s }
+}
+
+function calloutPath(c: { x0: number; y0: number; x1: number; y1: number }) {
+  // Arrow should point *to* the chart element (x0,y0), so start at the callout box edge.
+  const start = calloutAnchor(c)
+  const mx = (c.x0 + start.x) / 2
+  return `M ${start.x} ${start.y} C ${mx} ${start.y}, ${mx} ${c.y0}, ${c.x0} ${c.y0}`
+}
+
 const callouts = [
   {
     label: 'Axes',
@@ -50,8 +73,8 @@ const callouts = [
     color: vizTheme.axis,
     x0: margin.left + 2,
     y0: height - margin.bottom,
-    x1: margin.left - 46,
-    y1: height - margin.bottom + 30,
+    x1: margin.left + 130,
+    y1: height - margin.bottom - 44,
   },
   {
     label: 'Marks',
@@ -59,8 +82,8 @@ const callouts = [
     color: vizTheme.primary,
     x0: x.value(4),
     y0: y.value(0.72),
-    x1: x.value(4) + 130,
-    y1: y.value(0.72) - 60,
+    x1: width - margin.right - 248,
+    y1: height - margin.bottom - 128,
   },
   {
     label: 'Scales',
@@ -68,8 +91,8 @@ const callouts = [
     color: vizTheme.seqEnd,
     x0: x.value(6),
     y0: y.value(0.78),
-    x1: width - margin.right + 30,
-    y1: margin.top + 16,
+    x1: width - margin.right - 96,
+    y1: margin.top + 54,
   },
   {
     label: 'Guides',
@@ -77,8 +100,8 @@ const callouts = [
     color: vizTheme.grid,
     x0: x.value(2),
     y0: y.value(0.7),
-    x1: x.value(2) - 170,
-    y1: margin.top + 10,
+    x1: margin.left + 150,
+    y1: margin.top + 44,
   },
   {
     label: 'Annotation',
@@ -86,8 +109,8 @@ const callouts = [
     color: vizTheme.cyan,
     x0: x.value(5),
     y0: y.value(0.8),
-    x1: x.value(5) + 150,
-    y1: y.value(0.86),
+    x1: width - margin.right - 248,
+    y1: margin.top + 140,
   },
 ]
 </script>
@@ -95,6 +118,21 @@ const callouts = [
 <template>
   <div class="viz-frame">
     <svg :viewBox="`0 0 ${width} ${height}`" role="img" aria-label="Annotated chart showing modern chart components">
+      <defs>
+        <marker
+          :id="calloutArrowId"
+          markerUnits="userSpaceOnUse"
+          viewBox="0 0 12 12"
+          refX="10.5"
+          refY="6"
+          markerWidth="12"
+          markerHeight="12"
+          orient="auto"
+        >
+          <path d="M 1 1 L 10.5 6 L 1 11 z" fill="context-stroke" />
+        </marker>
+      </defs>
+
       <rect x="0" y="0" :width="width" :height="height" rx="20" :fill="vizTheme.panelFill" />
 
       <!-- grid -->
@@ -222,14 +260,23 @@ const callouts = [
       <!-- component callouts -->
       <g v-for="c in callouts" :key="c.label">
         <path
-          :d="`M ${c.x0} ${c.y0} C ${(c.x0 + c.x1) / 2} ${c.y0}, ${(c.x0 + c.x1) / 2} ${c.y1}, ${c.x1} ${c.y1}`"
+          :d="calloutPath(c)"
           fill="none"
           :stroke="c.color"
           stroke-width="2.2"
           stroke-linecap="round"
           opacity="0.9"
+          :marker-end="`url(#${calloutArrowId})`"
         />
-        <rect :x="c.x1 - 78" :y="c.y1 - 22" width="156" height="44" rx="14" fill="rgba(11,18,32,0.88)" stroke="rgba(255,255,255,0.14)" />
+        <rect
+          :x="c.x1 - calloutBox.w / 2"
+          :y="c.y1 - calloutBox.h / 2"
+          :width="calloutBox.w"
+          :height="calloutBox.h"
+          :rx="calloutBox.rx"
+          fill="rgba(11,18,32,0.88)"
+          stroke="rgba(255,255,255,0.14)"
+        />
         <text :x="c.x1" :y="c.y1 - 2" text-anchor="middle" :fill="vizTheme.text" :style="{ fontSize: '12px', fontWeight: 800 }">
           {{ c.label }}
         </text>
@@ -240,4 +287,3 @@ const callouts = [
     </svg>
   </div>
 </template>
-

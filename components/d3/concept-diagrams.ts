@@ -41,6 +41,7 @@ export type DiagramSpec = {
   width?: number
   height: number
   ariaLabel: string
+  relax?: boolean
   nodes: DiagramNode[]
   edges?: DiagramEdge[]
   groups?: DiagramGroup[]
@@ -984,13 +985,14 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'case-study-student-flow': {
-    height: 220,
+    height: 260,
     ariaLabel: 'Case study workflow: overview to brush to details to lookup.',
+    relax: false,
     nodes: [
-      { id: 'O', label: 'Overview:\nsection trends', x: 0.18, y: 0.55, w: 250, h: 76, variant: 'primary' },
-      { id: 'B', label: 'Brush a week\nrange', x: 0.42, y: 0.55, w: 230, h: 76, variant: 'note' },
-      { id: 'D', label: 'Details:\ndistributions by\nsection', x: 0.66, y: 0.55, w: 260, h: 86, variant: 'note' },
-      { id: 'L', label: 'Lookup:\nstudent-level records\n(on demand)', x: 0.86, y: 0.55, w: 270, h: 86, variant: 'note' },
+      { id: 'O', label: 'Overview:\nsection trends', x: 0.15, y: 0.56, w: 220, h: 78, variant: 'primary' },
+      { id: 'B', label: 'Brush a week\nrange', x: 0.39, y: 0.56, w: 200, h: 78, variant: 'note' },
+      { id: 'D', label: 'Details:\ndistributions by\nsection', x: 0.63, y: 0.56, w: 220, h: 88, variant: 'note' },
+      { id: 'L', label: 'Lookup:\nstudent-level records\n(on demand)', x: 0.89, y: 0.56, w: 220, h: 88, variant: 'note' },
     ],
     edges: [
       { from: 'O', to: 'B' },
@@ -1043,105 +1045,123 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   // -----------------------------
 
   'web-viz-stack': {
-    height: 260,
+    height: 420,
     ariaLabel: 'Web visualization stack for charts: HTML structure, CSS styling, SVG drawing.',
+    relax: false,
     nodes: [
-      { id: 'H', label: 'HTML\nstructure', x: 0.50, y: 0.22, w: 320, h: 70, shape: 'pill', variant: 'primary' },
-      { id: 'C', label: 'CSS\ntypography · spacing · layout', x: 0.50, y: 0.50, w: 420, h: 76, shape: 'pill', variant: 'note' },
-      { id: 'S', label: 'SVG\nmarks · axes · labels', x: 0.50, y: 0.78, w: 360, h: 70, shape: 'pill', variant: 'ok' },
+      { id: 'H', label: 'HTML\nstructure', x: 0.50, y: 0.13, w: 560, h: 86, shape: 'pill', variant: 'primary', fontSize: 15 },
+      { id: 'C', label: 'CSS\ntypography · spacing · layout', x: 0.50, y: 0.53, w: 760, h: 106, shape: 'pill', variant: 'note', fontSize: 15 },
+      { id: 'S', label: 'SVG\nmarks · axes · labels', x: 0.50, y: 0.92, w: 600, h: 90, shape: 'pill', variant: 'ok', fontSize: 15 },
     ],
     edges: [
-      { from: 'H', to: 'C' },
-      { from: 'C', to: 'S' },
+      { from: 'H', to: 'C', stroke: 'rgba(147,197,253,0.92)', strokeWidth: 4.0 },
+      { from: 'C', to: 'S', stroke: 'rgba(147,197,253,0.92)', strokeWidth: 4.0 },
     ],
   },
 
   'svg-coordinates': {
-    height: 280,
+    height: 460,
     ariaLabel: 'SVG coordinate system: origin at top-left, x increases to the right, y increases downward.',
+    relax: false,
+    groups: [
+      {
+        id: 'vp',
+        label: 'viewBox: coordinate space → pixels',
+        x: 0.07,
+        y: 0.12,
+        w: 0.86,
+        h: 0.78,
+        stroke: 'rgba(147,197,253,0.62)',
+        fill: 'rgba(11, 18, 32, 0.22)',
+      },
+    ],
     nodes: [
-      { id: 'O', label: '(0, 0)\norigin', x: 0.18, y: 0.24, w: 170, h: 60, variant: 'muted' },
-      { id: 'X', label: 'x →', x: 0.62, y: 0.24, w: 140, h: 54, shape: 'pill', variant: 'note' },
-      { id: 'Y', label: 'y ↓', x: 0.18, y: 0.70, w: 140, h: 54, shape: 'pill', variant: 'note' },
-      { id: 'M', label: 'Marks live in a box:\nwidth × height', x: 0.65, y: 0.70, w: 420, h: 76, variant: 'primary' },
+      { id: 'O', label: '(0, 0)\norigin', x: 0.20, y: 0.28, w: 210, h: 82, shape: 'pill', variant: 'muted', fontSize: 14 },
+      { id: 'X', label: 'x increases →', x: 0.74, y: 0.28, w: 300, h: 74, shape: 'pill', variant: 'note', fontSize: 16 },
+      { id: 'Y', label: 'y increases ↓', x: 0.20, y: 0.72, w: 300, h: 74, shape: 'pill', variant: 'note', fontSize: 16 },
+      { id: 'TL', label: 'Top-left is the origin\n(y grows downward)', x: 0.20, y: 0.50, w: 320, h: 70, shape: 'pill', variant: 'muted', fontSize: 12 },
+      { id: 'VB', label: 'viewBox maps\ncoordinates → pixels', x: 0.74, y: 0.50, w: 340, h: 78, shape: 'pill', variant: 'primary', fontSize: 14 },
+      { id: 'M', label: 'Marks drawn inside\nwidth × height', x: 0.74, y: 0.76, w: 380, h: 92, shape: 'pill', variant: 'ok', fontSize: 14 },
     ],
     edges: [
-      { from: 'O', to: 'X' },
-      { from: 'O', to: 'Y' },
+      { from: 'O', to: 'X', stroke: 'rgba(147,197,253,0.86)', strokeWidth: 3.4 },
+      { from: 'O', to: 'Y', stroke: 'rgba(147,197,253,0.86)', strokeWidth: 3.4 },
     ],
   },
 
   'css-for-charts': {
-    height: 300,
+    height: 420,
     ariaLabel: 'CSS for charts: typography, spacing, contrast, and layout around the visualization.',
     nodes: [
-      { id: 'root', label: 'CSS', x: 0.50, y: 0.52, w: 140, h: 140, shape: 'circle', variant: 'primary' },
-      { id: 'typo', label: 'Typography\n(type scale)', x: 0.22, y: 0.28, w: 220, h: 66, variant: 'note' },
-      { id: 'space', label: 'Spacing\n(margins, grid)', x: 0.22, y: 0.74, w: 220, h: 66, variant: 'note' },
-      { id: 'layout', label: 'Layout\n(responsive)', x: 0.78, y: 0.30, w: 220, h: 66, variant: 'note' },
-      { id: 'contrast', label: 'Contrast\n(readability)', x: 0.78, y: 0.74, w: 220, h: 66, variant: 'note' },
+      { id: 'root', label: 'CSS', x: 0.50, y: 0.52, w: 160, h: 160, shape: 'circle', variant: 'primary' },
+      { id: 'typo', label: 'Typography\n(type scale)', x: 0.22, y: 0.26, w: 260, h: 78, variant: 'note' },
+      { id: 'space', label: 'Spacing\n(margins, grid)', x: 0.22, y: 0.80, w: 260, h: 78, variant: 'note' },
+      { id: 'layout', label: 'Layout\n(responsive)', x: 0.78, y: 0.26, w: 260, h: 78, variant: 'note' },
+      { id: 'contrast', label: 'Contrast\n(readability)', x: 0.78, y: 0.80, w: 260, h: 78, variant: 'note' },
     ],
     edges: [
-      { from: 'root', to: 'typo', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3.2 },
-      { from: 'root', to: 'space', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3.2 },
-      { from: 'root', to: 'layout', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3.2 },
-      { from: 'root', to: 'contrast', arrow: false, stroke: 'rgba(147,197,253,0.7)', strokeWidth: 3.2 },
+      { from: 'root', to: 'typo', arrow: false, stroke: 'rgba(147,197,253,0.72)', strokeWidth: 3.6 },
+      { from: 'root', to: 'space', arrow: false, stroke: 'rgba(147,197,253,0.72)', strokeWidth: 3.6 },
+      { from: 'root', to: 'layout', arrow: false, stroke: 'rgba(147,197,253,0.72)', strokeWidth: 3.6 },
+      { from: 'root', to: 'contrast', arrow: false, stroke: 'rgba(147,197,253,0.72)', strokeWidth: 3.6 },
     ],
   },
 
   'python-viz-pipeline': {
-    height: 240,
+    height: 460,
     ariaLabel: 'Python visualization pipeline from data loading to transforms, chart, export, and publish.',
+    relax: false,
     nodes: [
-      { id: 'L', label: 'Load', x: 0.12, y: 0.45, w: 130, h: 56, shape: 'pill', variant: 'note' },
-      { id: 'V', label: 'Validate\n(types/units)', x: 0.28, y: 0.45, w: 170, h: 66, shape: 'pill', variant: 'note' },
-      { id: 'T', label: 'Transform\n(group/derive/tidy)', x: 0.47, y: 0.45, w: 210, h: 66, shape: 'pill', variant: 'primary' },
-      { id: 'P', label: 'Plot', x: 0.66, y: 0.45, w: 130, h: 56, shape: 'pill', variant: 'ok' },
-      { id: 'E', label: 'Export\nSVG · PNG · HTML', x: 0.84, y: 0.45, w: 210, h: 66, shape: 'pill', variant: 'ok' },
-      { id: 'S', label: 'Ship\n(slides/report/web)', x: 0.84, y: 0.78, w: 210, h: 60, shape: 'pill', variant: 'muted' },
+      { id: 'L', label: 'Load', x: 0.12, y: 0.34, w: 170, h: 76, shape: 'pill', variant: 'note', fontSize: 15 },
+      { id: 'V', label: 'Validate\n(types/units)', x: 0.35, y: 0.34, w: 220, h: 88, shape: 'pill', variant: 'note', fontSize: 15 },
+      { id: 'T', label: 'Transform\n(group/derive/tidy)', x: 0.62, y: 0.34, w: 240, h: 92, shape: 'pill', variant: 'primary', fontSize: 15 },
+      { id: 'P', label: 'Plot', x: 0.86, y: 0.34, w: 150, h: 76, shape: 'pill', variant: 'ok', fontSize: 15 },
+      { id: 'E', label: 'Export\nSVG · PNG · HTML', x: 0.86, y: 0.68, w: 220, h: 92, shape: 'pill', variant: 'ok', fontSize: 15 },
+      { id: 'S', label: 'Ship\n(slides/report/web)', x: 0.86, y: 0.88, w: 220, h: 64, shape: 'pill', variant: 'muted', fontSize: 13 },
     ],
     edges: [
-      { from: 'L', to: 'V' },
-      { from: 'V', to: 'T' },
-      { from: 'T', to: 'P' },
-      { from: 'P', to: 'E' },
-      { from: 'E', to: 'S', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'L', to: 'V', stroke: 'rgba(147,197,253,0.92)', strokeWidth: 3.6 },
+      { from: 'V', to: 'T', stroke: 'rgba(147,197,253,0.92)', strokeWidth: 3.6 },
+      { from: 'T', to: 'P', stroke: 'rgba(147,197,253,0.92)', strokeWidth: 3.6 },
+      { from: 'P', to: 'E', stroke: 'rgba(147,197,253,0.92)', strokeWidth: 3.2 },
+      { from: 'E', to: 'S', dashed: true, stroke: 'rgba(148,163,184,0.68)', strokeWidth: 3.0 },
     ],
   },
 
   'tidy-to-chart': {
-    height: 220,
+    height: 380,
     ariaLabel: 'From raw data to tidy table to encoding and chart.',
+    relax: false,
     nodes: [
-      { id: 'R', label: 'Raw data\n(messy)', x: 0.18, y: 0.55, w: 220, h: 76, variant: 'warn' },
-      { id: 'TD', label: 'Tidy table\n(one row = one observation)', x: 0.46, y: 0.55, w: 300, h: 76, variant: 'primary' },
-      { id: 'EN', label: 'Encode\n(field → channel)', x: 0.72, y: 0.55, w: 240, h: 76, variant: 'note' },
-      { id: 'CH', label: 'Chart\n(legible)', x: 0.90, y: 0.55, w: 180, h: 66, variant: 'ok' },
+      { id: 'R', label: 'Raw data\n(messy)', x: 0.16, y: 0.54, w: 250, h: 104, variant: 'warn', fontSize: 15 },
+      { id: 'TD', label: 'Tidy table\n(one row = one observation)', x: 0.50, y: 0.54, w: 340, h: 112, variant: 'primary', fontSize: 15 },
+      { id: 'EN', label: 'Encode\n(field → channel)', x: 0.84, y: 0.50, w: 250, h: 104, variant: 'note', fontSize: 15 },
+      { id: 'CH', label: 'Chart\n(legible)', x: 0.84, y: 0.80, w: 250, h: 96, variant: 'ok', fontSize: 15 },
     ],
     edges: [
-      { from: 'R', to: 'TD' },
-      { from: 'TD', to: 'EN' },
-      { from: 'EN', to: 'CH' },
+      { from: 'R', to: 'TD', stroke: 'rgba(147,197,253,0.9)', strokeWidth: 3.4 },
+      { from: 'TD', to: 'EN', stroke: 'rgba(147,197,253,0.9)', strokeWidth: 3.4 },
+      { from: 'EN', to: 'CH', stroke: 'rgba(147,197,253,0.9)', strokeWidth: 3.4 },
     ],
   },
 
   'matplotlib-anatomy': {
-    height: 300,
+    height: 400,
     ariaLabel: 'Matplotlib mental model: figure contains axes; axes contain marks and guides.',
     groups: [
       { id: 'fig', label: 'Figure', x: 0.10, y: 0.16, w: 0.80, h: 0.68, stroke: vizTheme.primary, fill: 'rgba(77,163,255,0.06)' },
       { id: 'ax', label: 'Axes', x: 0.18, y: 0.28, w: 0.64, h: 0.42, stroke: 'rgba(147,197,253,0.65)', fill: 'rgba(255,255,255,0.02)' },
     ],
     nodes: [
-      { id: 'm', label: 'Marks\n(lines/points/bars)', x: 0.36, y: 0.48, w: 240, h: 70, variant: 'note' },
-      { id: 'sc', label: 'Scales', x: 0.66, y: 0.40, w: 150, h: 56, shape: 'pill', variant: 'ok' },
-      { id: 'axl', label: 'Axes\n(ticks/labels)', x: 0.66, y: 0.60, w: 170, h: 62, shape: 'pill', variant: 'ok' },
-      { id: 'ex', label: 'Export:\nSVG/PNG/PDF', x: 0.86, y: 0.84, w: 200, h: 66, variant: 'primary' },
+      { id: 'm', label: 'Marks\n(lines/points/bars)', x: 0.34, y: 0.50, w: 300, h: 86, variant: 'note' },
+      { id: 'sc', label: 'Scales', x: 0.66, y: 0.42, w: 200, h: 70, shape: 'pill', variant: 'ok' },
+      { id: 'axl', label: 'Axes\n(ticks/labels)', x: 0.66, y: 0.64, w: 220, h: 76, shape: 'pill', variant: 'ok' },
+      { id: 'ex', label: 'Export:\nSVG/PNG/PDF', x: 0.88, y: 0.82, w: 240, h: 78, variant: 'primary' },
     ],
     edges: [
-      { from: 'm', to: 'sc', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
-      { from: 'm', to: 'axl', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
-      { from: 'axl', to: 'ex' },
+      { from: 'm', to: 'sc', dashed: true, arrow: false, stroke: 'rgba(148,163,184,0.62)', strokeWidth: 2.6 },
+      { from: 'm', to: 'axl', dashed: true, arrow: false, stroke: 'rgba(148,163,184,0.62)', strokeWidth: 2.6 },
+      { from: 'axl', to: 'ex', stroke: 'rgba(147,197,253,0.9)', strokeWidth: 3.0 },
     ],
   },
 
@@ -1162,18 +1182,19 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
   },
 
   'chart-components': {
-    height: 260,
+    height: 300,
     ariaLabel: 'Modern chart components: data, transforms, scales, axes, marks, guides, annotations, interaction, layout.',
+    relax: false,
     nodes: [
-      { id: 'D', label: 'Data', x: 0.10, y: 0.45, w: 120, h: 54, shape: 'pill', variant: 'note' },
-      { id: 'T', label: 'Transforms', x: 0.23, y: 0.45, w: 160, h: 54, shape: 'pill', variant: 'primary' },
-      { id: 'S', label: 'Scales', x: 0.36, y: 0.45, w: 130, h: 54, shape: 'pill', variant: 'note' },
-      { id: 'A', label: 'Axes', x: 0.48, y: 0.45, w: 120, h: 54, shape: 'pill', variant: 'note' },
-      { id: 'M', label: 'Marks', x: 0.60, y: 0.45, w: 130, h: 54, shape: 'pill', variant: 'ok' },
-      { id: 'G', label: 'Guides', x: 0.72, y: 0.45, w: 130, h: 54, shape: 'pill', variant: 'ok' },
-      { id: 'N', label: 'Annotations', x: 0.84, y: 0.32, w: 170, h: 54, shape: 'pill', variant: 'accent' },
-      { id: 'I', label: 'Interaction', x: 0.84, y: 0.58, w: 170, h: 54, shape: 'pill', variant: 'accent' },
-      { id: 'L', label: 'Layout', x: 0.50, y: 0.78, w: 220, h: 60, shape: 'pill', variant: 'muted' },
+      { id: 'D', label: 'Data', x: 0.12, y: 0.46, w: 120, h: 54, shape: 'pill', variant: 'note' },
+      { id: 'T', label: 'Transforms', x: 0.28, y: 0.46, w: 150, h: 54, shape: 'pill', variant: 'primary' },
+      { id: 'S', label: 'Scales', x: 0.44, y: 0.46, w: 120, h: 54, shape: 'pill', variant: 'note' },
+      { id: 'A', label: 'Axes', x: 0.57, y: 0.46, w: 110, h: 54, shape: 'pill', variant: 'note' },
+      { id: 'M', label: 'Marks', x: 0.70, y: 0.46, w: 120, h: 54, shape: 'pill', variant: 'ok' },
+      { id: 'G', label: 'Guides', x: 0.84, y: 0.46, w: 120, h: 54, shape: 'pill', variant: 'ok' },
+      { id: 'N', label: 'Annotations', x: 0.92, y: 0.22, w: 170, h: 56, shape: 'pill', variant: 'accent' },
+      { id: 'I', label: 'Interaction', x: 0.92, y: 0.70, w: 170, h: 56, shape: 'pill', variant: 'accent' },
+      { id: 'L', label: 'Layout', x: 0.50, y: 0.82, w: 220, h: 60, shape: 'pill', variant: 'muted' },
     ],
     edges: [
       { from: 'D', to: 'T' },
@@ -1229,9 +1250,9 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
       { id: 'T3', label: 'Handle many categories\nor large data', x: 0.78, y: 0.70, w: 260, h: 76, variant: 'note' },
     ],
     edges: [
-      { from: 'SEL', to: 'T1', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
-      { from: 'BR', to: 'T2', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
-      { from: 'FIL', to: 'T3', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'SEL', to: 'T1', dashed: true, arrow: false, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'BR', to: 'T2', dashed: true, arrow: false, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'FIL', to: 'T3', dashed: true, arrow: false, stroke: 'rgba(148,163,184,0.55)' },
     ],
   },
 

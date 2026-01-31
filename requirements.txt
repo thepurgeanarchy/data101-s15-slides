@@ -8,6 +8,7 @@
 numpy
 pandas
 matplotlib
+plotly
 
 # Notebook execution / kernels (for local validation)
 jupyter

@@ -8,3 +8,6 @@ private/
 request_for_class_list-*.xls
 notebooks/*answer-key*.ipynb
 data101-perception-color-critique-activity/
+notebooks/outputs/
+outputs/
+.venv/

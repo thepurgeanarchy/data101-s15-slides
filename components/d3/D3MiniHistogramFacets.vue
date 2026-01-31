@@ -64,7 +64,7 @@ function barHeight(n: number) {
   <div class="viz-frame">
     <svg
       :viewBox="`${-viewPad} ${-viewPad} ${width + viewPad * 2} ${height + viewPad * 2}`"
-      preserveAspectRatio="xMidYMid slice"
+      preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label="Faceted histograms demo (illustration)"
     >

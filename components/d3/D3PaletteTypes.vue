@@ -81,19 +81,32 @@ function render() {
 
   const qual = panel.filter((d) => d.key === 'qual')
   const swatches = okabeIto.slice(0, 6)
-  const swatchGap = 10
-  const swatchW = (panelWidth - 18 * 2 - (swatches.length - 1) * swatchGap) / swatches.length
-  const swatchY = 92
+  const swatchCols = 3
+  const swatchGapX = 12
+  const swatchW = (panelWidth - 18 * 2 - (swatchCols - 1) * swatchGapX) / swatchCols
+  const swatchH = 34
+  const rowStride = 64
+  const swatchY = 82
+
+  const swatchX = (i: number) => {
+    const col = i % swatchCols
+    return 18 + col * (swatchW + swatchGapX)
+  }
+
+  const swatchRow = (i: number) => Math.floor(i / swatchCols)
+  const swatchTop = (i: number) => swatchY + swatchRow(i) * rowStride
+  const swatchLabel = (name: string) => (name === 'Vermillion' ? 'Vermil.' : name)
+
   qual
     .selectAll('rect.swatch')
     .data(swatches)
     .enter()
     .append('rect')
     .attr('class', 'swatch')
-    .attr('x', (_, i) => 18 + i * (swatchW + swatchGap))
-    .attr('y', swatchY)
+    .attr('x', (_, i) => swatchX(i))
+    .attr('y', (_, i) => swatchTop(i))
     .attr('width', swatchW)
-    .attr('height', 40)
+    .attr('height', swatchH)
     .attr('rx', 14)
     .attr('ry', 14)
     .attr('fill', (d) => d.hex)
@@ -106,12 +119,13 @@ function render() {
     .enter()
     .append('text')
     .attr('class', 'swatch-label')
-    .attr('x', (_, i) => 18 + i * (swatchW + swatchGap) + swatchW / 2)
-    .attr('y', swatchY + 64)
+    .attr('x', (_, i) => swatchX(i) + swatchW / 2)
+    .attr('y', (_, i) => swatchTop(i) + swatchH + 18)
     .attr('text-anchor', 'middle')
     .attr('fill', vizTheme.textMuted)
-    .style('font-size', '11px')
-    .text((d) => d.name)
+    .style('font-size', '10.5px')
+    .style('font-weight', '650')
+    .text((d) => swatchLabel(d.name))
 
   const seq = panel.filter((d) => d.key === 'seq')
   const rampX = 18
