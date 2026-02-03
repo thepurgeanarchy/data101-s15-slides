@@ -47,7 +47,7 @@ info: |
 
 Please access the **Modules** page of **AnimoSpace**.
 
-<div class="card mt-8 !p-5 max-w-2xl">
+<div class="card quiz-card mt-8 !p-5 max-w-2xl">
   <div class="kicker">Topic</div>
   <div class="text-2xl font-800 mt-2">Perception and Color</div>
   <div class="my-5 border-t border-white/10"></div>

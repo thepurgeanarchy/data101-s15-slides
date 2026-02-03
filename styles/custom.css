@@ -278,6 +278,101 @@ a {
 }
 
 /* In static export/build, runnable blocks may render as Shiki code. Keep them scrollable. */
+
+/* Quiz slide: subtle animated gradient border (professional, low motion). */
+.quiz-card {
+  position: relative;
+  isolation: isolate;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden;
+  background: transparent !important;
+  border-radius: 30px !important;
+}
+
+.quiz-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.quiz-card::after {
+  content: '';
+  position: absolute;
+  inset: 2px; /* match border thickness */
+  border-radius: 28px;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(120% 140% at 15% 25%, rgba(34, 211, 238, 0.14), transparent 55%),
+    radial-gradient(120% 140% at 85% 70%, rgba(167, 139, 250, 0.12), transparent 55%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.040), rgba(255, 255, 255, 0.012));
+  background-size: 140% 140%, 140% 140%, 100% 100%;
+  filter: saturate(1.05);
+  animation: quiz-bg-dance 7.5s ease-in-out infinite;
+}
+
+.quiz-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 30px;
+  pointer-events: none;
+  --quiz-a: 0deg;
+  /* A moving "sweep" highlight (like a loading outline), not a rotating ring. */
+  background: conic-gradient(
+    from var(--quiz-a),
+    rgba(34, 211, 238, 0.00) 0deg,
+    rgba(34, 211, 238, 0.00) 210deg,
+    rgba(34, 211, 238, 0.95) 232deg,
+    rgba(77, 163, 255, 0.92) 255deg,
+    rgba(167, 139, 250, 0.90) 280deg,
+    rgba(34, 211, 238, 0.00) 305deg,
+    rgba(34, 211, 238, 0.00) 360deg
+  );
+  opacity: 0.7;
+  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.12));
+  animation: quiz-border-sweep 2.8s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+@property --quiz-a {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes quiz-border-sweep {
+  from { --quiz-a: 0deg; }
+  to { --quiz-a: 360deg; }
+}
+
+@keyframes quiz-bg-dance {
+  0% {
+    background-position: 0% 0%, 100% 100%, 0% 0%;
+    filter: saturate(1.05) hue-rotate(0deg);
+  }
+  50% {
+    background-position: 100% 20%, 0% 80%, 0% 0%;
+    filter: saturate(1.10) hue-rotate(10deg);
+  }
+  100% {
+    background-position: 0% 0%, 100% 100%, 0% 0%;
+    filter: saturate(1.05) hue-rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-card::after {
+    animation: none;
+  }
+  .quiz-card::before {
+    animation: none;
+  }
+}
 .slidev-layout.code-only pre,
 .slidev-layout.code-only .shiki {
   max-height: 420px;
