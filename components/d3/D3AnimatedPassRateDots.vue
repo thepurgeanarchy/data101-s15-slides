@@ -159,6 +159,11 @@ function render() {
   }
 
   function tweenText(this: SVGTextElement, next: number) {
+    if (!Number.isFinite(next)) {
+      return function () {
+        this.textContent = '—'
+      }
+    }
     const prev = Number(last.get(this.dataset.program || '') ?? next)
     const interp = d3.interpolateNumber(prev, next)
     return function (t: number) {
@@ -172,6 +177,7 @@ function render() {
     const frame = frameForWeek(week)
 
     const t = animate ? svg.transition().duration(650).ease(d3.easeCubicOut) : svg.transition().duration(0)
+    const safeRate = (v: number) => (Number.isFinite(v) ? v : xMin)
 
     const c = dots.selectAll<SVGCircleElement, { program: string; pass_rate: number }>('circle').data(frame, (d) => d.program)
     const cEnter = c
@@ -183,12 +189,14 @@ function render() {
       .attr('fill', vizTheme.bg)
       .attr('stroke', vizTheme.cyan)
       .attr('stroke-width', 2.4)
+      .attr('opacity', (d) => (Number.isFinite(d.pass_rate) ? 1 : 0.28))
 
     cEnter
       .merge(c as any)
       .transition(t as any)
       .attr('cy', (d) => (y(d.program) ?? 0) + y.bandwidth() / 2)
-      .attr('cx', (d) => x(d.pass_rate))
+      .attr('cx', (d) => x(safeRate(d.pass_rate)))
+      .attr('opacity', (d) => (Number.isFinite(d.pass_rate) ? 1 : 0.28))
 
     c.exit().remove()
 
@@ -210,7 +218,7 @@ function render() {
         this.dataset.program = d.program
       })
       .transition(t as any)
-      .attr('x', (d) => Math.min(plotW - 30, x(d.pass_rate) + 12))
+      .attr('x', (d) => Math.min(plotW - 30, x(safeRate(d.pass_rate)) + 12))
       .attr('y', (d) => (y(d.program) ?? 0) + y.bandwidth() / 2 + 4)
       .tween('text', function (d) {
         return tweenText.call(this, d.pass_rate)
@@ -247,4 +255,3 @@ onBeforeUnmount(() => {
 <template>
   <div ref="container" class="viz-frame" />
 </template>
-
