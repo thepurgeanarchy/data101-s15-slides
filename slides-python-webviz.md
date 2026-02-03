@@ -50,7 +50,7 @@ Please access the **Modules** page of **AnimoSpace**.
 <div class="card mt-8 !p-5 max-w-2xl">
   <div class="kicker">Topic</div>
   <div class="text-2xl font-800 mt-2">Perception and Color</div>
-  <div class="mt-5 border-t border-white/10"></div>
+  <div class="my-5 border-t border-white/10"></div>
   <div class="kicker">Access code</div>
   <div class="text-4xl font-900 mt-2 tracking-wider">7YT9FJYH1</div>
   <div class="mt-4 op80 text-lg">Time limit: <span class="font-800">15 minutes</span></div>
