@@ -43,7 +43,7 @@ info: |
   Professional Lecturer: Marc Reyes (marc.reyes@dlsu.edu.ph)
 ---
 
-# Monitored Quiz Today
+# <span class="icon-inline i-carbon:cursor-1 mr-3"></span>Monitored Quiz Today
 
 Please access the **Modules** page of **AnimoSpace**.
 
