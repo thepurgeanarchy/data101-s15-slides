@@ -32,10 +32,7 @@ body {
 
 body {
   margin: 0;
-  background: radial-gradient(1200px 800px at 15% -10%, rgba(77, 163, 255, 0.16), transparent 55%),
-    radial-gradient(1000px 700px at 90% 10%, rgba(34, 211, 238, 0.14), transparent 55%),
-    radial-gradient(1100px 700px at 55% 115%, rgba(167, 139, 250, 0.10), transparent 55%),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   line-height: 1.45;
@@ -132,6 +129,7 @@ header {
 .section {
   margin-top: 32px;
   padding-top: 10px;
+  scroll-margin-top: 28px;
 }
 
 .section h2 {
@@ -145,6 +143,29 @@ header {
   margin: 8px 0 0;
   color: var(--muted);
   max-width: 80ch;
+}
+
+.section:target {
+  min-height: 100svh;
+  margin-top: 0;
+  padding-top: 0;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.section:target .grid-2 {
+  height: 100%;
+  margin-top: 0;
+}
+
+.section:target .grid-2 > .card {
+  display: none;
+}
+
+.section:target .viz-frame {
+  height: 100%;
 }
 
 .grid-2 {
@@ -246,11 +267,12 @@ header {
 
 .viz-host {
   flex: 1;
+  min-height: 0;
 }
 
 .viz-host svg {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
 }
 
