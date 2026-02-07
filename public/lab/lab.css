@@ -333,7 +333,7 @@ header {
   }
 }
 
-@media (min-width: 1700px) {
+@media (min-width: 2200px) {
   .grid-2 {
     grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
     grid-template-areas: "concepts viz";
