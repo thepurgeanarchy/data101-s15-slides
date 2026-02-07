@@ -46,9 +46,9 @@ a {
 }
 
 .wrap {
-  max-width: 1180px;
+  width: 100%;
   margin: 0 auto;
-  padding: 28px 26px 70px;
+  padding: clamp(22px, 2.4vw, 54px) clamp(18px, 3.6vw, 76px) 90px;
 }
 
 header {
@@ -149,10 +149,21 @@ header {
 
 .grid-2 {
   display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  gap: 16px;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "viz"
+    "concepts";
+  gap: 18px;
   margin-top: 16px;
   align-items: start;
+}
+
+.grid-2 > .card {
+  grid-area: concepts;
+}
+
+.grid-2 > .viz-frame {
+  grid-area: viz;
 }
 
 .grid-3 {
@@ -208,8 +219,10 @@ header {
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: var(--surface-2);
   border-radius: 22px;
-  padding: 10px 12px;
+  padding: 14px 16px 16px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .viz-title {
@@ -217,7 +230,7 @@ header {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  margin: 2px 2px 10px;
+  margin: 0 0 12px;
 }
 
 .viz-title strong {
@@ -229,6 +242,10 @@ header {
 .viz-title span {
   font-size: 12px;
   color: var(--muted);
+}
+
+.viz-host {
+  flex: 1;
 }
 
 .viz-host svg {
@@ -304,6 +321,9 @@ header {
   }
   .grid-2 {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "viz"
+      "concepts";
   }
   .grid-3 {
     grid-template-columns: 1fr;
@@ -313,3 +333,16 @@ header {
   }
 }
 
+@media (min-width: 1700px) {
+  .grid-2 {
+    grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
+    grid-template-areas: "concepts viz";
+  }
+}
+
+@media (min-width: 1600px) {
+  .wrap {
+    padding-left: 84px;
+    padding-right: 84px;
+  }
+}
