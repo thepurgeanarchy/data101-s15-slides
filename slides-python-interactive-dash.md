@@ -130,19 +130,21 @@ Plotly in Python, interactive chart patterns, and Dash fundamentals (layout + ca
 </div>
 
 ---
+class: tight-layout
+---
 
 ## Interactive Chart vs Data App
 
-<D3ConceptDiagram diagram="interactive-chart-vs-app" class="mt-8" />
+<D3ConceptDiagram diagram="interactive-chart-vs-app" class="mt-5 viz-compact" />
 
-<div class="grid grid-cols-2 gap-4 mt-6">
-  <div class="card">
+<div class="grid grid-cols-2 gap-4 mt-3">
+  <div class="card !p-3">
     <div class="kicker">Interactive chart</div>
-    <div class="op70 mt-2">A single figure with built-in interactions.</div>
+    <div class="op70 mt-1">A single figure with built-in interactions.</div>
   </div>
-  <div class="card">
+  <div class="card !p-3">
     <div class="kicker">Data app</div>
-    <div class="op70 mt-2">A set of callbacks that update multiple views.</div>
+    <div class="op70 mt-1">A set of callbacks that update multiple views.</div>
   </div>
 </div>
 
@@ -312,7 +314,7 @@ class: viz-slide
 <div class="op70">Try: hover a point, drag to zoom, scroll to zoom, click legend items to isolate a program.</div>
 
 <div class="mt-3">
-  <a class="launch-btn" href="./lab/#hover-legend" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn" href="./lab/index.html#hover-legend" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab (new tab)
   </a>
@@ -354,7 +356,7 @@ class: viz-slide
 <div class="op70">This is a D3-style interaction pattern: tooltip + zoom/pan + focus line.</div>
 
 <div class="mt-3">
-  <a class="launch-btn" href="./lab/#hover-legend" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn" href="./lab/index.html#hover-legend" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab (new tab)
   </a>
@@ -384,7 +386,7 @@ class: viz-slide
 <div class="op70">Drag on the left chart to select a week range. Watch the distribution update.</div>
 
 <div class="mt-3">
-  <a class="launch-btn" href="./lab/#linked-views" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn" href="./lab/index.html#linked-views" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab (new tab)
   </a>
@@ -426,7 +428,7 @@ class: viz-slide
 <div class="op70">Same data, same scale. The marks move. That is all animation should be.</div>
 
 <div class="mt-3">
-  <a class="launch-btn" href="./lab/#animation" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn" href="./lab/index.html#animation" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab (new tab)
   </a>
@@ -1124,7 +1126,7 @@ class: viz-slide
 
 <div class="flex items-center justify-between gap-4">
   <div class="op70">This slide is a simulated mini app. In Dash, callbacks do the same state updates.</div>
-  <a class="launch-btn shrink-0" href="./lab/#callbacks" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn shrink-0" href="./lab/index.html#callbacks" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab
   </a>

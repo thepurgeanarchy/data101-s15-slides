@@ -191,7 +191,7 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode, edge: Diagram
   // Prefer the dominant direction, but avoid choosing an orientation where marks overlap on that axis.
   // This keeps arrowheads outside nodes and preserves a visible line segment.
   const preferH = Math.abs(dx) >= Math.abs(dy)
-  const minGap = arrow ? 16 : 0
+  const minGap = arrow ? 18 : 0
   const okH = gapH >= minGap
   const okV = gapV >= minGap
 
@@ -206,12 +206,16 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode, edge: Diagram
     orient = gapH >= gapV ? 'h' : 'v'
 
   const gapAxis = orient === 'h' ? gapH : gapV
-  // Edges are drawn behind nodes. For arrow edges, offset the end point slightly so the arrowhead
-  // remains visible. For non-arrow edges, connect cleanly to node boundaries.
-  const baseEndPad = arrow ? 10 : 0
-  const minSegment = arrow ? 16 : 0
-  const endPad = arrow ? Math.max(baseEndPad, Math.max(0, gapAxis - minSegment)) : 0
-  const startPad = arrow ? 2 : 0
+
+  // Edges are drawn behind nodes. Arrowheads must end *outside* the target node
+  // and we must avoid degenerate/crossing segments when nodes are close.
+  const available = Math.max(0, gapAxis)
+  const minSegment = arrow ? 10 : 0
+  const padBudget = Math.max(0, available - minSegment)
+  const startPadWanted = arrow ? 4 : 0
+  const endPadWanted = arrow ? 8 : 0
+  const startPad = arrow ? Math.min(startPadWanted, padBudget * 0.4) : 0
+  const endPad = arrow ? Math.min(endPadWanted, Math.max(0, padBudget - startPad)) : 0
 
   if (orient === 'h') {
     const sign = dx >= 0 ? 1 : -1
@@ -343,17 +347,17 @@ function render() {
     .append('marker')
     .attr('id', arrowId)
     .attr('markerUnits', 'userSpaceOnUse')
-    .attr('viewBox', '0 0 10 10')
+    .attr('viewBox', '0 0 14 14')
     // Place the tip of the arrowhead at the path end so it stays visible
     // even when edges are drawn behind nodes.
-    .attr('refX', 9)
-    .attr('refY', 5)
-    .attr('markerWidth', 10)
-    .attr('markerHeight', 10)
+    .attr('refX', 13)
+    .attr('refY', 7)
+    .attr('markerWidth', 14)
+    .attr('markerHeight', 14)
     .attr('orient', 'auto-start-reverse')
     .append('path')
     // Small padding prevents clipping on some renderers.
-    .attr('d', 'M 1 1 L 9 5 L 1 9 z')
+    .attr('d', 'M 1 1 L 13 7 L 1 13 z')
     // Use the edge stroke color for the arrowhead.
     .attr('fill', 'context-stroke')
 
@@ -381,8 +385,9 @@ function render() {
       layerGroups
         .append('text')
         .attr('x', g.x + g.w / 2)
-        .attr('y', g.y + 18)
+        .attr('y', g.y + 10)
         .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'hanging')
         .attr('fill', vizTheme.textMuted)
         .style('font-size', '12px')
         .style('font-weight', '650')

@@ -107,8 +107,8 @@ function build() {
   const layout = {
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
-    height: 420,
-    margin: { l: 80, r: 24, t: 52, b: 66 },
+    height: 460,
+    margin: { l: 80, r: 24, t: 52, b: 96 },
     font: { family: 'inherit', size: 12, color: 'rgba(245,247,250,0.88)' },
     title: {
       text: `<b>Plotly animation (frames)</b> <span style="opacity:0.70;font-size:12px">term: ${term}</span>`,
@@ -145,9 +145,10 @@ function build() {
         type: 'buttons',
         direction: 'left',
         x: 0.02,
-        y: -0.17,
+        // Keep controls away from the rounded frame edge so they never clip.
+        y: 0.03,
         xanchor: 'left',
-        yanchor: 'top',
+        yanchor: 'bottom',
         pad: { r: 10, t: 0, b: 0, l: 0 },
         showactive: false,
         bgcolor: 'rgba(255,255,255,0.06)',
@@ -168,11 +169,12 @@ function build() {
     ],
     sliders: [
       {
-        x: 0.24,
-        y: -0.17,
+        // Leave room so the slider handle doesn't clip at Week 1 / Week N.
+        x: 0.26,
+        y: 0.03,
         xanchor: 'left',
-        yanchor: 'top',
-        len: 0.74,
+        yanchor: 'bottom',
+        len: 0.70,
         pad: { t: 0, b: 0 },
         active: Math.max(0, weeks.indexOf(startWeek)),
         currentvalue: {
@@ -234,7 +236,6 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="viz-frame">
-    <div ref="container" aria-label="Plotly animation demo" style="width: 100%; height: 420px" />
+    <div ref="container" aria-label="Plotly animation demo" style="width: 100%; height: 460px" />
   </div>
 </template>
-
