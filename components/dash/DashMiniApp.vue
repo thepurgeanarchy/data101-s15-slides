@@ -144,11 +144,11 @@ const yDomain = computed(() => {
 })
 
 const width = 860
-const height = 360
+const height = 332
 const margin = { top: 46, right: 24, bottom: 48, left: 62 }
 const plotW = width - margin.left - margin.right
 const plotH = height - margin.top - margin.bottom
-const viewPad = 24
+const viewPad = 18
 
 const x = computed(() =>
   d3
@@ -252,7 +252,7 @@ function toggleProgram(program: string) {
       </div>
     </div>
 
-    <div class="viz-frame viz-fill">
+    <div class="viz-frame">
       <svg
         :viewBox="`${-viewPad} ${-viewPad} ${width + viewPad * 2} ${height + viewPad * 2}`"
         preserveAspectRatio="xMidYMid meet"
@@ -330,7 +330,7 @@ function toggleProgram(program: string) {
           :fill="vizTheme.textMuted"
           :style="{ fontSize: '12px', fontWeight: 650 }"
           text-anchor="middle"
-          transform="rotate(-90 14 180)"
+          :transform="`rotate(-90 14 ${(margin.top + height - margin.bottom) / 2})`"
         >
           pass_rate
         </text>

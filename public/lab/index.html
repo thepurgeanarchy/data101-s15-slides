@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Lab: Charts and Data Apps</title>
+    <meta name="description" content="A show-not-tell interactive lab for Plotly-style interactions, D3 patterns, and Dash callback fundamentals." />
+    <link rel="stylesheet" href="./lab.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1 class="title">Interactive Lab</h1>
+          <p class="subtitle">
+            A practical companion to the lecture. Each demo has: a task, the interaction pattern, and what to watch for in professional work.
+          </p>
+          <div class="badge">
+            Dataset: <strong>DATA101 class</strong> <span aria-hidden="true">·</span> Focus: <strong>interactivity that supports a task</strong>
+          </div>
+        </div>
+        <nav class="nav" aria-label="Sections">
+          <a class="btn" href="#hover-legend"><span class="dot" style="background: var(--primary)"></span>Hover + zoom</a>
+          <a class="btn" href="#linked-views"><span class="dot" style="background: var(--cyan)"></span>Linked views</a>
+          <a class="btn" href="#animation"><span class="dot" style="background: var(--violet)"></span>Animation</a>
+          <a class="btn" href="#callbacks"><span class="dot" style="background: var(--orange)"></span>Callbacks</a>
+        </nav>
+      </header>
+
+      <section id="hover-legend" class="section">
+        <h2>1. Hover + Zoom + Legend Filtering</h2>
+        <p class="lede">Task: inspect exact values, zoom in on a window, and reduce clutter when multiple groups are present.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="kicker">Concepts</div>
+            <h3>Precision without clutter</h3>
+            <ul>
+              <li><strong>Hover</strong> replaces dozens of tiny labels.</li>
+              <li><strong>Zoom + pan</strong> supports dense time series.</li>
+              <li><strong>Legend click</strong> reduces comparison work (toggle or isolate a program).</li>
+              <li><strong>Default view</strong> must still read without interacting.</li>
+            </ul>
+            <div class="callout" style="margin-top: 14px">
+              <div class="kicker">Try</div>
+              <div style="margin-top: 8px; color: var(--muted)">
+                Scroll to zoom, drag to pan, and hover to inspect. Click legend items to toggle or double-click to isolate.
+              </div>
+            </div>
+          </div>
+
+          <div class="viz-frame">
+            <div class="viz-title">
+              <strong>Pass rate by week (interactive)</strong>
+              <span id="hoverLegendMeta">Loading…</span>
+            </div>
+            <div id="demo-hover-legend" class="viz-host" aria-label="Hover + legend filtering demo"></div>
+            <div class="toolbar" aria-label="Chart tools">
+              <span class="pill"><span class="swatch" style="background: var(--primary)"></span>Programs toggle via legend</span>
+              <span class="pill"><span class="swatch" style="background: var(--cyan)"></span>Tooltip is the label</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="linked-views" class="section">
+        <h2>2. Linked Views (Overview → Brush → Detail)</h2>
+        <p class="lede">Task: start broad, then narrow. A selection in one view updates the other view.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="kicker">Concepts</div>
+            <h3>One filtered dataset, many outputs</h3>
+            <ul>
+              <li><strong>Brush</strong> selects a time window (weeks).</li>
+              <li><strong>Detail view</strong> updates from the same selection.</li>
+              <li><strong>Reading order</strong>: trends first, then distributions.</li>
+            </ul>
+            <div class="callout" style="margin-top: 14px">
+              <div class="kicker">Try</div>
+              <div style="margin-top: 8px; color: var(--muted)">
+                Drag on the left chart to select a week range. Watch the score distribution (right) update.
+              </div>
+            </div>
+          </div>
+
+          <div class="viz-frame">
+            <div class="viz-title">
+              <strong>Brush to update detail</strong>
+              <span id="linkedMeta">Loading…</span>
+            </div>
+            <div id="demo-linked" class="viz-host" aria-label="Linked views demo"></div>
+            <div class="toolbar">
+              <span class="pill"><span class="swatch" style="background: var(--cyan)"></span>Brush is state</span>
+              <span class="pill"><span class="swatch" style="background: var(--violet)"></span>Detail is output</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="animation" class="section">
+        <h2>3. Animation (Transitions Between States)</h2>
+        <p class="lede">Task: see change over time. Animation is only defensible when frames are comparable.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="kicker">Concepts</div>
+            <h3>Same scale, moving marks</h3>
+            <ul>
+              <li><strong>Fixed axis range</strong> across frames (no exaggeration).</li>
+              <li><strong>Play + scrub</strong> so the viewer can control speed.</li>
+              <li><strong>Static alternative</strong> still matters for precision.</li>
+            </ul>
+            <div class="callout" style="margin-top: 14px">
+              <div class="kicker">Try</div>
+              <div style="margin-top: 8px; color: var(--muted)">
+                Hit Play, then scrub the slider to compare frames. Notice the axis stays fixed.
+              </div>
+            </div>
+          </div>
+
+          <div class="viz-frame">
+            <div class="viz-title">
+              <strong>Animated dot plot</strong>
+              <span id="animMeta">Loading…</span>
+            </div>
+            <div id="demo-animation" class="viz-host" aria-label="Animation demo"></div>
+            <div class="toolbar" aria-label="Animation controls">
+              <button id="animPlay" class="btn" type="button" style="padding: 8px 10px">
+                <span class="dot" style="background: var(--violet)"></span>Play
+              </button>
+              <label>
+                Week
+                <input id="animWeek" type="range" min="1" max="20" step="1" value="1" />
+              </label>
+              <span id="animWeekLabel" class="pill">Week —</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="callbacks" class="section">
+        <h2>4. Callbacks (Dash Mental Model)</h2>
+        <p class="lede">Task: build a small data app. Inputs trigger compute, outputs update.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="kicker">Concepts</div>
+            <h3>Inputs → callback → outputs</h3>
+            <ul>
+              <li><strong>Inputs</strong>: dropdowns, sliders, toggles.</li>
+              <li><strong>Callback</strong>: filter + aggregate (data plumbing).</li>
+              <li><strong>Outputs</strong>: chart + KPI cards + table.</li>
+            </ul>
+            <div class="callout" style="margin-top: 14px">
+              <div class="kicker">Try</div>
+              <div style="margin-top: 8px; color: var(--muted)">
+                Change term, week range, and programs. Watch KPI + chart update from the same filtered table.
+              </div>
+            </div>
+          </div>
+
+          <div class="viz-frame">
+            <div class="viz-title">
+              <strong>Mini dashboard (callback behavior)</strong>
+              <span id="appMeta">Loading…</span>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 10px">
+              <div class="card tight">
+                <div class="kicker">Term</div>
+                <select id="appTerm" aria-label="Term"></select>
+              </div>
+              <div class="card tight">
+                <div class="kicker">Week range</div>
+                <div class="toolbar" style="margin-top: 8px">
+                  <label>Start <input id="appWeekStart" type="range" min="1" max="20" step="1" value="1" /></label>
+                  <label>End <input id="appWeekEnd" type="range" min="1" max="20" step="1" value="20" /></label>
+                </div>
+                <div id="appWeekLabel" class="pill" style="margin-top: 10px">Weeks —</div>
+              </div>
+              <div class="card tight">
+                <div class="kicker">KPI</div>
+                <div style="margin-top: 8px; font-size: 22px; font-weight: 900" id="appKpi">—</div>
+                <div style="margin-top: 4px; font-size: 12px; color: var(--muted)" id="appKpiDetail">—</div>
+              </div>
+            </div>
+
+            <div id="appPrograms" class="toolbar" aria-label="Program toggles"></div>
+            <div style="margin-top: 10px" id="demo-app" class="viz-host" aria-label="Callback mini dashboard chart"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">
+        Tip: this lab is a static page. You can host it with the Slidev build (it lives under <code>/lab/</code>) or open it from your local server.
+      </div>
+    </div>
+
+    <script src="./vendor/d3.v7.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

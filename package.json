@@ -19,7 +19,9 @@
     "check:fit:webviz": "npm run build:webviz && node scripts/check-fit.mjs slides-python-webviz.md",
     "check:fit:interactive": "npm run build:interactive && node scripts/check-fit.mjs slides-python-interactive-dash.md",
     "inspect:webviz": "npm run build:webviz && node scripts/inspect-slides.mjs slides-python-webviz.md dist inspect",
-    "inspect:interactive": "npm run build:interactive && node scripts/inspect-slides.mjs slides-python-interactive-dash.md dist inspect"
+    "inspect:interactive": "npm run build:interactive && node scripts/inspect-slides.mjs slides-python-interactive-dash.md dist inspect",
+    "inspect-viz:webviz": "npm run build:webviz && node scripts/inspect-viz.mjs slides-python-webviz.md dist inspect",
+    "inspect-viz:interactive": "npm run build:interactive && node scripts/inspect-viz.mjs slides-python-interactive-dash.md dist inspect"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.10",

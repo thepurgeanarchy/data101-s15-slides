@@ -1,6 +1,7 @@
 node_modules
 dist
 inspect
+inspect/viz
 .slidev
 .DS_Store
 *.log

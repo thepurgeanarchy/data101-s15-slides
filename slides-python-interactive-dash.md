@@ -322,6 +322,13 @@ class: viz-slide
 
 <div class="op70">Try: hover a point, drag to zoom, scroll to zoom, click legend items to isolate a program.</div>
 
+<div class="mt-3">
+  <a class="launch-btn" href="./lab/#hover-legend" target="_blank" rel="noopener noreferrer">
+    <span class="icon-inline i-carbon:launch"></span>
+    Open interactive lab (new tab)
+  </a>
+</div>
+
 <div class="viz-grow mt-4">
   <PlotlyMiniTimeSeries class="viz-fill" />
   <div class="mt-2 text-xs op60">Tip: double-click to reset zoom.</div>
@@ -357,6 +364,13 @@ class: viz-slide
 
 <div class="op70">This is a D3-style interaction pattern: tooltip + zoom/pan + focus line.</div>
 
+<div class="mt-3">
+  <a class="launch-btn" href="./lab/#hover-legend" target="_blank" rel="noopener noreferrer">
+    <span class="icon-inline i-carbon:launch"></span>
+    Open interactive lab (new tab)
+  </a>
+</div>
+
 <div class="viz-grow mt-4">
   <D3MiniInteractiveLine class="viz-fill" />
 </div>
@@ -386,6 +400,13 @@ class: viz-slide
 ## Demo: Overview → Brush → Distribution (Linked Views)
 
 <div class="op70">Drag on the left chart to select a week range. Watch the distribution update.</div>
+
+<div class="mt-3">
+  <a class="launch-btn" href="./lab/#linked-views" target="_blank" rel="noopener noreferrer">
+    <span class="icon-inline i-carbon:launch"></span>
+    Open interactive lab (new tab)
+  </a>
+</div>
 
 <div class="viz-grow mt-4">
   <D3CaseStudyOverviewDetail class="viz-fill" />
@@ -421,6 +442,13 @@ class: viz-slide
 ## Demo: Animation = Transitions Between States
 
 <div class="op70">Same data, same scale. The marks move. That is all animation should be.</div>
+
+<div class="mt-3">
+  <a class="launch-btn" href="./lab/#animation" target="_blank" rel="noopener noreferrer">
+    <span class="icon-inline i-carbon:launch"></span>
+    Open interactive lab (new tab)
+  </a>
+</div>
 
 <div class="viz-grow mt-4">
   <D3AnimatedPassRateDots class="viz-fill" />
@@ -1138,9 +1166,15 @@ class: viz-slide
 
 ## Demo: Live Mini Dashboard (Callback Behavior)
 
-<div class="op70">This slide is a simulated mini app. In Dash, callbacks do the same state updates.</div>
+<div class="flex items-center justify-between gap-4">
+  <div class="op70">This slide is a simulated mini app. In Dash, callbacks do the same state updates.</div>
+  <a class="launch-btn shrink-0" href="./lab/#callbacks" target="_blank" rel="noopener noreferrer">
+    <span class="icon-inline i-carbon:launch"></span>
+    Open interactive lab
+  </a>
+</div>
 
-<div class="viz-grow mt-4">
+<div class="viz-grow mt-1">
   <DashMiniApp />
 </div>
 
