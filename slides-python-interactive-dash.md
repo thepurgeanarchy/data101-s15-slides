@@ -69,9 +69,9 @@ Plotly in Python, interactive chart patterns, and Dash fundamentals (layout + ca
     <div class="op70 mt-2">Build a figure, export HTML, ship.</div>
   </div>
   <div class="card">
-    <div class="kicker">03 · Other libraries</div>
-    <div class="text-2xl font-700 mt-1"><span class="icon-inline sm i-carbon:notebook-reference mr-2"></span>Altair, Bokeh, Panel</div>
-    <div class="op70 mt-2">Choose based on the task and constraints.</div>
+    <div class="kicker">03 · Choosing tools</div>
+    <div class="text-2xl font-700 mt-1"><span class="icon-inline sm i-carbon:notebook-reference mr-2"></span>Other libraries</div>
+    <div class="op70 mt-2">Altair, Bokeh, Panel, Streamlit, Dash.</div>
   </div>
   <div class="card">
     <div class="kicker">04 · Dash</div>
@@ -93,7 +93,7 @@ Plotly in Python, interactive chart patterns, and Dash fundamentals (layout + ca
   <div class="card">
     <div class="kicker">Plotly</div>
     <div class="text-xl font-700 mt-1">Ship a single HTML artifact</div>
-    <div class="op70 mt-2">Interactive, portable, and reproducible.</div>
+    <div class="op70 mt-2">Interactive, portable, reproducible.</div>
   </div>
   <div class="card">
     <div class="kicker">Dash</div>
@@ -101,10 +101,87 @@ Plotly in Python, interactive chart patterns, and Dash fundamentals (layout + ca
     <div class="op70 mt-2">Inputs → function → outputs.</div>
   </div>
   <div class="card">
-    <div class="kicker">Practice</div>
-    <div class="text-xl font-700 mt-1">Avoid interactive chart traps</div>
-    <div class="op70 mt-2">Fixed scales, clear reset, minimal clutter.</div>
+    <div class="kicker">Professionalism</div>
+    <div class="text-xl font-700 mt-1">Make defaults readable</div>
+    <div class="op70 mt-2">If it only works on hover, it is fragile.</div>
   </div>
+</div>
+
+---
+
+## Why Interactivity Exists
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">When static breaks</div>
+    <div class="text-xl font-800 mt-1">Dense charts</div>
+    <div class="op70 mt-2">Too many points, too many series, too many categories.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">What interactivity does</div>
+    <div class="text-xl font-800 mt-1">Reduces viewer work</div>
+    <div class="op70 mt-2">Filter, zoom, and inspect without crowding the canvas.</div>
+  </div>
+</div>
+
+<div class="callout mt-6">
+  <div class="font-800">Rule</div>
+  <div class="op80 mt-1">Interactivity must support a task, not decorate a chart.</div>
+</div>
+
+---
+
+## Interactive Chart vs Data App
+
+<div class="mermaid mt-8">
+```mermaid
+flowchart LR
+  A["Interactive chart\n(single artifact)"] --> B["Hover / zoom / legend filter"]
+  A --> C["Export HTML"]
+
+  D["Data app\n(many views)"] --> E["Controls (inputs)"]
+  E --> F["Callback (compute)"]
+  F --> G["Outputs (charts + tables)"]
+  G --> E
+```
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-6">
+  <div class="card">
+    <div class="kicker">Interactive chart</div>
+    <div class="op70 mt-2">A single figure with built-in interactions.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Data app</div>
+    <div class="op70 mt-2">A set of callbacks that update multiple views.</div>
+  </div>
+</div>
+
+---
+
+## The 3 Non-Negotiables
+
+<div class="grid grid-cols-3 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">01</div>
+    <div class="text-xl font-900 mt-1">Good defaults</div>
+    <div class="op70 mt-2">Readable without hovering.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">02</div>
+    <div class="text-xl font-900 mt-1">Fixed scales</div>
+    <div class="op70 mt-2">Comparable frames and states.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">03</div>
+    <div class="text-xl font-900 mt-1">Clear reset</div>
+    <div class="op70 mt-2">No mystery states.</div>
+  </div>
+</div>
+
+<div class="callout mt-6">
+  <div class="font-800">Professional habit</div>
+  <div class="op80 mt-1">Assume your viewer will screenshot your chart while it is in a weird state.</div>
 </div>
 
 ---
@@ -115,11 +192,11 @@ layout: section
 
 # <span class="icon-inline i-carbon:cursor-1 mr-3"></span>Interactivity supports a task
 
-Not every chart should be interactive. But when it helps, it can remove work from the viewer.
+Hover, zoom, selection, and linked views.
 
 ---
 
-## Use Interactivity When
+## What Interactivity Is For
 
 <div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
@@ -134,19 +211,107 @@ Not every chart should be interactive. But when it helps, it can remove work fro
   </div>
   <div class="card">
     <div class="kicker">Compare</div>
-    <div class="text-xl font-800 mt-1">Filter via legend or selection</div>
-    <div class="op70 mt-2">Reduce groups without losing context.</div>
+    <div class="text-xl font-800 mt-1">Filter groups on demand</div>
+    <div class="op70 mt-2">Legend click, dropdown, brush.</div>
   </div>
   <div class="card">
     <div class="kicker">Connect</div>
-    <div class="text-xl font-800 mt-1">Linked views (overview → detail)</div>
+    <div class="text-xl font-800 mt-1">Linked views</div>
     <div class="op70 mt-2">One interaction updates another chart.</div>
   </div>
 </div>
 
+---
+
+## Pattern: Tooltips
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Goal</div>
+    <div class="text-xl font-800 mt-1">Precision without clutter</div>
+    <div class="op70 mt-2">Do not label everything. Label on demand.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Tooltip should include</div>
+    <ul class="mt-3">
+      <li><span class="font-900">Entity</span> (what point is this?)</li>
+      <li><span class="font-900">Value</span> with formatting and units</li>
+      <li><span class="font-900">Context</span> (time, group, filter)</li>
+    </ul>
+  </div>
+</div>
+
 <div class="callout mt-6">
-  <div class="font-800">Rule</div>
-  <div class="op80 mt-1">Keep a fixed scale when comparing frames, and always provide a clear reset.</div>
+  <div class="font-800">Trap</div>
+  <div class="op80 mt-1">If the story only exists on hover, the default view is failing.</div>
+</div>
+
+---
+
+## Pattern: Zoom and Pan
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Use when</div>
+    <div class="text-xl font-800 mt-1">Time series is dense</div>
+    <div class="op70 mt-2">The viewer needs a lens, not a different chart.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Design rule</div>
+    <div class="text-xl font-800 mt-1">Keep comparisons stable</div>
+    <div class="op70 mt-2">Fixed axes, clear reset, visible current range.</div>
+  </div>
+</div>
+
+---
+
+## Pattern: Legend Filtering
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Use when</div>
+    <div class="text-xl font-800 mt-1">Many groups</div>
+    <div class="op70 mt-2">Let the viewer isolate and compare groups quickly.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Design rule</div>
+    <div class="text-xl font-800 mt-1">Make clicks predictable</div>
+    <div class="op70 mt-2">Click toggles; double-click isolates; always offer reset.</div>
+  </div>
+</div>
+
+---
+
+## Pattern: Selection / Brush
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Use when</div>
+    <div class="text-xl font-800 mt-1">Pick a range</div>
+    <div class="op70 mt-2">Weeks 5–13, scores 80–90, or a region on a map.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Design rule</div>
+    <div class="text-xl font-800 mt-1">Show the selection state</div>
+    <div class="op70 mt-2">Selected window, count of rows, and a clear way to clear.</div>
+  </div>
+</div>
+
+---
+
+## Pattern: Linked Views
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Use when</div>
+    <div class="text-xl font-800 mt-1">Overview → details</div>
+    <div class="op70 mt-2">Trends first, then distributions, then record lookup.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Design rule</div>
+    <div class="text-xl font-800 mt-1">One source of truth</div>
+    <div class="op70 mt-2">A single filtered dataset should drive all outputs.</div>
+  </div>
 </div>
 
 ---
@@ -157,64 +322,133 @@ class: viz-slide
 
 <div class="op70">Try: hover a point, drag to zoom, scroll to zoom, click legend items to isolate a program.</div>
 
-<div class="viz-grow mt-5">
+<div class="viz-grow mt-4">
   <PlotlyMiniTimeSeries class="viz-fill" />
   <div class="mt-2 text-xs op60">Tip: double-click to reset zoom.</div>
 </div>
 
 ---
 
-## Plotly’s Mental Model
+## Deconstruct the Demo (Why It Works)
 
-<div class="grid grid-cols-2 gap-4 mt-6 items-start">
+<div class="grid grid-cols-3 gap-4 mt-8">
   <div class="card">
-    <div class="kicker">Key idea</div>
-    <div class="text-xl font-800 mt-1">A figure is a spec</div>
-    <div class="op70 mt-2">In Python you build a figure object. In the browser, Plotly renders it as HTML + JavaScript.</div>
+    <div class="kicker">Default view</div>
+    <div class="text-lg font-800 mt-1">Readable line</div>
+    <div class="op70 mt-2">Grid is subtle; labels are complete.</div>
   </div>
-  <div class="mermaid">
-```mermaid
-flowchart LR
-  A["Python code (Plotly Express / graph_objects)"] --> B["Figure spec (JSON-like)"]
-  B --> C["HTML artifact"]
-  C --> D["plotly.js renders SVG + interactions"]
-```
+  <div class="card">
+    <div class="kicker">Interaction</div>
+    <div class="text-lg font-800 mt-1">Adds detail</div>
+    <div class="op70 mt-2">Hover gives exact values, not more clutter.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">State</div>
+    <div class="text-lg font-800 mt-1">Resettable</div>
+    <div class="op70 mt-2">Zoom is reversible and predictable.</div>
   </div>
 </div>
 
-<div class="mt-6 card">
-  <div class="kicker">Practical consequence</div>
-  <div class="op80 mt-2">If you can produce a clean spec, you can export: notebook, report, or a standalone HTML file.</div>
+---
+class: viz-slide
+---
+
+## Demo: Tooltip + Zoom (Same Data, Different Engine)
+
+<div class="op70">This is a D3-style interaction pattern: tooltip + zoom/pan + focus line.</div>
+
+<div class="viz-grow mt-4">
+  <D3MiniInteractiveLine class="viz-fill" />
+</div>
+
+---
+
+## Linked View Case Study (Reading Order)
+
+<div class="mermaid mt-8">
+```mermaid
+flowchart LR
+  A["Overview\nsee trends"] --> B["Brush\nchoose a range"]
+  B --> C["Details\ncompare distributions"]
+  C --> D["Lookup\ninspect records"]
+```
+</div>
+
+<div class="callout mt-6">
+  <div class="font-800">Rule</div>
+  <div class="op80 mt-1">Start broad, then narrow. Do not start with tables of raw rows.</div>
+</div>
+
+---
+class: viz-slide
+---
+
+## Demo: Overview → Brush → Distribution (Linked Views)
+
+<div class="op70">Drag on the left chart to select a week range. Watch the distribution update.</div>
+
+<div class="viz-grow mt-4">
+  <D3CaseStudyOverviewDetail class="viz-fill" />
+</div>
+
+---
+
+## Animation (When It Helps)
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Use animation when</div>
+    <ul class="mt-3">
+      <li>The task is to see <span class="font-900">change over time</span>.</li>
+      <li>You keep a <span class="font-900">fixed scale</span> (comparable frames).</li>
+      <li>You still provide a <span class="font-900">static alternative</span> for precision.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Do not use when</div>
+    <ul class="mt-3">
+      <li>It is only for “wow”.</li>
+      <li>It hides the baseline.</li>
+      <li>It changes the scale per frame.</li>
+    </ul>
+  </div>
+</div>
+
+---
+class: viz-slide
+---
+
+## Demo: Animation = Transitions Between States
+
+<div class="op70">Same data, same scale. The marks move. That is all animation should be.</div>
+
+<div class="viz-grow mt-4">
+  <D3AnimatedPassRateDots class="viz-fill" />
 </div>
 
 ---
 layout: two-cols
 ---
 
-## Plotly in Python (Minimal Recipe)
+## Plotly Animations (Python Concept)
 
 <div class="card !p-3">
 
 ```python
 import plotly.express as px
 
-# df: tidy table (one row = one observation)
-fig = px.line(
+# A frame per time step (week)
+fig = px.scatter(
     df,
-    x="week",
-    y="pass_rate",
-    color="program",
-    markers=True,
-    title="Pass rate by week",
+    x="pass_rate",
+    y="program",
+    animation_frame="week",
+    animation_group="program",
+    range_x=[0.60, 0.92],
 )
 
-fig.update_layout(
-    template="plotly_dark",
-    legend_title_text="Program",
-    hovermode="x unified",
-)
-
-fig.write_html("pass_rate_by_week.html", include_plotlyjs="cdn")
+fig.update_layout(template="plotly_dark")
+fig.write_html("animated.html", include_plotlyjs="cdn")
 ```
 
 </div>
@@ -224,15 +458,25 @@ fig.write_html("pass_rate_by_week.html", include_plotlyjs="cdn")
 <div class="card">
   <div class="kicker">What to notice</div>
   <ul class="mt-3">
-    <li><span class="font-800">Tidy data</span> makes chart creation predictable.</li>
-    <li><span class="font-800">Hovermode</span> controls how tooltips behave.</li>
-    <li><span class="font-800">Export</span> produces a shareable artifact.</li>
+    <li>Animation is just <span class="font-900">frames</span>.</li>
+    <li>Keep a <span class="font-900">fixed axis range</span>.</li>
+    <li>Export as a <span class="font-900">single HTML</span> when sharing.</li>
   </ul>
+  <div class="mt-3 text-sm">
+    <a href="https://plotly.com/python/animations/" target="_blank" rel="noopener noreferrer">plotly.com/python/animations</a>
+  </div>
 </div>
 
-<div class="callout mt-4">
-  <div class="font-800">Pro habit</div>
-  <div class="op80 mt-1">Treat the HTML output like a deliverable: title, units, legend behavior, and default view all matter.</div>
+---
+class: viz-slide
+---
+
+## Demo: Plotly Frames (In-Slide)
+
+<div class="op70">Use the Play button or the slider. Notice the fixed x-axis range.</div>
+
+<div class="viz-grow mt-4">
+  <PlotlyMiniAnimationDots class="viz-fill" />
 </div>
 
 ---
@@ -260,99 +504,470 @@ fig.write_html("pass_rate_by_week.html", include_plotlyjs="cdn")
   </div>
 </div>
 
+---
+
+## Static Fallback and Accessibility
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Fallback</div>
+    <div class="text-xl font-800 mt-1">Default view must stand alone</div>
+    <div class="op70 mt-2">Assume the viewer prints it or screenshots it.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Accessibility</div>
+    <div class="text-xl font-800 mt-1">Do not encode with color only</div>
+    <div class="op70 mt-2">Use labels, line styles, or direct annotations when needed.</div>
+  </div>
+</div>
+
 <div class="callout mt-6">
   <div class="font-800">Rule</div>
-  <div class="op80 mt-1">If the final medium is static, design the default view so it reads without interaction.</div>
+  <div class="op80 mt-1">Interactivity should reveal detail, not hide structure.</div>
 </div>
 
 ---
 
-## Interactivity Patterns That Scale
+## Pitfalls (Interactive Charts)
 
-<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="grid grid-cols-2 gap-4 mt-8">
   <div class="card">
-    <div class="kicker">Hover</div>
-    <div class="text-xl font-800 mt-1">Inspect without clutter</div>
-    <div class="op70 mt-2">Use tooltips, not tiny labels everywhere.</div>
+    <div class="kicker">Noise</div>
+    <div class="text-xl font-800 mt-1">Too many tools</div>
+    <div class="op70 mt-2">Mode bars, buttons, and sliders everywhere.</div>
   </div>
   <div class="card">
-    <div class="kicker">Legend click</div>
-    <div class="text-xl font-800 mt-1">Filter and isolate groups</div>
-    <div class="op70 mt-2">Make comparisons easier on demand.</div>
+    <div class="kicker">Comparability</div>
+    <div class="text-xl font-800 mt-1">Changing scales</div>
+    <div class="op70 mt-2">Every frame looks “dramatic” but is misleading.</div>
   </div>
   <div class="card">
-    <div class="kicker">Brush</div>
-    <div class="text-xl font-800 mt-1">Select a range</div>
-    <div class="op70 mt-2">Time windows, regions, numeric thresholds.</div>
+    <div class="kicker">State</div>
+    <div class="text-xl font-800 mt-1">No reset</div>
+    <div class="op70 mt-2">The viewer cannot recover from a weird interaction.</div>
   </div>
   <div class="card">
-    <div class="kicker">Linked views</div>
-    <div class="text-xl font-800 mt-1">One input updates another chart</div>
-    <div class="op70 mt-2">The core pattern behind dashboards.</div>
+    <div class="kicker">Data</div>
+    <div class="text-xl font-800 mt-1">Wrong grain</div>
+    <div class="op70 mt-2">Most chart bugs are still data bugs.</div>
   </div>
-</div>
-
----
-class: viz-slide
----
-
-## Demo: Overview → Brush → Distribution (Linked Views)
-
-<div class="op70">Drag on the left chart to select a week range. Watch the distribution update.</div>
-
-<div class="viz-grow mt-5">
-  <D3CaseStudyOverviewDetail class="viz-fill" />
-</div>
-
----
-
-## Other Python Libraries (Quick Heuristic)
-
-<div class="grid grid-cols-2 gap-4 mt-6 items-start">
-  <div class="card">
-    <div class="kicker">Declarative</div>
-    <div class="text-xl font-800 mt-1">Altair (Vega-Lite)</div>
-    <div class="op70 mt-2">Great for rapid, tidy-data exploration and interactive selections with minimal code.</div>
-    <div class="mt-3 text-sm">
-      <a href="https://altair-viz.github.io/" target="_blank" rel="noopener noreferrer">altair-viz.github.io</a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="kicker">Custom tools</div>
-    <div class="text-xl font-800 mt-1">Bokeh</div>
-    <div class="op70 mt-2">When you need non-standard interactions and fine control over tools.</div>
-    <div class="mt-3 text-sm">
-      <a href="https://docs.bokeh.org/en/latest/" target="_blank" rel="noopener noreferrer">docs.bokeh.org</a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="kicker">Dashboards</div>
-    <div class="text-xl font-800 mt-1">Panel / HoloViz</div>
-    <div class="op70 mt-2">Compose widgets + plots quickly, especially for exploration.</div>
-    <div class="mt-3 text-sm">
-      <a href="https://panel.holoviz.org/" target="_blank" rel="noopener noreferrer">panel.holoviz.org</a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="kicker">Fast apps</div>
-    <div class="text-xl font-800 mt-1">Streamlit</div>
-    <div class="op70 mt-2">Simple data apps fast, with tradeoffs in layout and callback control.</div>
-    <div class="mt-3 text-sm">
-      <a href="https://streamlit.io/" target="_blank" rel="noopener noreferrer">streamlit.io</a>
-    </div>
-  </div>
-</div>
-
-<div class="callout mt-6">
-  <div class="font-800">Decision rule</div>
-  <div class="op80 mt-1">Pick the tool that matches your delivery: a single HTML file, or a real app with server-side callbacks.</div>
 </div>
 
 ---
 layout: section
 ---
 
-<div class="kicker">Part 2 · Data Apps</div>
+<div class="kicker">Part 2 · Plotly in Python</div>
+
+# <span class="icon-inline i-carbon:chart-line-data mr-3"></span>Build figures you can ship
+
+A figure is a spec. A deliverable is an artifact.
+
+---
+
+## Plotly’s Mental Model
+
+<div class="grid grid-cols-2 gap-4 mt-6 items-start">
+  <div class="card">
+    <div class="kicker">Key idea</div>
+    <div class="text-xl font-800 mt-1">A figure is a spec</div>
+    <div class="op70 mt-2">In Python you build a figure object. In the browser, Plotly renders it as HTML + JavaScript.</div>
+  </div>
+  <div class="mermaid">
+```mermaid
+flowchart LR
+  A["Python code\n(Plotly Express / graph_objects)"] --> B["Figure spec\n(JSON-like)"]
+  B --> C["HTML artifact"]
+  C --> D["plotly.js renders\nSVG + interactions"]
+```
+  </div>
+</div>
+
+---
+
+## Plotly Express vs Graph Objects
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Plotly Express</div>
+    <div class="text-xl font-800 mt-1">Fast, opinionated</div>
+    <div class="op70 mt-2">Great for tidy data: `px.line`, `px.scatter`, `px.histogram`.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">graph_objects</div>
+    <div class="text-xl font-800 mt-1">Explicit control</div>
+    <div class="op70 mt-2">When you need subplots, custom traces, or non-standard layouts.</div>
+  </div>
+</div>
+
+<div class="callout mt-6">
+  <div class="font-800">Rule</div>
+  <div class="op80 mt-1">Start with Express. Switch to graph_objects only when you can name the missing control.</div>
+</div>
+
+---
+
+## Your Data Shape Controls Your Workload
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Best default</div>
+    <div class="text-xl font-800 mt-1">Tidy / long tables</div>
+    <div class="op70 mt-2">One row = one observation. Columns = fields.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Common fix</div>
+    <div class="text-xl font-800 mt-1">Reshape before plotting</div>
+    <div class="op70 mt-2">`melt`, `groupby`, and explicit sorting solve most problems.</div>
+  </div>
+</div>
+
+---
+layout: two-cols
+---
+
+## Plotly in Python (Minimal Recipe)
+
+<div class="card !p-3">
+
+```python
+import plotly.express as px
+
+fig = px.line(
+    df,
+    x="week",
+    y="pass_rate",
+    color="program",
+    markers=True,
+    title="Pass rate by week",
+)
+
+fig.update_layout(
+    template="plotly_dark",
+    legend_title_text="Program",
+    hovermode="x unified",
+)
+
+fig.write_html("pass_rate_by_week.html", include_plotlyjs="cdn")
+```
+
+</div>
+
+::right::
+
+<div class="card">
+  <div class="kicker">What to check</div>
+  <ul class="mt-3">
+    <li><span class="font-900">Labels</span> are complete (units when needed).</li>
+    <li><span class="font-900">Legend</span> supports comparison (click behavior).</li>
+    <li><span class="font-900">Default view</span> reads without interaction.</li>
+  </ul>
+</div>
+
+---
+
+## Styling That Signals Professional Work
+
+<div class="grid grid-cols-3 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Margins</div>
+    <div class="text-lg font-900 mt-1">Breathing room</div>
+    <div class="op70 mt-2">Titles and axes should not collide.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Typography</div>
+    <div class="text-lg font-900 mt-1">Intentional sizes</div>
+    <div class="op70 mt-2">Large enough at 100% zoom.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Grids</div>
+    <div class="text-lg font-900 mt-1">Subtle</div>
+    <div class="op70 mt-2">Data is loud. Scaffolding is quiet.</div>
+  </div>
+</div>
+
+---
+layout: two-cols
+---
+
+## Hovertemplate (Precision Without Clutter)
+
+<div class="card !p-3">
+
+```python
+fig.update_traces(
+    hovertemplate=
+        "<b>%{legendgroup}</b>" +
+        "<br>week=%{x}" +
+        "<br>pass_rate=%{y:.3f}" +
+        "<extra></extra>"
+)
+```
+
+</div>
+
+::right::
+
+<div class="card">
+  <div class="kicker">Why this matters</div>
+  <div class="op70 mt-2">Default tooltips are often noisy. A good tooltip reads like a label, not a log file.</div>
+  <div class="callout mt-4 !p-3">
+    <div class="font-800">Rule</div>
+    <div class="op80 mt-1">Format numbers the way you would in a report.</div>
+  </div>
+</div>
+
+---
+
+## Facets (Small Multiples)
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Use when</div>
+    <div class="text-xl font-800 mt-1">Compare distributions</div>
+    <div class="op70 mt-2">Same axes, same bins, easy comparison.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Design rule</div>
+    <div class="text-xl font-800 mt-1">Align scales</div>
+    <div class="op70 mt-2">Small multiples are only useful when the scale is shared.</div>
+  </div>
+</div>
+
+---
+
+## Subplots and Shared Axes
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Problem</div>
+    <div class="text-xl font-800 mt-1">Too much in one panel</div>
+    <div class="op70 mt-2">Multiple metrics, multiple views, or multiple tasks.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Solution</div>
+    <div class="text-xl font-800 mt-1">Split views, share scales</div>
+    <div class="op70 mt-2">Keep comparisons valid and reduce clutter.</div>
+  </div>
+</div>
+
+---
+
+## Category Ordering Is Part of the Story
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Default trap</div>
+    <div class="text-xl font-800 mt-1">Alphabetical ordering</div>
+    <div class="op70 mt-2">It rarely matches the question.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Professional move</div>
+    <div class="text-xl font-800 mt-1">Sort by meaning</div>
+    <div class="op70 mt-2">Sort by value, change, or a domain order.</div>
+  </div>
+</div>
+
+---
+
+## Color: Encode Meaning, Not Preference
+
+<div class="grid grid-cols-3 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Categorical</div>
+    <div class="text-lg font-900 mt-1">Different groups</div>
+    <div class="op70 mt-2">Avoid rainbow. Keep contrast.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Sequential</div>
+    <div class="text-lg font-900 mt-1">Low → high</div>
+    <div class="op70 mt-2">Lightness carries order.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Diverging</div>
+    <div class="text-lg font-900 mt-1">Below / above</div>
+    <div class="op70 mt-2">A meaningful midpoint.</div>
+  </div>
+</div>
+
+---
+
+## Performance (When Data Gets Big)
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Symptoms</div>
+    <div class="text-xl font-800 mt-1">Lag, stutter, freezes</div>
+    <div class="op70 mt-2">The browser is doing too much work per frame.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Mitigations</div>
+    <ul class="mt-3">
+      <li>Aggregate or sample.</li>
+      <li>Use WebGL traces (`scattergl`).</li>
+      <li>Limit hover points.</li>
+    </ul>
+  </div>
+</div>
+
+---
+
+## Exporting From Python
+
+<div class="grid grid-cols-3 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">HTML</div>
+    <div class="text-lg font-900 mt-1">`write_html`</div>
+    <div class="op70 mt-2">Best for interactive delivery.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">PNG / SVG</div>
+    <div class="text-lg font-900 mt-1">Kaleido</div>
+    <div class="op70 mt-2">Static exports for reports.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Spec</div>
+    <div class="text-lg font-900 mt-1">JSON</div>
+    <div class="op70 mt-2">Store the figure for reproducibility.</div>
+  </div>
+</div>
+
+---
+
+## Pitfalls and Debugging (Plotly)
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Data bugs</div>
+    <div class="text-xl font-800 mt-1">Wrong unit or grain</div>
+    <div class="op70 mt-2">Wrong denominators cause wrong stories.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Chart bugs</div>
+    <div class="text-xl font-800 mt-1">Defaults not reviewed</div>
+    <div class="op70 mt-2">Axis ranges, sorting, and hover formatting.</div>
+  </div>
+</div>
+
+<div class="callout mt-6">
+  <div class="font-800">Debugging trick</div>
+  <div class="op80 mt-1">Print the filtered table shape first. If the data is wrong, the figure will be wrong.</div>
+</div>
+
+---
+
+## When Not to Use Plotly
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Static deliverables</div>
+    <div class="text-xl font-800 mt-1">You only need a PDF</div>
+    <div class="op70 mt-2">Matplotlib can be simpler and lighter.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Complex custom visuals</div>
+    <div class="text-xl font-800 mt-1">Highly bespoke interactions</div>
+    <div class="op70 mt-2">Consider D3 or a custom front end.</div>
+  </div>
+</div>
+
+<div class="mt-6 text-sm">
+  <a href="https://plotly.com/python/" target="_blank" rel="noopener noreferrer">plotly.com/python</a>
+</div>
+
+---
+layout: section
+---
+
+<div class="kicker">Part 3 · Choosing Tools</div>
+
+# <span class="icon-inline i-carbon:decision-tree mr-3"></span>Pick by delivery
+
+HTML artifact vs deployed app.
+
+---
+
+## Quick Heuristic
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Altair</div>
+    <div class="text-xl font-800 mt-1">Declarative exploration</div>
+    <div class="op70 mt-2">Tidy data + compact specs + selections.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Bokeh</div>
+    <div class="text-xl font-800 mt-1">Custom tools</div>
+    <div class="op70 mt-2">When interactions are the product.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Panel</div>
+    <div class="text-xl font-800 mt-1">Widget composition</div>
+    <div class="op70 mt-2">Quick dashboards for exploration.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Streamlit</div>
+    <div class="text-xl font-800 mt-1">Fast apps</div>
+    <div class="op70 mt-2">Great defaults, less callback control.</div>
+  </div>
+</div>
+
+---
+class: tight-layout
+---
+
+## Other Python Libraries (Quick Links)
+
+<div class="grid grid-cols-2 gap-3 mt-5 items-start">
+  <div class="card !p-3">
+    <div class="kicker">Altair</div>
+    <div class="text-lg font-900 mt-1">Vega-Lite grammar</div>
+    <div class="mt-2 text-sm"><a href="https://altair-viz.github.io/" target="_blank" rel="noopener noreferrer">altair-viz.github.io</a></div>
+  </div>
+  <div class="card !p-3">
+    <div class="kicker">Bokeh</div>
+    <div class="text-lg font-900 mt-1">Interactive plotting</div>
+    <div class="mt-2 text-sm"><a href="https://docs.bokeh.org/en/latest/" target="_blank" rel="noopener noreferrer">docs.bokeh.org</a></div>
+  </div>
+  <div class="card !p-3">
+    <div class="kicker">Panel</div>
+    <div class="text-lg font-900 mt-1">HoloViz ecosystem</div>
+    <div class="mt-2 text-sm"><a href="https://panel.holoviz.org/" target="_blank" rel="noopener noreferrer">panel.holoviz.org</a></div>
+  </div>
+  <div class="card !p-3">
+    <div class="kicker">Streamlit</div>
+    <div class="text-lg font-900 mt-1">Data apps fast</div>
+    <div class="mt-2 text-sm"><a href="https://streamlit.io/" target="_blank" rel="noopener noreferrer">streamlit.io</a></div>
+  </div>
+</div>
+
+<div class="callout mt-4 !p-3">
+  <div class="font-800">Decision rule</div>
+  <div class="op80 mt-1">Pick the tool that matches your delivery: a single HTML file, or a real app with server-side callbacks.</div>
+</div>
+
+---
+
+## The Practical Split
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">If you need</div>
+    <div class="text-xl font-900 mt-1">A single file to share</div>
+    <div class="op70 mt-2">Plotly HTML, Altair HTML, Bokeh HTML.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">If you need</div>
+    <div class="text-xl font-900 mt-1">A real app</div>
+    <div class="op70 mt-2">Dash, Panel, Streamlit (server-side state).</div>
+  </div>
+</div>
+
+---
+layout: section
+---
+
+<div class="kicker">Part 4 · Data Apps</div>
 
 # <span class="icon-inline i-carbon:application-web mr-3"></span>Dash fundamentals
 
@@ -362,27 +977,31 @@ Layout describes structure. Callbacks define behavior.
 
 ## From Chart to App
 
-<div class="mermaid mt-6">
+<div class="mermaid mt-8">
 ```mermaid
 flowchart LR
-  A["Data (table)"] --> B["Compute (transform + aggregate)"]
-  B --> C["State (filters, selections)"]
-  C --> D["Views (charts + tables)"]
+  A["Data (table)"] --> B["Compute\n(transform + aggregate)"]
+  B --> C["State\n(filters, selections)"]
+  C --> D["Views\n(charts + tables)"]
   D --> C
 ```
 </div>
 
-<div class="grid grid-cols-2 gap-4 mt-6">
-  <div class="card">
-    <div class="kicker">Dash framing</div>
-    <div class="text-xl font-800 mt-1">Your app is a set of state transitions</div>
-    <div class="op70 mt-2">A callback takes inputs and returns updated outputs.</div>
-  </div>
-  <div class="card">
-    <div class="kicker">Pro habit</div>
-    <div class="text-xl font-800 mt-1">Separate compute from render</div>
-    <div class="op70 mt-2">Cache expensive transforms; keep the UI responsive.</div>
-  </div>
+---
+
+## Dash Layout Is a Tree
+
+<div class="mermaid mt-6">
+```mermaid
+flowchart TD
+  A["app.layout"] --> B["Div (page)"]
+  B --> C["Controls"]
+  B --> D["Outputs"]
+  C --> E["Dropdown"]
+  C --> F["RangeSlider"]
+  D --> G["Graph"]
+  D --> H["Table"]
+```
 </div>
 
 ---
@@ -415,13 +1034,40 @@ app.layout = html.Div(
 
 <div class="card">
   <div class="kicker">Mental model</div>
-  <div class="text-xl font-800 mt-1">Layout is a tree</div>
-  <div class="op70 mt-2">HTML containers + interactive controls + output components (like `dcc.Graph`).</div>
+  <div class="text-xl font-800 mt-1">Layout is declarative</div>
+  <div class="op70 mt-2">You describe the UI once. Callbacks provide the behavior.</div>
 </div>
 
-<div class="callout mt-4">
+<div class="callout mt-4 !p-3">
+  <div class="font-800">Pro habit</div>
+  <div class="op80 mt-1">Add components one at a time. Test IDs and wiring early.</div>
+</div>
+
+---
+
+## Callback Mental Model
+
+<div class="grid grid-cols-3 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Inputs</div>
+    <div class="text-lg font-900 mt-1">Controls</div>
+    <div class="op70 mt-2">Dropdowns, sliders, buttons.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Callback</div>
+    <div class="text-lg font-900 mt-1">Compute</div>
+    <div class="op70 mt-2">Filter, aggregate, reshape.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Outputs</div>
+    <div class="text-lg font-900 mt-1">Views</div>
+    <div class="op70 mt-2">Charts, tables, KPI cards.</div>
+  </div>
+</div>
+
+<div class="callout mt-6">
   <div class="font-800">Rule</div>
-  <div class="op80 mt-1">Start with a minimal layout, then add components one at a time. Debug structure before behavior.</div>
+  <div class="op80 mt-1">Treat callbacks like pure functions of state. That is how you debug them.</div>
 </div>
 
 ---
@@ -454,84 +1100,127 @@ def update_trend(program, week_range):
 ::right::
 
 <div class="card">
-  <div class="kicker">What to notice</div>
+  <div class="kicker">Debugging order</div>
   <ul class="mt-3">
-    <li><span class="font-800">Inputs</span> are the controls.</li>
-    <li><span class="font-800">Output</span> is a component property.</li>
-    <li>The callback is just a <span class="font-800">pure function</span> of state.</li>
+    <li>Confirm input values.</li>
+    <li>Print the filtered row count.</li>
+    <li>Validate units and grain.</li>
+    <li>Then style the figure.</li>
   </ul>
 </div>
 
-<div class="callout mt-4">
-  <div class="font-800">Debugging trick</div>
-  <div class="op80 mt-1">Print the filtered table shape first. If the data is wrong, the figure will be wrong.</div>
+---
+
+## Debugging Checklist (Dash)
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Data</div>
+    <ul class="mt-3">
+      <li>Do you aggregate to the correct grain?</li>
+      <li>Are types and units correct?</li>
+      <li>Are missing values handled explicitly?</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">App</div>
+    <ul class="mt-3">
+      <li>Are component IDs unique?</li>
+      <li>Do callbacks guard empty filters?</li>
+      <li>Is there a clear reset state?</li>
+    </ul>
+  </div>
 </div>
 
 ---
 class: viz-slide
 ---
 
-## Live Mini Dashboard (Callback Behavior)
+## Demo: Live Mini Dashboard (Callback Behavior)
 
-<div class="op70">This slide is a simulated mini app. In Dash, the same state changes happen through callbacks.</div>
+<div class="op70">This slide is a simulated mini app. In Dash, callbacks do the same state updates.</div>
 
-<div class="viz-grow mt-5">
+<div class="viz-grow mt-4">
   <DashMiniApp />
 </div>
 
 ---
 
-## Callback Patterns You’ll Use Often
+## Multi-Output Pattern (Common in Dash)
 
-<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="grid grid-cols-2 gap-4 mt-8">
   <div class="card">
-    <div class="kicker">Single output</div>
-    <div class="text-xl font-800 mt-1">One input → one figure</div>
-    <div class="op70 mt-2">Start here. Keep it debuggable.</div>
+    <div class="kicker">One filter</div>
+    <div class="text-xl font-900 mt-1">Many outputs</div>
+    <div class="op70 mt-2">Graph updates, KPI cards update, table updates.</div>
   </div>
   <div class="card">
-    <div class="kicker">Multi output</div>
-    <div class="text-xl font-800 mt-1">One input → chart + table</div>
-    <div class="op70 mt-2">Same filtered data drives multiple views.</div>
-  </div>
-  <div class="card">
-    <div class="kicker">Linked views</div>
-    <div class="text-xl font-800 mt-1">Brush → update details</div>
-    <div class="op70 mt-2">Core dashboard interaction pattern.</div>
-  </div>
-  <div class="card">
-    <div class="kicker">Clientside</div>
-    <div class="text-xl font-800 mt-1">Fast UI updates</div>
-    <div class="op70 mt-2">When server roundtrips feel slow.</div>
+    <div class="kicker">Rule</div>
+    <div class="text-xl font-900 mt-1">Compute once</div>
+    <div class="op70 mt-2">Derive a filtered table once, then reuse it for all views.</div>
   </div>
 </div>
 
 ---
 
-## Reliability and Performance
+## Input vs State vs Store
 
-<div class="grid grid-cols-2 gap-4 mt-6">
+<div class="grid grid-cols-3 gap-4 mt-8">
   <div class="card">
-    <div class="kicker">Data</div>
-    <ul class="mt-3">
-      <li>Validate types and units before plotting.</li>
-      <li>Decide your grain (row = what?).</li>
-      <li>Make missingness explicit.</li>
-    </ul>
+    <div class="kicker">Input</div>
+    <div class="text-lg font-900 mt-1">Triggers callback</div>
+    <div class="op70 mt-2">User changes it.</div>
   </div>
   <div class="card">
-    <div class="kicker">App</div>
-    <ul class="mt-3">
-      <li>Cache expensive transforms.</li>
-      <li>Keep callbacks small and predictable.</li>
-      <li>Guard against empty filters.</li>
-    </ul>
+    <div class="kicker">State</div>
+    <div class="text-lg font-900 mt-1">Read-only context</div>
+    <div class="op70 mt-2">Used inside callback, does not trigger.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Store</div>
+    <div class="text-lg font-900 mt-1">Cached data</div>
+    <div class="op70 mt-2">Avoid recomputing on every interaction.</div>
   </div>
 </div>
 
-<div class="callout mt-6">
-  <div class="font-800">Rule</div>
-  <div class="op80 mt-1">Separate: compute once, render many. A dashboard is mostly data plumbing.</div>
+---
+
+## Scaling Beyond One Callback
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Pattern matching</div>
+    <div class="text-xl font-900 mt-1">Dynamic components</div>
+    <div class="op70 mt-2">Generate many similar charts and wire callbacks cleanly.</div>
+  </div>
+  <div class="card">
+    <div class="kicker">Clientside callbacks</div>
+    <div class="text-xl font-900 mt-1">Fast UI updates</div>
+    <div class="op70 mt-2">Move lightweight logic to the browser when needed.</div>
+  </div>
+</div>
+
+---
+
+## Performance and Reliability
+
+<div class="grid grid-cols-2 gap-4 mt-8">
+  <div class="card">
+    <div class="kicker">Performance</div>
+    <ul class="mt-3">
+      <li>Cache expensive transforms.</li>
+      <li>Keep callbacks small and predictable.</li>
+      <li>Do not re-render huge figures unnecessarily.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="kicker">Reliability</div>
+    <ul class="mt-3">
+      <li>Guard empty selections.</li>
+      <li>Use sensible defaults.</li>
+      <li>Log inputs when debugging.</li>
+    </ul>
+  </div>
 </div>
 
 ---
@@ -547,7 +1236,7 @@ class: viz-slide
   <div class="card">
     <div class="kicker">Interaction</div>
     <div class="text-xl font-800 mt-1">Reset, defaults, fixed scales</div>
-    <div class="op70 mt-2">No “mystery states”.</div>
+    <div class="op70 mt-2">No mystery states.</div>
   </div>
   <div class="card">
     <div class="kicker">Data</div>

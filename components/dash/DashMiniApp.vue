@@ -196,62 +196,59 @@ function toggleProgram(program: string) {
 </script>
 
 <template>
-  <div class="grid grid-cols-2 gap-4 items-stretch">
-    <div class="card">
-      <div class="kicker">Dash mindset</div>
+  <div class="grid grid-cols-2 gap-4 items-start">
+    <div class="card !p-4">
+      <div class="kicker">Dash callback mental model</div>
       <div class="text-xl font-800 mt-1">Inputs → callback → outputs</div>
-      <div class="op70 mt-2">
-        Change an input, recompute, and redraw. The mechanics are the same in a Vue demo and a Dash app.
+      <div class="op70 mt-2 text-sm">
+        Change an input, recompute, and redraw. In Dash, the callback does the recompute.
       </div>
 
-      <div class="mt-5 grid grid-cols-2 gap-3">
-        <div class="card !p-3">
+      <div class="mt-4 grid grid-cols-2 gap-3">
+        <div>
           <div class="kicker">Term</div>
-          <select v-model="term" class="w-full mt-2 px-2 py-1.5 rounded-md bg-white/5 border border-white/10">
+          <select v-model="term" class="w-full mt-2 px-2 py-1.5 rounded-md bg-white/5 border border-white/10 text-sm">
             <option v-for="t in allTerms" :key="t" :value="t">{{ t }}</option>
           </select>
         </div>
-        <div class="card !p-3">
+        <div>
           <div class="kicker">Week range</div>
-          <div class="mt-2 text-sm op70">Start: <span class="font-700">{{ clampedWeekStart }}</span></div>
+          <div class="mt-2 text-xs op70 flex items-center justify-between">
+            <span>Start: <span class="font-700">{{ clampedWeekStart }}</span></span>
+            <span>End: <span class="font-700">{{ clampedWeekEnd }}</span></span>
+          </div>
           <input v-model.number="weekStart" :min="minWeek" :max="maxWeek" type="range" class="w-full mt-2" />
-          <div class="mt-3 text-sm op70">End: <span class="font-700">{{ clampedWeekEnd }}</span></div>
           <input v-model.number="weekEnd" :min="minWeek" :max="maxWeek" type="range" class="w-full mt-2" />
         </div>
       </div>
 
-      <div class="mt-4 card !p-3">
+      <div class="mt-4">
         <div class="kicker">Programs</div>
-        <div class="mt-3 grid grid-cols-2 gap-2">
+        <div class="mt-2 flex flex-wrap gap-2">
           <button
             v-for="p in allPrograms"
             :key="p"
             type="button"
-            class="px-2.5 py-2 rounded-lg border border-white/10 bg-white/5 text-left"
-            :class="selectedPrograms.includes(p) ? 'ring-1 ring-white/20' : 'op70 hover:op90'"
+            class="px-2.5 py-1.5 rounded-lg border border-white/10 bg-white/5 text-sm"
+            :class="selectedPrograms.includes(p) ? 'ring-1 ring-white/20 op100' : 'op70 hover:op90'"
             @click="toggleProgram(p)"
           >
             <span class="inline-flex items-center gap-2">
               <span class="inline-block w-2.5 h-2.5 rounded-full" :style="{ background: programColors.get(p) || vizTheme.primary }" />
-              <span class="font-700">{{ p }}</span>
+              <span class="font-800">{{ p }}</span>
             </span>
           </button>
         </div>
       </div>
 
-      <div class="mt-4 grid grid-cols-2 gap-3">
-        <div class="card !p-3">
-          <div class="kicker">Rows</div>
-          <div class="text-2xl font-900 mt-1">{{ filtered.length }}</div>
-          <div class="text-sm op70 mt-1">Aggregated program-week points</div>
+      <div class="mt-4 card !p-3">
+        <div class="kicker">Callback outputs (live)</div>
+        <div class="mt-2 text-sm op80">
+          Rows: <span class="font-900">{{ filtered.length }}</span>
+          <span class="op60 mx-2">·</span>
+          Overall pass_rate: <span class="font-900">{{ Number.isFinite(overall.pass_rate) ? overall.pass_rate.toFixed(3) : '—' }}</span>
         </div>
-        <div class="card !p-3">
-          <div class="kicker">Overall pass_rate</div>
-          <div class="text-2xl font-900 mt-1">
-            {{ Number.isFinite(overall.pass_rate) ? overall.pass_rate.toFixed(3) : '—' }}
-          </div>
-          <div class="text-sm op70 mt-1">{{ overall.n_pass }} / {{ overall.n_students }} students</div>
-        </div>
+        <div class="mt-1 text-xs op60">{{ overall.n_pass }} / {{ overall.n_students }} students (aggregated)</div>
       </div>
     </div>
 
