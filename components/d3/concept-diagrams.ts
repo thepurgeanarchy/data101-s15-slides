@@ -1281,4 +1281,110 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
       { from: 'M', to: 'P', dashed: true, stroke: 'rgba(148,163,184,0.55)' },
     ],
   },
+
+  'interactive-chart-vs-app': {
+    height: 320,
+    ariaLabel: 'Comparison of an interactive chart artifact versus a data app with callbacks and multiple outputs.',
+    relax: false,
+    groups: [
+      { id: 'chart', label: 'Interactive chart', x: 0.05, y: 0.16, w: 0.43, h: 0.78, stroke: vizTheme.primary },
+      { id: 'app', label: 'Data app', x: 0.52, y: 0.16, w: 0.43, h: 0.78, stroke: vizTheme.cyan },
+    ],
+    nodes: [
+      { id: 'A', label: 'Interactive chart\n(single artifact)', x: 0.26, y: 0.38, w: 250, h: 74, variant: 'primary' },
+      { id: 'B', label: 'Hover · zoom\nlegend filter', x: 0.26, y: 0.62, w: 240, h: 70, variant: 'note' },
+      { id: 'C', label: 'Export HTML', x: 0.26, y: 0.84, w: 200, h: 60, variant: 'accent' },
+
+      { id: 'D', label: 'Data app\n(many views)', x: 0.74, y: 0.30, w: 230, h: 70, variant: 'primary' },
+      { id: 'E', label: 'Controls\n(inputs)', x: 0.74, y: 0.48, w: 210, h: 66, variant: 'note' },
+      { id: 'F', label: 'Callback\n(compute)', x: 0.84, y: 0.70, w: 210, h: 66, variant: 'note' },
+      { id: 'G', label: 'Outputs\n(charts + tables)', x: 0.64, y: 0.70, w: 250, h: 74, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'A', to: 'B', stroke: 'rgba(147,197,253,0.78)' },
+      { from: 'A', to: 'C', dashed: true, stroke: 'rgba(148,163,184,0.58)' },
+
+      { from: 'D', to: 'E', stroke: 'rgba(147,197,253,0.78)' },
+      { from: 'E', to: 'F', stroke: 'rgba(147,197,253,0.78)' },
+      { from: 'F', to: 'G', stroke: 'rgba(147,197,253,0.78)' },
+      { from: 'G', to: 'E', dashed: true, stroke: 'rgba(34,211,238,0.78)' },
+    ],
+  },
+
+  'linked-views-reading-order': {
+    height: 220,
+    ariaLabel: 'Reading order for linked views: overview, brush, details, then lookup.',
+    relax: false,
+    nodes: [
+      { id: 'A', label: 'Overview\nsee trends', x: 0.14, y: 0.56, w: 210, h: 72, variant: 'primary' },
+      { id: 'B', label: 'Brush\nchoose a range', x: 0.40, y: 0.56, w: 210, h: 72, variant: 'note' },
+      { id: 'C', label: 'Details\ncompare distributions', x: 0.66, y: 0.56, w: 250, h: 72, variant: 'primary' },
+      { id: 'D', label: 'Lookup\ninspect records', x: 0.88, y: 0.56, w: 230, h: 72, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'A', to: 'B' },
+      { from: 'B', to: 'C' },
+      { from: 'C', to: 'D' },
+    ],
+  },
+
+  'plotly-mental-model': {
+    height: 240,
+    ariaLabel: 'Plotly mental model from Python code to a figure spec to an HTML artifact rendered by plotly.js.',
+    relax: false,
+    nodes: [
+      { id: 'A', label: 'Python code\n(Plotly Express / graph_objects)', x: 0.14, y: 0.56, w: 270, h: 74, variant: 'note' },
+      { id: 'B', label: 'Figure spec\n(JSON-like)', x: 0.40, y: 0.56, w: 220, h: 74, variant: 'primary' },
+      { id: 'C', label: 'HTML artifact', x: 0.64, y: 0.56, w: 200, h: 66, variant: 'accent' },
+      { id: 'D', label: 'plotly.js renders\nSVG + interactions', x: 0.87, y: 0.56, w: 250, h: 74, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'A', to: 'B' },
+      { from: 'B', to: 'C' },
+      { from: 'C', to: 'D' },
+    ],
+  },
+
+  'chart-to-app-loop': {
+    height: 300,
+    ariaLabel: 'From chart to app: data, compute, state, views, and an interaction loop from views back to state.',
+    relax: false,
+    nodes: [
+      { id: 'A', label: 'Data\n(table)', x: 0.18, y: 0.58, w: 190, h: 66, variant: 'primary' },
+      { id: 'B', label: 'Compute\n(transform + aggregate)', x: 0.42, y: 0.58, w: 250, h: 74, variant: 'note' },
+      { id: 'C', label: 'State\n(filters, selections)', x: 0.66, y: 0.40, w: 240, h: 74, variant: 'primary' },
+      { id: 'D', label: 'Views\n(charts + tables)', x: 0.86, y: 0.72, w: 240, h: 74, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'A', to: 'B' },
+      { from: 'B', to: 'C' },
+      { from: 'C', to: 'D' },
+      { from: 'D', to: 'C', dashed: true, stroke: 'rgba(34,211,238,0.76)' },
+    ],
+  },
+
+  'dash-layout-tree': {
+    height: 420,
+    ariaLabel: 'Dash layout tree from app.layout to controls and outputs components.',
+    relax: false,
+    nodes: [
+      { id: 'A', label: 'app.layout', x: 0.50, y: 0.10, w: 210, h: 62, shape: 'pill', variant: 'primary' },
+      { id: 'B', label: 'Div (page)', x: 0.50, y: 0.28, w: 210, h: 62, shape: 'pill', variant: 'note' },
+      { id: 'C', label: 'Controls', x: 0.30, y: 0.48, w: 190, h: 62, variant: 'primary' },
+      { id: 'D', label: 'Outputs', x: 0.70, y: 0.48, w: 190, h: 62, variant: 'primary' },
+      { id: 'E', label: 'Dropdown', x: 0.20, y: 0.72, w: 190, h: 60, variant: 'muted' },
+      { id: 'F', label: 'RangeSlider', x: 0.40, y: 0.72, w: 200, h: 60, variant: 'muted' },
+      { id: 'G', label: 'Graph', x: 0.60, y: 0.72, w: 190, h: 60, variant: 'muted' },
+      { id: 'H', label: 'Table', x: 0.80, y: 0.72, w: 190, h: 60, variant: 'muted' },
+    ],
+    edges: [
+      { from: 'A', to: 'B', stroke: 'rgba(147,197,253,0.78)' },
+      { from: 'B', to: 'C', stroke: 'rgba(147,197,253,0.78)' },
+      { from: 'B', to: 'D', stroke: 'rgba(147,197,253,0.78)' },
+      { from: 'C', to: 'E', stroke: 'rgba(147,197,253,0.68)' },
+      { from: 'C', to: 'F', stroke: 'rgba(147,197,253,0.68)' },
+      { from: 'D', to: 'G', stroke: 'rgba(147,197,253,0.68)' },
+      { from: 'D', to: 'H', stroke: 'rgba(147,197,253,0.68)' },
+    ],
+  },
 }

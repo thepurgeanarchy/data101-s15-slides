@@ -133,18 +133,7 @@ Plotly in Python, interactive chart patterns, and Dash fundamentals (layout + ca
 
 ## Interactive Chart vs Data App
 
-<div class="mermaid mt-8">
-```mermaid
-flowchart LR
-  A["Interactive chart\n(single artifact)"] --> B["Hover / zoom / legend filter"]
-  A --> C["Export HTML"]
-
-  D["Data app\n(many views)"] --> E["Controls (inputs)"]
-  E --> F["Callback (compute)"]
-  F --> G["Outputs (charts + tables)"]
-  G --> E
-```
-</div>
+<D3ConceptDiagram diagram="interactive-chart-vs-app" class="mt-8" />
 
 <div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
@@ -379,14 +368,7 @@ class: viz-slide
 
 ## Linked View Case Study (Reading Order)
 
-<div class="mermaid mt-8">
-```mermaid
-flowchart LR
-  A["Overview\nsee trends"] --> B["Brush\nchoose a range"]
-  B --> C["Details\ncompare distributions"]
-  C --> D["Lookup\ninspect records"]
-```
-</div>
+<D3ConceptDiagram diagram="linked-views-reading-order" class="mt-8" />
 
 <div class="callout mt-6">
   <div class="font-800">Rule</div>
@@ -601,14 +583,7 @@ A figure is a spec. A deliverable is an artifact.
     <div class="text-xl font-800 mt-1">A figure is a spec</div>
     <div class="op70 mt-2">In Python you build a figure object. In the browser, Plotly renders it as HTML + JavaScript.</div>
   </div>
-  <div class="mermaid">
-```mermaid
-flowchart LR
-  A["Python code\n(Plotly Express / graph_objects)"] --> B["Figure spec\n(JSON-like)"]
-  B --> C["HTML artifact"]
-  C --> D["plotly.js renders\nSVG + interactions"]
-```
-  </div>
+  <D3ConceptDiagram diagram="plotly-mental-model" class="viz-compact" />
 </div>
 
 ---
@@ -1005,32 +980,13 @@ Layout describes structure. Callbacks define behavior.
 
 ## From Chart to App
 
-<div class="mermaid mt-8">
-```mermaid
-flowchart LR
-  A["Data (table)"] --> B["Compute\n(transform + aggregate)"]
-  B --> C["State\n(filters, selections)"]
-  C --> D["Views\n(charts + tables)"]
-  D --> C
-```
-</div>
+<D3ConceptDiagram diagram="chart-to-app-loop" class="mt-8" />
 
 ---
 
 ## Dash Layout Is a Tree
 
-<div class="mermaid mt-6">
-```mermaid
-flowchart TD
-  A["app.layout"] --> B["Div (page)"]
-  B --> C["Controls"]
-  B --> D["Outputs"]
-  C --> E["Dropdown"]
-  C --> F["RangeSlider"]
-  D --> G["Graph"]
-  D --> H["Table"]
-```
-</div>
+<D3ConceptDiagram diagram="dash-layout-tree" class="mt-6" />
 
 ---
 layout: two-cols
