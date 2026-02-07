@@ -5,27 +5,33 @@
     "dev": "slidev slides.md --open",
     "dev:perception": "slidev slides-perception-color.md --open",
     "dev:webviz": "slidev slides-python-webviz.md --open",
+    "dev:interactive": "slidev slides-python-interactive-dash.md --open",
     "build": "slidev build slides.md",
     "build:perception": "slidev build slides-perception-color.md",
     "build:webviz": "slidev build slides-python-webviz.md",
+    "build:interactive": "slidev build slides-python-interactive-dash.md",
     "export": "slidev export slides.md --output data101-data-task-abstraction.pdf",
     "export:perception": "slidev export slides-perception-color.md --output data101-perception-color.pdf",
     "export:webviz": "slidev export slides-python-webviz.md --output data101-python-webviz.pdf",
+    "export:interactive": "slidev export slides-python-interactive-dash.md --output data101-python-interactive-dash.pdf",
     "check:fit": "npm run build && node scripts/check-fit.mjs slides.md",
     "check:fit:perception": "npm run build:perception && node scripts/check-fit.mjs slides-perception-color.md",
     "check:fit:webviz": "npm run build:webviz && node scripts/check-fit.mjs slides-python-webviz.md",
-    "inspect:webviz": "npm run build:webviz && node scripts/inspect-slides.mjs slides-python-webviz.md dist inspect"
+    "check:fit:interactive": "npm run build:interactive && node scripts/check-fit.mjs slides-python-interactive-dash.md",
+    "inspect:webviz": "npm run build:webviz && node scripts/inspect-slides.mjs slides-python-webviz.md dist inspect",
+    "inspect:interactive": "npm run build:interactive && node scripts/inspect-slides.mjs slides-python-interactive-dash.md dist inspect"
   },
   "devDependencies": {
+    "@iconify-json/carbon": "^1.2.10",
     "@slidev/cli": "^52.11.3",
     "@slidev/theme-default": "^0.25.0",
     "@types/d3": "^7.4.3",
-    "@iconify-json/carbon": "^1.2.10",
     "playwright-chromium": "^1.55.0",
     "slidev-addon-python-runner": "^0.1.3"
   },
   "dependencies": {
     "@slidev/theme-apple-basic": "^0.25.1",
-    "d3": "^7.9.0"
+    "d3": "^7.9.0",
+    "plotly.js-basic-dist-min": "^2.35.3"
   }
 }
