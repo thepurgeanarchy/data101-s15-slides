@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: data101-interactive
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    app.kubernetes.io/name: data101-interactive
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - data101-s15.feb10.dlsu-demos.marcr.io
+      secretName: data101-s15-tls
+  rules:
+    - host: data101-s15.feb10.dlsu-demos.marcr.io
+      http:
+        paths:
+          - path: /robots.txt
+            pathType: Exact
+            backend:
+              service:
+                name: data101-interactive
+                port:
+                  number: 80
+          - path: /demo/interactive
+            pathType: Prefix
+            backend:
+              service:
+                name: data101-interactive
+                port:
+                  number: 80
+

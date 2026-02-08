@@ -213,14 +213,17 @@ Hover, zoom, selection, and linked views.
 </div>
 
 ---
+class: tight-layout
+---
 
 ## Pattern: Tooltips
 
-<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
     <div class="kicker">Goal</div>
     <div class="text-xl font-800 mt-1">Precision without clutter</div>
     <div class="op70 mt-2">Do not label everything. Label on demand.</div>
+    <div class="op70 text-sm mt-3"><span class="font-900">Trap:</span> if the story only exists on hover, the default view is failing.</div>
   </div>
   <div class="card">
     <div class="kicker">Tooltip should include</div>
@@ -232,16 +235,17 @@ Hover, zoom, selection, and linked views.
   </div>
 </div>
 
-<div class="callout mt-6">
-  <div class="font-800">Trap</div>
-  <div class="op80 mt-1">If the story only exists on hover, the default view is failing.</div>
+<div class="viz-frame viz-compact mt-3">
+  <D3InteractionPatternViz pattern="tooltips" />
 </div>
 
+---
+class: tight-layout
 ---
 
 ## Pattern: Zoom and Pan
 
-<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
     <div class="kicker">Use when</div>
     <div class="text-xl font-800 mt-1">Time series is dense</div>
@@ -254,11 +258,17 @@ Hover, zoom, selection, and linked views.
   </div>
 </div>
 
+<div class="viz-frame viz-compact mt-4">
+  <D3InteractionPatternViz pattern="zoom-pan" />
+</div>
+
+---
+class: tight-layout
 ---
 
 ## Pattern: Legend Filtering
 
-<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
     <div class="kicker">Use when</div>
     <div class="text-xl font-800 mt-1">Many groups</div>
@@ -271,11 +281,17 @@ Hover, zoom, selection, and linked views.
   </div>
 </div>
 
+<div class="viz-frame viz-compact mt-4">
+  <D3InteractionPatternViz pattern="legend-filter" />
+</div>
+
+---
+class: tight-layout
 ---
 
 ## Pattern: Selection / Brush
 
-<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
     <div class="kicker">Use when</div>
     <div class="text-xl font-800 mt-1">Pick a range</div>
@@ -288,11 +304,17 @@ Hover, zoom, selection, and linked views.
   </div>
 </div>
 
+<div class="viz-frame viz-compact mt-4">
+  <D3InteractionPatternViz pattern="brush" />
+</div>
+
+---
+class: tight-layout
 ---
 
 ## Pattern: Linked Views
 
-<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="grid grid-cols-2 gap-4 mt-6">
   <div class="card">
     <div class="kicker">Use when</div>
     <div class="text-xl font-800 mt-1">Overview → details</div>
@@ -303,6 +325,10 @@ Hover, zoom, selection, and linked views.
     <div class="text-xl font-800 mt-1">One source of truth</div>
     <div class="op70 mt-2">A single filtered dataset should drive all outputs.</div>
   </div>
+</div>
+
+<div class="viz-frame viz-compact mt-4">
+  <D3InteractionPatternViz pattern="linked-views" />
 </div>
 
 ---

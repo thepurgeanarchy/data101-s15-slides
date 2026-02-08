@@ -1,0 +1,7 @@
+namespace: data101-s15
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
