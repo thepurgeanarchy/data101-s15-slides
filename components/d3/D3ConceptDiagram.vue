@@ -191,7 +191,8 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode, edge: Diagram
   // Prefer the dominant direction, but avoid choosing an orientation where marks overlap on that axis.
   // This keeps arrowheads outside nodes and preserves a visible line segment.
   const preferH = Math.abs(dx) >= Math.abs(dy)
-  const minGap = arrow ? 18 : 0
+  // Arrowheads are drawn behind nodes, so we need extra clearance to keep them visible.
+  const minGap = arrow ? 24 : 0
   const okH = gapH >= minGap
   const okV = gapV >= minGap
 
@@ -210,12 +211,13 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode, edge: Diagram
   // Edges are drawn behind nodes. Arrowheads must end *outside* the target node
   // and we must avoid degenerate/crossing segments when nodes are close.
   const available = Math.max(0, gapAxis)
-  const minSegment = arrow ? 10 : 0
+  const minSegment = arrow ? 8 : 0
   const padBudget = Math.max(0, available - minSegment)
-  const startPadWanted = arrow ? 4 : 0
-  const endPadWanted = arrow ? 8 : 0
-  const startPad = arrow ? Math.min(startPadWanted, padBudget * 0.4) : 0
-  const endPad = arrow ? Math.min(endPadWanted, Math.max(0, padBudget - startPad)) : 0
+  // Prioritize the end pad: arrowheads are easy to lose when drawn behind nodes.
+  const endPadWanted = arrow ? 18 : 0
+  const startPadWanted = arrow ? 6 : 0
+  const endPad = arrow ? Math.min(endPadWanted, padBudget) : 0
+  const startPad = arrow ? Math.min(startPadWanted, Math.max(0, padBudget - endPad)) : 0
 
   if (orient === 'h') {
     const sign = dx >= 0 ? 1 : -1
@@ -343,23 +345,26 @@ function render() {
   const defs = svg.append('defs')
 
   const arrowId = `arrow-${uid}`
+  const arrowSize = 20
   defs
     .append('marker')
     .attr('id', arrowId)
     .attr('markerUnits', 'userSpaceOnUse')
-    .attr('viewBox', '0 0 14 14')
+    .attr('viewBox', `0 0 ${arrowSize} ${arrowSize}`)
     // Place the tip of the arrowhead at the path end so it stays visible
     // even when edges are drawn behind nodes.
-    .attr('refX', 13)
-    .attr('refY', 7)
-    .attr('markerWidth', 14)
-    .attr('markerHeight', 14)
+    .attr('refX', arrowSize - 1)
+    .attr('refY', arrowSize / 2)
+    .attr('markerWidth', arrowSize)
+    .attr('markerHeight', arrowSize)
     .attr('orient', 'auto-start-reverse')
     .append('path')
     // Small padding prevents clipping on some renderers.
-    .attr('d', 'M 1 1 L 13 7 L 1 13 z')
+    .attr('d', `M 2 2 L ${arrowSize - 1} ${arrowSize / 2} L 2 ${arrowSize - 2} z`)
     // Use the edge stroke color for the arrowhead.
     .attr('fill', 'context-stroke')
+    .attr('stroke', 'rgba(0,0,0,0.28)')
+    .attr('stroke-width', 1)
 
   const scene = svg.append('g').attr('class', 'scene')
   const layerGroups = scene.append('g').attr('class', 'groups')

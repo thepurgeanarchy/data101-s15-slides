@@ -28,8 +28,16 @@ function getRows(): DataRow[] {
 
 const container = ref<HTMLDivElement | null>(null)
 let resizeObserver: ResizeObserver | null = null
+let rafId: number | null = null
+let lastHeight = 0
 
-function build() {
+function measureHeight(el: HTMLElement): number {
+  const h = Math.floor(el.getBoundingClientRect().height)
+  // Guard against zero-height during initial layout.
+  return Number.isFinite(h) && h > 0 ? h : 0
+}
+
+function build(height: number) {
   const rows = getRows().filter((r) => Number.isFinite(r.week) && Number.isFinite(r.n_students) && r.n_students > 0)
   const terms = Array.from(new Set(rows.map((r) => r.term))).sort()
   const term = terms.at(-1) ?? 'unknown'
@@ -107,8 +115,9 @@ function build() {
   const layout = {
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
-    height: 460,
-    margin: { l: 80, r: 24, t: 52, b: 96 },
+    height,
+    // Extra bottom/right room keeps the slider handle and buttons from clipping inside rounded frames.
+    margin: { l: 80, r: 56, t: 52, b: 140 },
     font: { family: 'inherit', size: 12, color: 'rgba(245,247,250,0.88)' },
     title: {
       text: `<b>Plotly animation (frames)</b> <span style="opacity:0.70;font-size:12px">term: ${term}</span>`,
@@ -146,7 +155,7 @@ function build() {
         direction: 'left',
         x: 0.02,
         // Keep controls away from the rounded frame edge so they never clip.
-        y: 0.03,
+        y: 0.08,
         xanchor: 'left',
         yanchor: 'bottom',
         pad: { r: 10, t: 0, b: 0, l: 0 },
@@ -170,11 +179,11 @@ function build() {
     sliders: [
       {
         // Leave room so the slider handle doesn't clip at Week 1 / Week N.
-        x: 0.26,
-        y: 0.03,
+        x: 0.32,
+        y: 0.08,
         xanchor: 'left',
         yanchor: 'bottom',
-        len: 0.70,
+        len: 0.62,
         pad: { t: 0, b: 0 },
         active: Math.max(0, weeks.indexOf(startWeek)),
         currentvalue: {
@@ -209,7 +218,9 @@ function build() {
 
 async function render() {
   if (!container.value) return
-  const { trace, frames, layout, config } = build()
+  const height = measureHeight(container.value) || 520
+  lastHeight = height
+  const { trace, frames, layout, config } = build(height)
   await Plotly.newPlot(container.value, [trace] as any, layout as any, config as any)
   await Plotly.addFrames(container.value, frames as any)
 }
@@ -219,13 +230,28 @@ onMounted(async () => {
   if (container.value) {
     resizeObserver = new ResizeObserver(() => {
       if (!container.value) return
-      Plotly.Plots.resize(container.value)
+      if (rafId != null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(async () => {
+        rafId = null
+        if (!container.value) return
+        const h = measureHeight(container.value)
+        if (h && Math.abs(h - lastHeight) > 1) {
+          lastHeight = h
+          // Plotly responsive mode handles width, but height needs an explicit relayout.
+          await Plotly.relayout(container.value, { height: h } as any)
+        }
+        Plotly.Plots.resize(container.value)
+      })
     })
     resizeObserver.observe(container.value)
   }
 })
 
 onBeforeUnmount(() => {
+  if (rafId != null) {
+    cancelAnimationFrame(rafId)
+    rafId = null
+  }
   if (resizeObserver) {
     resizeObserver.disconnect()
     resizeObserver = null
@@ -235,7 +261,23 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="viz-frame">
-    <div ref="container" aria-label="Plotly animation demo" style="width: 100%; height: 460px" />
+  <div class="viz-frame plotly-frame">
+    <div ref="container" class="plotly-host" aria-label="Plotly animation demo" />
   </div>
 </template>
+
+<style scoped>
+.plotly-frame {
+  display: flex;
+  flex-direction: column;
+  /* More breathing room on the bottom/right prevents rounded-corner clipping. */
+  padding-right: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.plotly-host {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+</style>

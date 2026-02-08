@@ -314,7 +314,7 @@ class: viz-slide
 <div class="op70">Try: hover a point, drag to zoom, scroll to zoom, click legend items to isolate a program.</div>
 
 <div class="mt-3">
-  <a class="launch-btn" href="./lab/index.html#hover-legend" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn" href="https://data101-s15.feb10.dlsu-demos.marcr.io/demo/interactive/#hover-legend" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab (new tab)
   </a>
@@ -356,7 +356,7 @@ class: viz-slide
 <div class="op70">This is a D3-style interaction pattern: tooltip + zoom/pan + focus line.</div>
 
 <div class="mt-3">
-  <a class="launch-btn" href="./lab/index.html#hover-legend" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn" href="https://data101-s15.feb10.dlsu-demos.marcr.io/demo/interactive/#hover-legend" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab (new tab)
   </a>
@@ -386,7 +386,7 @@ class: viz-slide
 <div class="op70">Drag on the left chart to select a week range. Watch the distribution update.</div>
 
 <div class="mt-3">
-  <a class="launch-btn" href="./lab/index.html#linked-views" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn" href="https://data101-s15.feb10.dlsu-demos.marcr.io/demo/interactive/#linked-views" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab (new tab)
   </a>
@@ -428,7 +428,7 @@ class: viz-slide
 <div class="op70">Same data, same scale. The marks move. That is all animation should be.</div>
 
 <div class="mt-3">
-  <a class="launch-btn" href="./lab/index.html#animation" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn" href="https://data101-s15.feb10.dlsu-demos.marcr.io/demo/interactive/#animation" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab (new tab)
   </a>
@@ -1126,7 +1126,7 @@ class: viz-slide
 
 <div class="flex items-center justify-between gap-4">
   <div class="op70">This slide is a simulated mini app. In Dash, callbacks do the same state updates.</div>
-  <a class="launch-btn shrink-0" href="./lab/index.html#callbacks" target="_blank" rel="noopener noreferrer">
+  <a class="launch-btn shrink-0" href="https://data101-s15.feb10.dlsu-demos.marcr.io/demo/interactive/#callbacks" target="_blank" rel="noopener noreferrer">
     <span class="icon-inline i-carbon:launch"></span>
     Open interactive lab
   </a>

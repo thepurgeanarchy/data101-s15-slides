@@ -4,6 +4,17 @@
   const $ = (sel) => document.querySelector(sel)
   const d3x = window.d3
 
+  function syncFocusMode() {
+    const hash = window.location.hash || ''
+    const target = hash && hash.length > 1 ? document.querySelector(hash) : null
+    const isSection = Boolean(target && target.classList && target.classList.contains('section'))
+    document.body.classList.toggle('is-focus', isSection)
+  }
+
+  window.addEventListener('hashchange', syncFocusMode)
+  // Initial load: if opened with a section hash, go straight into focus mode.
+  syncFocusMode()
+
   const theme = {
     bg: '#0b0f17',
     panelFill: 'rgba(255,255,255,0.04)',

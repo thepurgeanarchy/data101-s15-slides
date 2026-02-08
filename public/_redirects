@@ -1,0 +1,3 @@
+/lab    /lab/index.html   200
+/lab/*  /lab/:splat       200
+/*      /index.html       200
