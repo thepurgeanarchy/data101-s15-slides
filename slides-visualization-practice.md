@@ -68,7 +68,6 @@ Tabular data is the default language of business, science, and education dashboa
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## What the dataset can do for us first
 
@@ -91,13 +90,17 @@ class: "leading-relaxed viz-slide"
   </div>
 </div>
 
+---
+class: "leading-relaxed viz-slide"
+
+## What the dataset can do for us first (mapping by task)
+
 <div class="viz-grow">
   <D3ConceptDiagram diagram="type-to-channels" fullscreen />
 </div>
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Comparison Tasks: one-row cheat sheet
 
 <div class="viz-grow">
@@ -106,7 +109,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Comparison Tasks: one-row cheat sheet (interactive routing map)
 
 <div class="viz-grow">
@@ -115,7 +117,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Comparison View Choice: few categories
 
 <div class="viz-grow">
@@ -129,7 +130,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Comparison View Choice: many categories
 
@@ -160,7 +160,6 @@ When categories exceed perceptual limits, move from item-level comparison to pat
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Comparison Anti-patterns (hard-fail)
 
@@ -185,7 +184,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Trends: what changes over ordered domain
 
 A trend task requires:
@@ -200,7 +198,6 @@ A trend task requires:
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Trend Encodings: select by signal type
 
 <div class="grid grid-cols-2 gap-4 mt-5">
@@ -232,7 +229,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Trend Encodings: select by signal type (interactive selector)
 
 <div class="viz-grow">
@@ -241,7 +237,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Trend traps you can still catch in peer review
 
 - Implicitly connecting non-equidistant timestamps.
@@ -260,7 +255,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Distribution: what a distribution asks
 
 For one variable: concentration, symmetry, extremes.
@@ -272,7 +266,6 @@ For two+ variables: shape shift, overlap, and tail risk.
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Histograms: binning is a claim
 
@@ -294,7 +287,6 @@ A histogram is not a neutral view. Bins are a modeling decision.
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Box and violin: same data, different stories
 
@@ -322,7 +314,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Box and violin: micro-interactions on comparisons
 
 <div class="viz-grow">
@@ -331,7 +322,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Mini workflow: comparison + trend + distribution in one tabular task
 
 <div class="viz-frame mt-4">
@@ -350,7 +340,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Transition to Part 2: dashboards
 
 One question: if you can solve all insights in one chart, do you still need a dashboard?
@@ -365,7 +354,6 @@ If no, make it two or more coordinated views.
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Part 2: Multi-view Dashboards
 
@@ -382,7 +370,6 @@ Dashboards are not collections. They are arguments arranged in space.
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## What to show
 
 <div class="grid grid-cols-3 gap-4 mt-5">
@@ -406,7 +393,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## What to show (interactive map)
 
 <div class="viz-grow">
@@ -415,7 +401,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## What to hide
 
 <div class="card">
@@ -440,7 +425,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Layout pattern: overview then decision lanes
 
@@ -457,7 +441,6 @@ This pattern is the first structural decision of any dashboard: show a single or
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Layout pattern: overview then decision lanes (interactive)
 
 <div class="viz-grow">
@@ -466,7 +449,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Layout pattern: investigative triage
 
@@ -495,7 +477,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Layout pattern: operations cockpit
 
@@ -516,7 +497,6 @@ A cockpit needs action proximity:
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Coordinated interaction rules
 
@@ -535,7 +515,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Dashboard anti-patterns to remove
 
@@ -566,7 +545,6 @@ class: "leading-relaxed viz-slide"
 ---
 
 class: "leading-relaxed viz-slide"
----
 
 ## Part 3: Network / Graph Data
 
@@ -578,7 +556,6 @@ Now shift from rows-as-observations to relationships-as-entities.
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Network basics in one expression
 
 A graph is any set of entities + relationships.
@@ -598,7 +575,6 @@ A graph is any set of entities + relationships.
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Network basics in one expression (interactive structure)
 
 <div class="viz-grow">
@@ -607,7 +583,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Node-link: strongest fit
 
@@ -627,7 +602,6 @@ Node-link is strongest when tasks are path-aware:
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Node-link failure mode
 
@@ -643,7 +617,6 @@ At density > ~30% for N=100+, node-link often fails.
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Matrix view: what it preserves
 
@@ -664,7 +637,6 @@ A matrix keeps all edges explicit.
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Node-link vs matrix selector
 
@@ -674,7 +646,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Node-link vs matrix selector (interactive switch)
 
@@ -684,7 +655,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Directed and signed graphs
 
@@ -707,7 +677,6 @@ Visual consequences:
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Centrality and community: first-level interpretation
 
@@ -717,9 +686,16 @@ Before styling, compute structure:
 - Modularity for community quality.
 - Core/periphery for control points.
 
+---
+class: "leading-relaxed viz-slide"
+
+## Centrality-driven encoding
+
+Use metrics as an encoding control layer, not decoration.
+
 <div class="callout mt-4">
   <div class="kicker">Design pattern</div>
-  <div class="text-md">Use computed metrics to size and order views, then re-encode edges by strength.</div>
+  <div class="text-md">Scale nodes/labels by centrality, then encode bridges with edge width and direction with arrowheads.</div>
 </div>
 
 <div class="viz-grow">
@@ -728,7 +704,6 @@ Before styling, compute structure:
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Hierarchy from graph data
 
@@ -744,7 +719,6 @@ Hierarchy is a constrained graph where parent-child relations dominate.
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Hierarchy from graph data (interactive drill-down)
 
 <div class="viz-grow">
@@ -753,7 +727,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Treemaps: space-filling hierarchy
 
@@ -784,7 +757,6 @@ Treemaps trade geometric legibility for density.
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Treemap in context with network task
 
 <div class="viz-grow">
@@ -793,7 +765,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Part 4: Spatial Data
 
 Spatial data answers questions tied to location and neighborhood context.
@@ -804,7 +775,6 @@ Spatial data answers questions tied to location and neighborhood context.
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Map data model
 
@@ -827,13 +797,17 @@ class: "leading-relaxed viz-slide"
   </div>
 </div>
 
+---
+class: "leading-relaxed viz-slide"
+
+## Map data model (interactive)
+
 <div class="viz-grow">
   <D3ConceptDiagram diagram="map-data-model" fullscreen />
 </div>
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Choropleth: when it works
 
@@ -841,24 +815,34 @@ Use choropleth when asking about:
 - Regional prevalence
 - Spatial concentration
 - Rate comparisons across territories
+ 
+<div class="callout mt-4">
+  <div class="kicker">Decision split</div>
+  <div class="text-md">Use only where region size is comparable and denominator is stable.</div>
+</div>
+
+---
+class: "leading-relaxed viz-slide"
+
+## Choropleth: when it does not fit
 
 Do not use when:
 - Population differs drastically between regions
 - Regions are tiny but numerous
 - Within-region variation is huge
 
+---
+class: "leading-relaxed viz-slide"
+
+## Choropleth checks before publish
+
 <div class="callout mt-4">
   <div class="kicker">Mandatory</div>
   <div class="text-md">Normalize before color, and annotate class breaks.</div>
 </div>
 
-<div class="viz-grow">
-  <D3ConceptDiagram diagram="choropleth-counts" fullscreen />
-</div>
-
 ---
 class: "leading-relaxed viz-slide"
----
 ## Choropleth: when it works (interactive map)
 
 <div class="viz-grow">
@@ -867,7 +851,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 ## Choropleth: color strategy
 
 - Use sequential scales for rates.
@@ -880,7 +863,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Symbol maps and graduated symbols
 
@@ -901,7 +883,6 @@ Symbols handle event counts and discrete magnitude better than choropleth in spa
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Spatial overlays and hybrid patterns
 
@@ -921,7 +902,6 @@ Useful combinations:
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Common map pitfalls (and fixes)
 
@@ -948,21 +928,12 @@ class: "leading-relaxed viz-slide"
 ---
 
 class: "leading-relaxed viz-slide"
----
 
 ## Spatial mini-checklist before publish
 
 1. Are geometries valid and snapped?
 2. Are boundaries explicit in caption?
 3. Are values normalized with a defensible denominator?
-4. Are class breaks stable and reported?
-5. Is colorblind-safe and print-safe?
-6. Are projection biases described?
-
-<div class="callout mt-5">
-  <div class="kicker">Outcome</div>
-  <div class="text-md">A map without this checklist is an argument with missing assumptions.</div>
-</div>
 
 <div class="viz-grow">
   <D3ConceptDiagram diagram="spatial-pitfalls" fullscreen />
@@ -970,7 +941,24 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
+
+## Spatial mini-checklist before publish
+
+<div class="callout mt-5">
+  <div class="kicker">Outcome</div>
+  <div class="text-md">A map without this checklist is an argument with missing assumptions.</div>
+</div>
+
+4. Are class breaks stable and reported?
+5. Is colorblind-safe and print-safe?
+6. Are projection biases described?
+
+<div class="viz-grow">
+  <D3ConceptDiagram diagram="spatial-pitfalls" fullscreen />
+</div>
+
 ---
+class: "leading-relaxed viz-slide"
 
 ## Long Quiz: 50 points (all topics)
 
@@ -989,7 +977,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Quiz Part I — Tabular Data (13 pts)
 
@@ -1003,8 +990,20 @@ a) Box plot only
 b) Histogram trio + median trend  
 c) Dot + violin + summary table  
 d) Bar chart + area  
+
+---
+class: "leading-relaxed viz-slide"
+
+## Quiz Part I — Tabular Data (13 pts) (continued)
+
 3) (2 pts) Given the same class-size distribution and n=18 in one class, explain exactly **which choice** between 5-bin and 20-bin histograms is safer for inference and where it fails.
 4) (1 pt) Pick one statistic that must be reported before ranking retention quantiles with outliers.
+
+---
+class: "leading-relaxed viz-slide"
+
+## Quiz Part I — Tabular Data (13 pts) (continued)
+
 5) (2 pts) Match these tasks to one chart family each (one answer each):  
 - Compare 12 regional medians over 8 months  
 - Detect whether a long right tail drives subgroup inequality  
@@ -1018,7 +1017,6 @@ d) Bar chart + area
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Quiz Part II — Dashboards (12 pts)
 
@@ -1036,7 +1034,6 @@ Which two controls hide by default?
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Quiz Part III — Network / Graph (13 pts)
 
@@ -1057,7 +1054,6 @@ d) dual-axis scatter overlay
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Quiz Part IV — Spatial (10 pts)
 
@@ -1073,7 +1069,6 @@ class: "leading-relaxed viz-slide"
 
 ---
 class: "leading-relaxed viz-slide"
----
 
 ## Quiz Part V — Integrated Case (2 pts)
 
