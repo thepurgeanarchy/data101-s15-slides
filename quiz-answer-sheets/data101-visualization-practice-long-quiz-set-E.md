@@ -9,7 +9,7 @@ mdc: true
 
 ## 50-Point Assessment Document
 
-<style>
+<style scoped="false">
 :root {
   --ink: #0f172a;
   --muted: #334155;
@@ -27,7 +27,7 @@ mdc: true
   box-sizing: border-box;
 }
 
-body {
+.cover {
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 9pt;
   line-height: 1.16;
@@ -131,6 +131,7 @@ li {
 .student-meta {
   margin: 1mm 0 1.2mm;
   font-size: 8.6pt;
+  white-space: nowrap;
   border: 1px solid #dce4ee;
   background: #f8fbff;
   padding: 1mm 1.2mm;
@@ -233,6 +234,22 @@ hr {
 
 </style>
 
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  const body = document.body
+  if (!body) return
+  body.style.fontFamily = 'Georgia, Times New Roman, serif'
+  body.style.fontSize = '9pt'
+  body.style.lineHeight = '1.16'
+  body.style.columns = '2 90mm'
+  body.style.columnGap = '4.8mm'
+  body.style.columnFill = 'auto'
+  body.style.color = '#0f172a'
+})
+</script>
+
 <div class="letterhead">
   <img src="../De_La_Salle_University_Seal.svg" alt="De La Salle University">
   <div class="school">
@@ -241,13 +258,13 @@ hr {
     <div class="course">Long Quiz (50 points)</div>
   </div>
   <div style="text-align:right; font-size:9.2pt; line-height:1.35;">
-    Semester: _______<br>
+    Term: _______<br>
     Section: _______
   </div>
 </div>
 
 <div class="student-meta">
-  Name: ___________________________________________&nbsp;&nbsp;ID: _____________&nbsp;&nbsp;Date: ______________
+  Name: __________________________&nbsp;&nbsp;ID: ______________&nbsp;&nbsp;Date: ___________
 </div>
 
 <div class="meta-boxes">

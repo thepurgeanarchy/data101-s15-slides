@@ -26,13 +26,15 @@
     "check:fit:visualization-practice": "npm run build:visualization-practice && node scripts/check-fit.mjs slides-visualization-practice.md",
     "inspect-viz:webviz": "npm run build:webviz && node scripts/inspect-viz.mjs slides-python-webviz.md dist inspect",
     "inspect-viz:interactive": "npm run build:interactive && node scripts/inspect-viz.mjs slides-python-interactive-dash.md dist inspect",
-    "inspect-viz:visualization-practice": "npm run build:visualization-practice && node scripts/inspect-viz.mjs slides-visualization-practice.md dist inspect"
+    "inspect-viz:visualization-practice": "npm run build:visualization-practice && node scripts/inspect-viz.mjs slides-visualization-practice.md dist inspect",
+    "export:quiz-doc:set-e": "node scripts/export-quiz-doc.mjs quiz-answer-sheets/data101-visualization-practice-long-quiz-set-E.md quiz-answer-sheets/data101-visualization-practice-long-quiz-set-E.pdf quiz-answer-keys/data101-visualization-practice-long-quiz-set-E-answer-key.md quiz-answer-keys/data101-visualization-practice-long-quiz-set-E-answer-key.pdf"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.10",
     "@slidev/cli": "^52.11.3",
     "@slidev/theme-default": "^0.25.0",
     "@types/d3": "^7.4.3",
+    "marked": "^17.0.2",
     "playwright-chromium": "^1.55.0",
     "slidev-addon-python-runner": "^0.1.3"
   },

@@ -27,7 +27,7 @@ mdc: true
   box-sizing: border-box;
 }
 
-body {
+.slidev-layout {
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 9pt;
   line-height: 1.16;
@@ -131,6 +131,7 @@ li {
 .student-meta {
   margin: 1mm 0 1.2mm;
   font-size: 8.6pt;
+  white-space: nowrap;
   border: 1px solid #dce4ee;
   background: #f8fbff;
   padding: 1mm 1.2mm;
@@ -241,13 +242,13 @@ hr {
     <div class="course">Long Quiz (50 points)</div>
   </div>
   <div style="text-align:right; font-size:9.2pt; line-height:1.35;">
-    Semester: _______<br>
+    Term: _______<br>
     Section: _______
   </div>
 </div>
 
 <div class="student-meta">
-  Name: ___________________________________________&nbsp;&nbsp;ID: _____________&nbsp;&nbsp;Date: ______________
+  Name: __________________________&nbsp;&nbsp;ID: ______________&nbsp;&nbsp;Date: ___________
 </div>
 
 <div class="meta-boxes">
