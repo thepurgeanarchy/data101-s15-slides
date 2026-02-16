@@ -42,14 +42,26 @@ h3 {
   margin: 1.2mm 0 0.7mm;
   font-size: 9.6pt;
   break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 p, ul, ol {
   margin: 0 0 1.4mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  orphans: 3;
+  widows: 3;
 }
 
 ul, ol {
   padding-left: 2.4mm;
+}
+
+li {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  orphans: 3;
+  widows: 3;
 }
 
 .letterhead {
@@ -116,9 +128,19 @@ ul, ol {
 }
 
 .matching-line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.6em 1fr 26mm;
   align-items: center;
-  gap: 2mm;
+  gap: 1mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.matching-line::before {
+  content: "";
+  border-bottom: 1px dashed #64748b;
+  height: 4mm;
+  align-self: end;
 }
 
 .option-line {
@@ -134,7 +156,7 @@ ul, ol {
 }
 
 .matching-line > .match-slot {
-  flex: 1;
+  width: 24mm;
 }
 
 
