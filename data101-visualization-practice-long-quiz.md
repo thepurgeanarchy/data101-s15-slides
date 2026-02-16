@@ -1,17 +1,9 @@
 # DATA101 Comprehensive Long Quiz (50 points)
 
 ## Scope
-This quiz covers all teaching decks in the repository: 
-- `slides.md` (Data & Task Abstraction)
-- `slides-perception-color.md` (Perception & Color)
-- `slides-visualization-practice.md` (Tabular / Dashboards / Network / Spatial)
-- `slides-python-webviz.md` (Web output, chart components, export)
-- `slides-python-interactive-dash.md` (Interaction design, callbacks, interactive app structure)
-- `slides-visualization-patterns.md` (Deck sequencing and framing for the patterns module)
+This quiz is a full-course assessment covering all course themes covered in this section.
 
 Questions are mixed-format and intentionally hard. **Answer keys are embedded directly after each question in bold** for Canvas import use.
-
-## Part 1 — Data & Task Abstraction (9 points)
 
 ### 1) MCQ (2 pts)
 You receive the request: "Show if faculty performance dropped after policy change and identify who was helped." Which should be the first action before any chart is selected?
@@ -62,8 +54,6 @@ Rewrite this vague request into a defensible task statement template: "Compare c
 
 **Answer: Action: compare monthly fulfillment across cities and detect outlier months for intervention; Target: support-fulfillment records by city and month; Constraints: fixed baseline period, same denominator and missing-month treatment; Output: ranked city-month anomaly list with trend view and uncertainty.**
 
-## Part 2 — Perception & Color (8 points)
-
 ### 6) MCQ (2 pts)
 Which mapping is least appropriate for precise magnitude comparison?
 
@@ -105,8 +95,6 @@ Order the perceptual pitfalls from highest to lowest impact on trust in a report
 List one reliability check for color interpretation in a map/chart report.
 
 **Answer: Ensure color semantics are consistent with variable meaning and provide redundant cues (pattern/labels/annotation) rather than relying on hue alone, plus CVD-safe contrast checks.**
-
-## Part 3 — Tabular Data Visualization (8 points)
 
 ### 11) MCQ (2 pts)
 You have 6 groups across 24 months with irregular missing dates and campaign interventions. The question is who improved most and who regressed fastest. Best approach?
@@ -156,8 +144,6 @@ Rank these tasks by the degree of information loss if forced into a single chart
 
 **Answer: 1) C, 2) B, 3) D, 4) A.**
 
-## Part 4 — Multi-view Dashboards and Layout Patterns (6 points)
-
 ### 16) MCQ (2 pts)
 An ops room needs shared state and role-specific views. Best first-pass composition?
 
@@ -196,8 +182,6 @@ Match each pattern to intended outcome.
 A dashboard has 5 KPIs, 4 actions, and 8 filters but users complain about fatigue. Specify default visibility versus hidden controls.
 
 **Answer: Keep high-signal KPIs + current state/time horizon visible; expose secondary filters/actions in drawers and reveal deeper diagnostics only after user intent or drill state so working set remains small by default.**
-
-## Part 5 — Network / Graph Data (6 points)
 
 ### 20) MCQ (1 pt)
 You need community structure + bridge detection on 25k sparse nodes for executives. Best pairing?
@@ -243,8 +227,6 @@ Order interaction priorities for a live graph brief from highest to lowest: 1) C
 
 **Answer: 1) Degree filter slider, 2) Community toggle, 3) Link strength legend, 4) Animated force transition.**
 
-## Part 6 — Spatial Data (5 points)
-
 ### 25) MCQ (1 pt)
 You compare incidence in uneven counties with many low-population areas. Best baseline choice?
 
@@ -270,8 +252,6 @@ Which are high-risk pitfalls in spatial interpretation?
 You publish a choropleth plus symbol map on the same indicator. State one essential pre-publish validation.
 
 **Answer: Verify denominators/time frame and scale semantics are aligned so color classes and symbol magnitudes map the same underlying quantity and do not imply contradictory ordering.**
-
-## Part 7 — Web Output, Components, and Interactivity (7 points)
 
 ### 28) MCQ (2 pts)
 For publication-quality vector slides and precise labels in a PDF workflow, which default output is usually strongest?
@@ -333,10 +313,8 @@ You must build one page with: (i) abstraction-first pipeline, (ii) tabular trend
 
 **Answer:** Start with task/spec and data abstraction, then produce a validated tabular trend baseline, add coordinated interaction rules for dashboard state, attach graph and map modules with shared temporal/filter bus, run accessibility + scale checks, and finish with format-specific exports (SVG for print, HTML for interactivity) with fallback states validated.**
 
-## Part 8 — Deck-to-Deck Cohesion (1 point)
-
 ### 34) MCQ (1 pt)
-Given the `slides-visualization-patterns.md` deck outline, which structural start does the module emphasize?
+For a new long-form course module, which sequence should come first in a tight instruction flow?
 
 - A) Proofs first, visuals second, case studies last.
 - B) Plan and outcomes first, then practical design sequence.
