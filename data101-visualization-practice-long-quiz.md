@@ -48,7 +48,7 @@ With non-uniform sampling and heavy outliers, what is the **single highest-prior
 
 **Answer:** Normalize the time basis to a consistent ordered grid (or explicitly model it), then clip/flag outliers so volatility and slope are computed on comparable intervals.  
 
-### 5) Mini-workflow design (2 pts)
+### 5) Mini-workflow design (1 pt)
 Pick **exactly three** chart primitives for a tabular case with 30 cohorts, uneven n, heavy-tailed outcomes. The dashboard must show:
 - central tendency shift,
 - spread change,
@@ -58,7 +58,7 @@ Also provide one non-visual statistic required to keep interpretation honest.
 
 **Answer:** Small-multiple trend line (or quantile trend), violin/box panel, and density outlier panel (or standardized residual map); plus bootstrap CI/uncertainty band or confidence interval around median/quantiles.  
 
-### 6) Case triage (0 pt)
+### 6) Case triage (1 pt)
 Given a table with 120 rows and 15 metrics:
 Which first action should occur before choosing chart family for comparison tasks?
 
