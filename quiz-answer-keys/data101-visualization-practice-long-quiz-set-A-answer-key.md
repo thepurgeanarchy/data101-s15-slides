@@ -1,13 +1,13 @@
 ---
-title: DATA101 Visualization Quiz - Set A
+title: DATA101 Visualization Quiz - Set A Answer Key
 theme: apple-basic
 colorSchema: light
 mdc: true
 ---
 
-# DATA101 Comprehensive Long Quiz - Set A
+# DATA101 Comprehensive Long Quiz - Set A (Answer Key)
 
-## 50-Point Assessment Document
+## 50-Point Assessment Document (Answer Key)
 
 <style>
 @page {
@@ -115,29 +115,6 @@ ul, ol {
   height: 3mm;
 }
 
-.matching-line {
-  display: flex;
-  align-items: center;
-  gap: 2mm;
-}
-
-.option-line {
-  display: flex;
-  align-items: center;
-  gap: 2mm;
-}
-
-.rank-line {
-  display: flex;
-  align-items: center;
-  gap: 2mm;
-}
-
-.matching-line > .match-slot {
-  flex: 1;
-}
-
-
 hr {
   border: none;
   margin: 0.7mm 0;
@@ -168,6 +145,7 @@ hr {
 
 ---
 
+
 ### 1) MCQ (2 pts)
 You receive the request: "Show if faculty performance dropped after policy change and identify who was helped." Which should be the first action before any chart is selected?
 
@@ -177,10 +155,13 @@ You receive the request: "Show if faculty performance dropped after policy chang
 - D) Select a network view in case performance relationships need to be inferred.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: B.**
 
 ---
 
@@ -197,12 +178,13 @@ Errors:
 - C) Chart-first trap.
 
 
-
-<div class="answer-space matching-answer">
-  <div class="matching-line"><span>1)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>2)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>3)</span><span class="answer-line match-slot"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: 1→A, 2→B, 3→C.**
 
 ---
 
@@ -216,14 +198,13 @@ Select all valid reasons to choose a dataset re-shape (tidy vs wide) before visu
 - E) A line chart is requested and data are stored already in one JSON blob per entity.
 
 
-
-<div class="answer-space multiple-answer">
-  <div class="option-line">A) <span class="answer-line"></span></div>
-  <div class="option-line">B) <span class="answer-line"></span></div>
-  <div class="option-line">C) <span class="answer-line"></span></div>
-  <div class="option-line">D) <span class="answer-line"></span></div>
-  <div class="option-line">E) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: A, B, D.**
 
 ---
 
@@ -235,13 +216,13 @@ Rank the best first three steps for a high-stakes comparison question from most 
 - D) Choose color palette.
 
 
-
-<div class="answer-space ranking-answer">
-  <div class="rank-line">1) <span class="answer-line"></span></div>
-  <div class="rank-line">2) <span class="answer-line"></span></div>
-  <div class="rank-line">3) <span class="answer-line"></span></div>
-  <div class="rank-line">4) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: 1) B, 2) C, 3) A, 4) D.**
 
 ---
 
@@ -249,14 +230,13 @@ Rank the best first three steps for a high-stakes comparison question from most 
 Rewrite this vague request into a defensible task statement template: "Compare city performance and detect anomalies in monthly support fulfillment."
 
 
-
-<div class="answer-space short-answer">
-  <div class="answer-line"></div>
-  <div class="answer-line"></div>
+<div class="answer-space">
   <div class="answer-line"></div>
   <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: Action: compare monthly fulfillment across cities and detect outlier months for intervention; Target: support-fulfillment records by city and month; Constraints: fixed baseline period, same denominator and missing-month treatment; Output: ranked city-month anomaly list with trend view and uncertainty.**
 
 ---
 
@@ -269,10 +249,13 @@ Which mapping is least appropriate for precise magnitude comparison?
 - D) Ordered bar endpoints
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: C.**
 
 ---
 
@@ -286,14 +269,13 @@ Choose all that are valid responses to the chart-reading rule “if attention is
 - E) Group related marks with proximity and shared space.
 
 
-
-<div class="answer-space multiple-answer">
-  <div class="option-line">A) <span class="answer-line"></span></div>
-  <div class="option-line">B) <span class="answer-line"></span></div>
-  <div class="option-line">C) <span class="answer-line"></span></div>
-  <div class="option-line">D) <span class="answer-line"></span></div>
-  <div class="option-line">E) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: A, C, E.**
 
 ---
 
@@ -306,10 +288,13 @@ A chart displays a diverging political preference with a meaningful midpoint nea
 - D) Binary red/green pair for all classes.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: C.**
 
 ---
 
@@ -318,13 +303,13 @@ Order the perceptual pitfalls from highest to lowest impact on trust in a report
 1) Truncated y-axis, 2) inconsistent unit labels, 3) rainbow color ramp, 4) tiny legend.
 
 
-
-<div class="answer-space ranking-answer">
-  <div class="rank-line">1) <span class="answer-line"></span></div>
-  <div class="rank-line">2) <span class="answer-line"></span></div>
-  <div class="rank-line">3) <span class="answer-line"></span></div>
-  <div class="rank-line">4) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer:**
 
 ---
 
@@ -332,14 +317,13 @@ Order the perceptual pitfalls from highest to lowest impact on trust in a report
 List one reliability check for color interpretation in a map/chart report.
 
 
-
-<div class="answer-space short-answer">
-  <div class="answer-line"></div>
-  <div class="answer-line"></div>
+<div class="answer-space">
   <div class="answer-line"></div>
   <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: Ensure color semantics are consistent with variable meaning and provide redundant cues (pattern/labels/annotation) rather than relying on hue alone, plus CVD-safe contrast checks.**
 
 ---
 
@@ -352,10 +336,13 @@ You have 6 groups across 24 months with irregular missing dates and campaign int
 - D) Boxplot per month and ignore campaign dates.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: B.**
 
 ---
 
@@ -369,14 +356,13 @@ For distribution comparison across groups, select all valid methods.
 - E) Use log or Box-Cox transforms when skew is severe and interpretation remains documented.
 
 
-
-<div class="answer-space multiple-answer">
-  <div class="option-line">A) <span class="answer-line"></span></div>
-  <div class="option-line">B) <span class="answer-line"></span></div>
-  <div class="option-line">C) <span class="answer-line"></span></div>
-  <div class="option-line">D) <span class="answer-line"></span></div>
-  <div class="option-line">E) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: A, C, E.**
 
 ---
 
@@ -392,12 +378,13 @@ Match each goal to the first table-based view choice.
 - iii) Focused slope/ranker chart after top-k filtering.
 
 
-
-<div class="answer-space matching-answer">
-  <div class="matching-line"><span>1)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>2)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>3)</span><span class="answer-line match-slot"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: 1→i, 2→ii, 3→iii.**
 
 ---
 
@@ -405,14 +392,13 @@ Match each goal to the first table-based view choice.
 A stakeholder asks for "fastest changing cohorts" using a dataset with huge within-group variance. What single preprocessing guard should precede your chart choice?
 
 
-
-<div class="answer-space short-answer">
-  <div class="answer-line"></div>
-  <div class="answer-line"></div>
+<div class="answer-space">
   <div class="answer-line"></div>
   <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: Stabilize sampling intervals and align all observations to an explicit time basis (or explicitly model irregular intervals) so slope/rank calculations are comparable across cohorts.**
 
 ---
 
@@ -424,13 +410,13 @@ Rank these tasks by the degree of information loss if forced into a single chart
 - D) Identify the fastest-growing and fastest-declining entities.
 
 
-
-<div class="answer-space ranking-answer">
-  <div class="rank-line">1) <span class="answer-line"></span></div>
-  <div class="rank-line">2) <span class="answer-line"></span></div>
-  <div class="rank-line">3) <span class="answer-line"></span></div>
-  <div class="rank-line">4) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: 1) C, 2) B, 3) D, 4) A.**
 
 ---
 
@@ -443,10 +429,13 @@ An ops room needs shared state and role-specific views. Best first-pass composit
 - D) Separate pages and no shared interactions.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: C.**
 
 ---
 
@@ -460,14 +449,13 @@ Which changes reduce dashboard ambiguity?
 - E) Reuse a single tooltip format across every module.
 
 
-
-<div class="answer-space multiple-answer">
-  <div class="option-line">A) <span class="answer-line"></span></div>
-  <div class="option-line">B) <span class="answer-line"></span></div>
-  <div class="option-line">C) <span class="answer-line"></span></div>
-  <div class="option-line">D) <span class="answer-line"></span></div>
-  <div class="option-line">E) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: A, B, C, E.**
 
 ---
 
@@ -483,12 +471,13 @@ Match each pattern to intended outcome.
 - iii) reduce visual noise and protect first load speed.
 
 
-
-<div class="answer-space matching-answer">
-  <div class="matching-line"><span>1)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>2)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>3)</span><span class="answer-line match-slot"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: 1→i, 2→iii, 3→ii.**
 
 ---
 
@@ -496,14 +485,13 @@ Match each pattern to intended outcome.
 A dashboard has 5 KPIs, 4 actions, and 8 filters but users complain about fatigue. Specify default visibility versus hidden controls.
 
 
-
-<div class="answer-space short-answer">
-  <div class="answer-line"></div>
-  <div class="answer-line"></div>
+<div class="answer-space">
   <div class="answer-line"></div>
   <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: Keep high-signal KPIs + current state/time horizon visible; expose secondary filters/actions in drawers and reveal deeper diagnostics only after user intent or drill state so working set remains small by default.**
 
 ---
 
@@ -516,10 +504,13 @@ You need community structure + bridge detection on 25k sparse nodes for executiv
 - D) Treemap of degree counts only.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: C.**
 
 ---
 
@@ -533,14 +524,13 @@ Select all valid reasons to add a matrix view alongside node-link.
 - E) Need to keep node labels always visible without hover.
 
 
-
-<div class="answer-space multiple-answer">
-  <div class="option-line">A) <span class="answer-line"></span></div>
-  <div class="option-line">B) <span class="answer-line"></span></div>
-  <div class="option-line">C) <span class="answer-line"></span></div>
-  <div class="option-line">D) <span class="answer-line"></span></div>
-  <div class="option-line">E) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: A, B.**
 
 ---
 
@@ -548,14 +538,13 @@ Select all valid reasons to add a matrix view alongside node-link.
 For directed-signed graphs, which fields are required and how should polarity and strength be separated in encoding?
 
 
-
-<div class="answer-space short-answer">
-  <div class="answer-line"></div>
-  <div class="answer-line"></div>
+<div class="answer-space">
   <div class="answer-line"></div>
   <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: Use source, target, weight, and sign/polarity (plus optional time/type fields); encode polarity with hue/arrow orientation and strength via line width/opacity/brightness so channels do not collapse sign and magnitude.**
 
 ---
 
@@ -571,12 +560,13 @@ Match task and graph layout.
 - C) Matrix primary + node-link secondary.
 
 
-
-<div class="answer-space matching-answer">
-  <div class="matching-line"><span>1)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>2)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>3)</span><span class="answer-line match-slot"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: 1→B, 2→A, 3→C.**
 
 ---
 
@@ -584,13 +574,13 @@ Match task and graph layout.
 Order interaction priorities for a live graph brief from highest to lowest: 1) Community toggle, 2) Degree filter slider, 3) Link strength legend, 4) Animated force transition.
 
 
-
-<div class="answer-space ranking-answer">
-  <div class="rank-line">1) <span class="answer-line"></span></div>
-  <div class="rank-line">2) <span class="answer-line"></span></div>
-  <div class="rank-line">3) <span class="answer-line"></span></div>
-  <div class="rank-line">4) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: 1) Degree filter slider, 2) Community toggle, 3) Link strength legend, 4) Animated force transition.**
 
 ---
 
@@ -603,10 +593,13 @@ You compare incidence in uneven counties with many low-population areas. Best ba
 - D) Equal-area projection with no distance claims.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: B.**
 
 ---
 
@@ -620,14 +613,13 @@ Which are high-risk pitfalls in spatial interpretation?
 - E) Ignoring projection distortion when discussing distance.
 
 
-
-<div class="answer-space multiple-answer">
-  <div class="option-line">A) <span class="answer-line"></span></div>
-  <div class="option-line">B) <span class="answer-line"></span></div>
-  <div class="option-line">C) <span class="answer-line"></span></div>
-  <div class="option-line">D) <span class="answer-line"></span></div>
-  <div class="option-line">E) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: A, B, C, E.**
 
 ---
 
@@ -635,14 +627,13 @@ Which are high-risk pitfalls in spatial interpretation?
 You publish a choropleth plus symbol map on the same indicator. State one essential pre-publish validation.
 
 
-
-<div class="answer-space short-answer">
-  <div class="answer-line"></div>
-  <div class="answer-line"></div>
+<div class="answer-space">
   <div class="answer-line"></div>
   <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: Verify denominators/time frame and scale semantics are aligned so color classes and symbol magnitudes map the same underlying quantity and do not imply contradictory ordering.**
 
 ---
 
@@ -655,10 +646,13 @@ For publication-quality vector slides and precise labels in a PDF workflow, whic
 - D) Screenshot-only outputs.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: C.**
 
 ---
 
@@ -672,14 +666,13 @@ Select all that are valid reasons to prefer HTML over raster outputs.
 - E) Need crisp scaling of text and paths in web reports.
 
 
-
-<div class="answer-space multiple-answer">
-  <div class="option-line">A) <span class="answer-line"></span></div>
-  <div class="option-line">B) <span class="answer-line"></span></div>
-  <div class="option-line">C) <span class="answer-line"></span></div>
-  <div class="option-line">D) <span class="answer-line"></span></div>
-  <div class="option-line">E) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: A, C, E.**
 
 ---
 
@@ -695,12 +688,13 @@ Match the phrase to its primary implication.
 - iii) Undoable state prevents misinterpretation.
 
 
-
-<div class="answer-space matching-answer">
-  <div class="matching-line"><span>1)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>2)</span><span class="answer-line match-slot"></span></div>
-  <div class="matching-line"><span>3)</span><span class="answer-line match-slot"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: 1→i, 2→ii, 3→iii.**
 
 ---
 
@@ -713,10 +707,13 @@ A chart interaction works only on hover and fails when captured for review. What
 - D) Increase tooltip font size only.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: C.**
 
 ---
 
@@ -730,14 +727,13 @@ When building cross-module dashboards with interaction, choose all required guar
 - E) One global data cache only for static screenshots.
 
 
-
-<div class="answer-space multiple-answer">
-  <div class="option-line">A) <span class="answer-line"></span></div>
-  <div class="option-line">B) <span class="answer-line"></span></div>
-  <div class="option-line">C) <span class="answer-line"></span></div>
-  <div class="option-line">D) <span class="answer-line"></span></div>
-  <div class="option-line">E) <span class="answer-line"></span></div>
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
 </div>
+
+**Answer: A, B, D.**
 
 ---
 
@@ -745,13 +741,13 @@ When building cross-module dashboards with interaction, choose all required guar
 You must build one page with: (i) abstraction-first pipeline, (ii) tabular trend, (iii) dashboard interaction, (iv) graph module, (v) spatial overlay, and (vi) web-app export. In one sentence, propose a defensible sequence of implementation checkpoints.
 
 
-
-<div class="answer-space integrative-answer">
-  <div class="answer-line"></div>
+<div class="answer-space">
   <div class="answer-line"></div>
   <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer:**
 
 ---
 
@@ -764,7 +760,10 @@ For a new long-form course module, which sequence should come first in a tight i
 - D) Spatial maps first, then all other visualization types.
 
 
-
-<div class="answer-space mcq-answer">
+<div class="answer-space">
+  <div class="answer-line"></div>
+  <div class="answer-line"></div>
   <div class="answer-line"></div>
 </div>
+
+**Answer: B.**

@@ -146,7 +146,7 @@ hr {
 </style>
 
 <div class="letterhead">
-  <img src="De_La_Salle_University_Seal.svg" alt="De La Salle University">
+  <img src="../De_La_Salle_University_Seal.svg" alt="De La Salle University">
   <div class="school">
     <div class="dept">DATA 101: Data Visualization</div>
     <div>DE LA SALLE UNIVERSITY</div>
