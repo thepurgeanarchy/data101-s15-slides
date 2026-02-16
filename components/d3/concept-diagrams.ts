@@ -1388,4 +1388,289 @@ export const conceptDiagrams: Record<string, DiagramSpec> = {
       { from: 'D', to: 'H', stroke: 'rgba(147,197,253,0.68)' },
     ],
   },
+
+  'comparison-few-categories': {
+    height: 230,
+    ariaLabel: 'Decision tree for comparison of 4 to 8 categories.',
+    nodes: [
+      { id: 'A', label: '4–8 categories', x: 0.22, y: 0.20, w: 190, h: 58, variant: 'primary' },
+      { id: 'B', label: 'Explicit reference marks', x: 0.22, y: 0.50, w: 220, h: 58, variant: 'note' },
+      { id: 'C', label: 'Side-by-side bars', x: 0.56, y: 0.20, w: 210, h: 58, variant: 'ok' },
+      { id: 'D', label: 'Need rank clarity', x: 0.56, y: 0.50, w: 220, h: 58, variant: 'note' },
+      { id: 'E', label: 'Horizontal bars + full labels', x: 0.90, y: 0.50, w: 230, h: 58, variant: 'primary' },
+      { id: 'F', label: 'Need paired before/after', x: 0.56, y: 0.80, w: 230, h: 58, variant: 'note' },
+      { id: 'G', label: 'Dumbbell + slope', x: 0.90, y: 0.80, w: 210, h: 58, variant: 'primary' },
+    ],
+    edges: [
+      { from: 'A', to: 'B' },
+      { from: 'B', to: 'C' },
+      { from: 'B', to: 'D', dashed: true },
+      { from: 'D', to: 'E', dashed: true },
+      { from: 'A', to: 'F', dashed: true },
+      { from: 'F', to: 'G', dashed: true },
+    ],
+  },
+
+  'trend-task-router': {
+    height: 220,
+    ariaLabel: 'Trend decision path from ordered axis to trend representation.',
+    nodes: [
+      { id: 'Q', label: 'What happened over time?', x: 0.20, y: 0.35, w: 220, h: 60, variant: 'primary' },
+      { id: 'R', label: 'Ordered axis:\ndate, period, step', x: 0.50, y: 0.35, w: 260, h: 60, variant: 'note' },
+      { id: 'V', label: 'Line + interval points', x: 0.80, y: 0.35, w: 220, h: 60, variant: 'ok' },
+      { id: 'I', label: 'Confidence band\nwhen uncertainty exists', x: 0.80, y: 0.75, w: 240, h: 68, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'Q', to: 'R' },
+      { from: 'R', to: 'V' },
+      { from: 'V', to: 'I' },
+    ],
+  },
+
+  'distribution-router': {
+    height: 220,
+    ariaLabel: 'Decision path for distribution questions by single versus grouped variables.',
+    nodes: [
+      { id: 'A', label: 'Distribution\nquestion', x: 0.20, y: 0.35, w: 220, h: 68, variant: 'primary' },
+      { id: 'B', label: 'Single or grouped', x: 0.50, y: 0.35, w: 220, h: 60, variant: 'note' },
+      { id: 'C', label: 'Histogram / KDE / ECDF', x: 0.80, y: 0.25, w: 240, h: 58, variant: 'ok' },
+      { id: 'D', label: 'Ridgeline', x: 0.80, y: 0.75, w: 200, h: 48, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'A', to: 'B' },
+      { from: 'B', to: 'C', dashed: false },
+      { from: 'B', to: 'D', dashed: false },
+    ],
+  },
+
+  'dashboard-overview-lanes': {
+    height: 220,
+    ariaLabel: 'Overview, investigation, and action lanes for dashboard scan order.',
+    nodes: [
+      { id: 'A', label: 'Headline + status', x: 0.20, y: 0.22, w: 250, h: 58, variant: 'primary' },
+      { id: 'B', label: 'Trend + variance', x: 0.20, y: 0.62, w: 250, h: 58, variant: 'ok' },
+      { id: 'C', label: 'Bottom: table + filters + notes', x: 0.20, y: 0.82, w: 320, h: 56, variant: 'note' },
+      { id: 'D', label: 'Alert + actions', x: 0.80, y: 0.62, w: 240, h: 66, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'A', to: 'B' },
+      { from: 'B', to: 'C' },
+      { from: 'C', to: 'D' },
+    ],
+  },
+
+  'network-representation-choice': {
+    height: 260,
+    ariaLabel: 'Network representation decision from nodes and edges to node-link or matrix.',
+    nodes: [
+      { id: 'N', label: 'Nodes', x: 0.18, y: 0.24, w: 130, h: 52, variant: 'ok' },
+      { id: 'E', label: 'Edges', x: 0.38, y: 0.24, w: 130, h: 52, variant: 'ok' },
+      { id: 'W', label: 'Weights', x: 0.58, y: 0.24, w: 150, h: 52, variant: 'note' },
+      { id: 'Q', label: 'Question', x: 0.50, y: 0.56, w: 170, h: 58, variant: 'primary' },
+      { id: 'A', label: 'Choice of\nrepresentation', x: 0.50, y: 0.82, w: 190, h: 62, variant: 'accent' },
+      { id: 'R', label: 'Node-link or matrix', x: 0.82, y: 0.82, w: 230, h: 62, variant: 'note' },
+    ],
+    edges: [
+      { from: 'N', to: 'Q', arrow: false, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'E', to: 'Q', arrow: false, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'W', to: 'Q', arrow: false, stroke: 'rgba(148,163,184,0.55)' },
+      { from: 'Q', to: 'A', stroke: 'rgba(147,197,253,0.78)' },
+      { from: 'A', to: 'R' },
+    ],
+  },
+
+  'network-failure-mode': {
+    height: 200,
+    ariaLabel: 'Dense graph pushes node-link into clutter and often needs matrix or aggregation.',
+    nodes: [
+      { id: 'A', label: 'Dense network\nfor N=100+,\ndensity >30%', x: 0.21, y: 0.54, w: 220, h: 82, variant: 'warn' },
+      { id: 'B', label: 'Node-link clutter', x: 0.55, y: 0.54, w: 200, h: 62, variant: 'warn' },
+      { id: 'C', label: 'Use matrix\nor aggregation', x: 0.90, y: 0.54, w: 230, h: 62, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'A', to: 'B' },
+      { from: 'B', to: 'C' },
+    ],
+  },
+
+  'graph-hierarchy-tree-choice': {
+    height: 260,
+    ariaLabel: 'Decision between hierarchy tree layout and network layout based on path or share task.',
+    nodes: [
+      { id: 'H', label: 'Hierarchy:\nBudget by category', x: 0.26, y: 0.22, w: 190, h: 72, variant: 'ok' },
+      { id: 'T', label: 'Tree layout', x: 0.26, y: 0.52, w: 180, h: 62, variant: 'note' },
+      { id: 'A', label: 'Treemap for\ncontribution', x: 0.26, y: 0.82, w: 200, h: 72, variant: 'primary' },
+      { id: 'G', label: 'Flow + transaction\n(Graph)', x: 0.74, y: 0.42, w: 200, h: 72, variant: 'note' },
+      { id: 'N', label: 'Node-link or matrix', x: 0.74, y: 0.72, w: 220, h: 72, variant: 'ok' },
+      { id: 'C', label: 'Choose by task:\npath or share', x: 0.50, y: 0.92, w: 220, h: 64, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'H', to: 'T' },
+      { from: 'T', to: 'A' },
+      { from: 'G', to: 'N' },
+      { from: 'A', to: 'C' },
+      { from: 'N', to: 'C' },
+    ],
+  },
+
+  'choropleth-pipeline': {
+    height: 220,
+    ariaLabel: 'Map pipeline from raw metric to interpreted choropleth with caution on area bias.',
+    nodes: [
+      { id: 'R', label: 'Raw metric', x: 0.20, y: 0.34, w: 150, h: 56, variant: 'warn' },
+      { id: 'N', label: 'Normalize\nto per-capita / density', x: 0.42, y: 0.34, w: 230, h: 68, variant: 'primary' },
+      { id: 'C', label: 'Class breaks', x: 0.64, y: 0.34, w: 200, h: 56, variant: 'note' },
+      { id: 'M', label: 'Render legend +\naccessible labels', x: 0.86, y: 0.34, w: 240, h: 70, variant: 'ok' },
+      { id: 'I', label: 'Caution:\narea bias', x: 0.50, y: 0.84, w: 220, h: 56, variant: 'warn' },
+    ],
+    edges: [
+      { from: 'R', to: 'N' },
+      { from: 'N', to: 'C' },
+      { from: 'C', to: 'M', dashed: true },
+      { from: 'M', to: 'I', dashed: true },
+    ],
+  },
+
+  'box-vs-violin': {
+    height: 240,
+    ariaLabel: 'How box and violin differ on what they reveal: center, spread, and shape.',
+    nodes: [
+      { id: 'Q', label: 'What does distribution\nneed reveal?', x: 0.50, y: 0.16, w: 300, h: 70, variant: 'primary' },
+      { id: 'B', label: 'Box plot\nmedian, quartiles,\nIQR, outliers', x: 0.24, y: 0.54, w: 250, h: 84, variant: 'note' },
+      { id: 'V', label: 'Violin plot\nshape + density,\npolymodality', x: 0.76, y: 0.54, w: 250, h: 84, variant: 'note' },
+      { id: 'R', label: 'Need order,\ncomparability\n(use box + sample stats)', x: 0.24, y: 0.90, w: 280, h: 64, variant: 'ok' },
+      { id: 'S', label: 'Need full shape,\nmulti-peak,\nmode count', x: 0.76, y: 0.90, w: 280, h: 64, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'Q', to: 'B' },
+      { from: 'Q', to: 'V' },
+      { from: 'B', to: 'R' },
+      { from: 'V', to: 'S' },
+    ],
+  },
+
+  'directed-signed-graph': {
+    height: 280,
+    ariaLabel: 'Directed signed graph: decode direction and sign with separate visual channels.',
+    nodes: [
+      { id: 'Q', label: 'Graph relation includes\ndirection + sign', x: 0.50, y: 0.16, w: 340, h: 76, variant: 'primary' },
+      { id: 'D1', label: 'Direction\nA → B', x: 0.26, y: 0.44, w: 190, h: 64, variant: 'warn', fontSize: 13 },
+      { id: 'D2', label: 'Sign\n+ / –', x: 0.26, y: 0.74, w: 190, h: 64, variant: 'warn', fontSize: 13 },
+      { id: 'A', label: 'Use arrowheads only\nfor direction', x: 0.78, y: 0.40, w: 220, h: 64, variant: 'note' },
+      { id: 'B', label: 'Use color/shape\nfor polarity', x: 0.78, y: 0.70, w: 220, h: 64, variant: 'note' },
+      { id: 'C', label: 'Avoid\nsingle-channel\nmixing', x: 0.50, y: 0.90, w: 230, h: 64, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'Q', to: 'D1' },
+      { from: 'Q', to: 'D2' },
+      { from: 'D1', to: 'A' },
+      { from: 'D2', to: 'B' },
+      { from: 'A', to: 'C', dashed: true },
+      { from: 'B', to: 'C', dashed: true },
+    ],
+  },
+
+  'centrality-community': {
+    height: 300,
+    ariaLabel: 'Centrality and community signals should be encoded through size, color, and position before styling.',
+    nodes: [
+      { id: 'Q', label: 'What to inspect first?', x: 0.50, y: 0.16, w: 280, h: 66, variant: 'primary' },
+      { id: 'D', label: 'Degree centrality\nlocal importance', x: 0.20, y: 0.46, w: 220, h: 70, variant: 'note' },
+      { id: 'B', label: 'Betweenness\nbridge / articulation', x: 0.50, y: 0.46, w: 230, h: 70, variant: 'note' },
+      { id: 'M', label: 'Modularity\ncommunities first', x: 0.80, y: 0.46, w: 220, h: 70, variant: 'note' },
+      { id: 'S', label: 'Encode size/width from\ncentrality metrics', x: 0.35, y: 0.84, w: 250, h: 70, variant: 'accent' },
+      { id: 'C', label: 'Order nodes by score\nand encode groups\nseparately', x: 0.80, y: 0.84, w: 250, h: 70, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'Q', to: 'D' },
+      { from: 'Q', to: 'B' },
+      { from: 'Q', to: 'M' },
+      { from: 'D', to: 'S' },
+      { from: 'B', to: 'S' },
+      { from: 'M', to: 'C' },
+    ],
+  },
+
+  'map-data-model': {
+    height: 260,
+    ariaLabel: 'Map data model decision from geometry type to query and join layer.',
+    nodes: [
+      { id: 'Q', label: 'Spatial question', x: 0.50, y: 0.14, w: 240, h: 64, variant: 'primary' },
+      { id: 'P', label: 'Point / polygon /\nline', x: 0.26, y: 0.44, w: 220, h: 76, variant: 'note' },
+      { id: 'G', label: 'Choose geometry\ngoverning operation', x: 0.26, y: 0.82, w: 260, h: 66, variant: 'ok' },
+      { id: 'J', label: 'Join key\n(region id / id_x / coord)', x: 0.74, y: 0.44, w: 260, h: 76, variant: 'note' },
+      { id: 'PR', label: 'Projection + CRS\nunits and scale', x: 0.74, y: 0.82, w: 280, h: 66, variant: 'ok' },
+      { id: 'T', label: 'Valid joins +\nmeaningful rates', x: 0.50, y: 0.68, w: 300, h: 66, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'Q', to: 'P' },
+      { from: 'Q', to: 'J' },
+      { from: 'P', to: 'G' },
+      { from: 'J', to: 'T' },
+      { from: 'Q', to: 'PR' },
+      { from: 'PR', to: 'T' },
+      { from: 'G', to: 'T', dashed: true },
+    ],
+  },
+
+  'symbol-maps': {
+    height: 220,
+    ariaLabel: 'When to prefer symbol maps: sparse events, discrete counts, and explicit scaling.',
+    nodes: [
+      { id: 'Q', label: 'Sparse, count-like metric?', x: 0.50, y: 0.18, w: 300, h: 66, variant: 'primary' },
+      { id: 'S', label: 'Symbol marks\n(size or opacity)', x: 0.30, y: 0.50, w: 240, h: 70, variant: 'note' },
+      { id: 'C', label: 'Choropleth\nrate-like metric', x: 0.70, y: 0.50, w: 240, h: 70, variant: 'note' },
+      { id: 'R', label: 'Use symbol maps', x: 0.30, y: 0.86, w: 220, h: 62, variant: 'ok' },
+      { id: 'T', label: 'Keep overlap control\nand density context', x: 0.70, y: 0.86, w: 260, h: 62, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'Q', to: 'S' },
+      { from: 'Q', to: 'C' },
+      { from: 'S', to: 'R' },
+      { from: 'C', to: 'T', dashed: true },
+    ],
+  },
+
+  'spatial-overlays': {
+    height: 260,
+    ariaLabel: 'Spatial overlay checklist to avoid redundant layers and unresolved visual debt.',
+    nodes: [
+      { id: 'Q', label: 'One map, multiple questions?', x: 0.50, y: 0.16, w: 300, h: 66, variant: 'primary' },
+      { id: 'A', label: 'Layer 1: regional value\n(chosen scale)', x: 0.26, y: 0.44, w: 260, h: 72, variant: 'note' },
+      { id: 'B', label: 'Layer 2: event density\n(symbol / flow)', x: 0.74, y: 0.44, w: 260, h: 72, variant: 'note' },
+      { id: 'C', label: 'Assign one question per layer', x: 0.50, y: 0.72, w: 300, h: 68, variant: 'ok' },
+      { id: 'D', label: 'Avoid same-unit\nmixed encodings', x: 0.50, y: 0.94, w: 280, h: 58, variant: 'accent' },
+    ],
+    edges: [
+      { from: 'Q', to: 'A' },
+      { from: 'Q', to: 'B' },
+      { from: 'A', to: 'C' },
+      { from: 'B', to: 'C' },
+      { from: 'C', to: 'D', dashed: true },
+    ],
+  },
+
+  'spatial-pitfalls': {
+    height: 280,
+    ariaLabel: 'Map pitfalls and the correction to apply before claiming insight.',
+    nodes: [
+      { id: 'M', label: 'Pitfalls', x: 0.20, y: 0.24, w: 160, h: 58, variant: 'warn' },
+      { id: 'U', label: 'MAUP', x: 0.20, y: 0.58, w: 140, h: 58, variant: 'note' },
+      { id: 'E', label: 'Ecological fallacy', x: 0.40, y: 0.58, w: 190, h: 58, variant: 'note' },
+      { id: 'P', label: 'Projection distortion', x: 0.60, y: 0.58, w: 210, h: 58, variant: 'note' },
+      { id: 'O', label: 'Over-claiming', x: 0.80, y: 0.58, w: 170, h: 58, variant: 'note' },
+      { id: 'UM', label: 'Mitigate: report geography,\njoins, and unit basis', x: 0.20, y: 0.90, w: 260, h: 62, variant: 'ok' },
+      { id: 'EO', label: 'Mitigate: avoid unit-level\ninference from aggregates', x: 0.45, y: 0.90, w: 260, h: 62, variant: 'ok' },
+      { id: 'PP', label: 'Mitigate: state projection,\nscale, and uncertainty', x: 0.70, y: 0.90, w: 250, h: 62, variant: 'ok' },
+    ],
+    edges: [
+      { from: 'M', to: 'U' },
+      { from: 'M', to: 'E' },
+      { from: 'M', to: 'P' },
+      { from: 'M', to: 'O' },
+      { from: 'U', to: 'UM' },
+      { from: 'E', to: 'EO' },
+      { from: 'P', to: 'PP', dashed: true },
+    ],
+  },
 }

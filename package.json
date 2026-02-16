@@ -6,10 +6,12 @@
     "dev:perception": "slidev slides-perception-color.md --open",
     "dev:webviz": "slidev slides-python-webviz.md --open",
     "dev:interactive": "slidev slides-python-interactive-dash.md --open",
+    "dev:visualization-practice": "slidev slides-visualization-practice.md --open",
     "build": "slidev build slides.md",
     "build:perception": "slidev build slides-perception-color.md",
     "build:webviz": "slidev build slides-python-webviz.md",
     "build:interactive": "slidev build slides-python-interactive-dash.md",
+    "build:visualization-practice": "slidev build slides-visualization-practice.md",
     "export": "slidev export slides.md --output data101-data-task-abstraction.pdf",
     "export:perception": "slidev export slides-perception-color.md --output data101-perception-color.pdf",
     "export:webviz": "slidev export slides-python-webviz.md --output data101-python-webviz.pdf",
@@ -20,8 +22,11 @@
     "check:fit:interactive": "npm run build:interactive && node scripts/check-fit.mjs slides-python-interactive-dash.md",
     "inspect:webviz": "npm run build:webviz && node scripts/inspect-slides.mjs slides-python-webviz.md dist inspect",
     "inspect:interactive": "npm run build:interactive && node scripts/inspect-slides.mjs slides-python-interactive-dash.md dist inspect",
+    "inspect:visualization-practice": "npm run build:visualization-practice && node scripts/inspect-slides.mjs slides-visualization-practice.md dist inspect",
+    "check:fit:visualization-practice": "npm run build:visualization-practice && node scripts/check-fit.mjs slides-visualization-practice.md",
     "inspect-viz:webviz": "npm run build:webviz && node scripts/inspect-viz.mjs slides-python-webviz.md dist inspect",
-    "inspect-viz:interactive": "npm run build:interactive && node scripts/inspect-viz.mjs slides-python-interactive-dash.md dist inspect"
+    "inspect-viz:interactive": "npm run build:interactive && node scripts/inspect-viz.mjs slides-python-interactive-dash.md dist inspect",
+    "inspect-viz:visualization-practice": "npm run build:visualization-practice && node scripts/inspect-viz.mjs slides-visualization-practice.md dist inspect"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.10",

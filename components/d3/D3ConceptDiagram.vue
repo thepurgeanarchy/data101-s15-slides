@@ -7,6 +7,7 @@ import { vizTheme } from './theme'
 
 const props = defineProps<{
   diagram: string
+  fullscreen?: boolean
 }>()
 
 const container = ref<HTMLDivElement | null>(null)
@@ -18,6 +19,13 @@ type ResolvedNode = DiagramNode & {
   w: number
   h: number
   shape: 'rect' | 'pill' | 'circle'
+}
+
+type RenderedEdge = {
+  edge: DiagramEdge
+  source: ResolvedNode
+  target: ResolvedNode
+  markerId: string
 }
 
 function getSpec(name: string): DiagramSpec {
@@ -57,6 +65,7 @@ function drawTextCentered(
 
   const text = selection
     .append('text')
+    .attr('class', 'node-text')
     .attr('x', node.cx)
     .attr('y', startY)
     .attr('text-anchor', 'middle')
@@ -92,6 +101,7 @@ function drawMultilineTextCentered(
 
   const t = selection
     .append('text')
+    .attr('class', 'edge-label-text')
     .attr('x', x)
     .attr('y', startY)
     .attr('text-anchor', 'middle')
@@ -180,19 +190,31 @@ function resolveGroups(groups: DiagramGroup[] | undefined, width: number, height
   }))
 }
 
+function nodeHalfAxis(node: ResolvedNode, axis: 'x' | 'y') {
+  if (node.shape === 'circle') {
+    const r = nodeRadius(node)
+    return axis === 'x' ? r : r
+  }
+  return axis === 'x' ? node.w / 2 : node.h / 2
+}
+
+function nodeRadius(node: ResolvedNode) {
+  return Math.min(node.w, node.h) / 2
+}
+
 function edgeEndpoints(source: ResolvedNode, target: ResolvedNode, edge: DiagramEdge) {
   const arrow = edge.arrow ?? true
 
   const dx = target.cx - source.cx
   const dy = target.cy - source.cy
-  const gapH = Math.abs(dx) - (source.w / 2 + target.w / 2)
-  const gapV = Math.abs(dy) - (source.h / 2 + target.h / 2)
+  const gapH = Math.abs(dx) - (nodeHalfAxis(source, 'x') + nodeHalfAxis(target, 'x'))
+  const gapV = Math.abs(dy) - (nodeHalfAxis(source, 'y') + nodeHalfAxis(target, 'y'))
 
   // Prefer the dominant direction, but avoid choosing an orientation where marks overlap on that axis.
   // This keeps arrowheads outside nodes and preserves a visible line segment.
   const preferH = Math.abs(dx) >= Math.abs(dy)
   // Arrowheads are drawn behind nodes, so we need extra clearance to keep them visible.
-  const minGap = arrow ? 24 : 0
+  const minGap = arrow ? 14 : 0
   const okH = gapH >= minGap
   const okV = gapV >= minGap
 
@@ -211,20 +233,20 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode, edge: Diagram
   // Edges are drawn behind nodes. Arrowheads must end *outside* the target node
   // and we must avoid degenerate/crossing segments when nodes are close.
   const available = Math.max(0, gapAxis)
-  const minSegment = arrow ? 8 : 0
+  const minSegment = arrow ? 30 : 0
   const padBudget = Math.max(0, available - minSegment)
   // Prioritize the end pad: arrowheads are easy to lose when drawn behind nodes.
-  const endPadWanted = arrow ? 18 : 0
-  const startPadWanted = arrow ? 6 : 0
+  const endPadWanted = arrow ? 22 : 0
+  const startPadWanted = arrow ? 12 : 0
   const endPad = arrow ? Math.min(endPadWanted, padBudget) : 0
   const startPad = arrow ? Math.min(startPadWanted, Math.max(0, padBudget - endPad)) : 0
 
   if (orient === 'h') {
     const sign = dx >= 0 ? 1 : -1
     return {
-      x1: source.cx + sign * (source.w / 2 + startPad),
+      x1: source.cx + sign * (nodeHalfAxis(source, 'x') + startPad),
       y1: source.cy,
-      x2: target.cx - sign * (target.w / 2 + endPad),
+      x2: target.cx - sign * (nodeHalfAxis(target, 'x') + endPad + 4),
       y2: target.cy,
       orient,
     }
@@ -233,21 +255,16 @@ function edgeEndpoints(source: ResolvedNode, target: ResolvedNode, edge: Diagram
   const sign = dy >= 0 ? 1 : -1
   return {
     x1: source.cx,
-    y1: source.cy + sign * (source.h / 2 + startPad),
+    y1: source.cy + sign * (nodeHalfAxis(source, 'y') + startPad),
     x2: target.cx,
-    y2: target.cy - sign * (target.h / 2 + endPad),
+    y2: target.cy - sign * (nodeHalfAxis(target, 'y') + endPad + 3),
     orient,
   }
 }
 
 function edgePath(source: ResolvedNode, target: ResolvedNode, edge: DiagramEdge) {
-  const { x1, y1, x2, y2, orient } = edgeEndpoints(source, target, edge)
-  if (orient === 'h') {
-    const mx = (x1 + x2) / 2
-    return `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`
-  }
-  const my = (y1 + y2) / 2
-  return `M ${x1} ${y1} C ${x1} ${my}, ${x2} ${my}, ${x2} ${y2}`
+  const { x1, y1, x2, y2 } = edgeEndpoints(source, target, edge)
+  return `M ${x1} ${y1} L ${x2} ${y2}`
 }
 
 function computeSceneBounds(
@@ -317,7 +334,9 @@ function computeSceneBounds(
 
 function render() {
   if (!container.value) return
-  d3.select(container.value).selectAll('*').remove()
+  const root = d3.select(container.value)
+  root.style('position', 'relative')
+  root.selectAll('*').remove()
 
   const spec = getSpec(props.diagram)
   const baseW = spec.width ?? 960
@@ -333,8 +352,54 @@ function render() {
   const groups = resolveGroups(spec.groups, baseW, baseH, margin)
   const edges = spec.edges ?? []
 
-  const svg = d3
-    .select(container.value)
+  const tooltip = root
+    .append('div')
+    .attr('class', 'viz-tooltip')
+    .style('position', 'absolute')
+    .style('left', '0px')
+    .style('top', '0px')
+    .style('padding', '0.5rem 0.65rem')
+    .style('border-radius', '10px')
+    .style('background', 'rgba(11, 18, 32, 0.95)')
+    .style('color', '#f8fafc')
+    .style('font-size', '12px')
+    .style('line-height', '1.25')
+    .style('border', '1px solid rgba(148,163,184,0.38)')
+    .style('backdrop-filter', 'blur(4px)')
+    .style('pointer-events', 'none')
+    .style('max-width', '280px')
+    .style('box-shadow', '0 8px 20px rgba(0,0,0,0.32)')
+    .style('opacity', 0)
+    .style('white-space', 'pre-line')
+
+  const showTextTooltip = (event: PointerEvent, lines: string[]) => {
+    const rootBounds = container.value!.getBoundingClientRect()
+    tooltip
+      .style('opacity', 1)
+      .html(lines.join('<br />'))
+      .style('left', `${Math.min(event.offsetX + 12, rootBounds.width - 240)}px`)
+      .style('top', `${Math.min(event.offsetY + 10, rootBounds.height - 64)}px`)
+  }
+
+  const showNodeTooltip = (event: PointerEvent, node: ResolvedNode) => {
+    const neighbors = connected.get(node.id) ?? new Set<string>()
+    const preview = [...neighbors].slice(0, 4)
+    const more = neighbors.size > 4 ? ` (+${neighbors.size - 4})` : ''
+    showTextTooltip(event, [
+      `${node.label}`,
+      neighbors.size ? `Connected: ${preview.join(', ')}${more}` : 'No links',
+    ])
+  }
+
+  const showEdgeTooltip = (event: PointerEvent, d: RenderedEdge) => {
+    showTextTooltip(event, [
+      `${d.source.label} → ${d.target.label}`,
+      d.edge.label ? `Relation: ${d.edge.label}` : 'Direct relation',
+      `Stroke: ${edgeStyle(d.edge.stroke) ?? 'default'}`,
+    ])
+  }
+
+  const svg = root
     .append('svg')
     .attr('viewBox', `0 0 ${baseW} ${baseH}`)
     .attr('preserveAspectRatio', 'xMidYMid meet')
@@ -344,31 +409,20 @@ function render() {
 
   const defs = svg.append('defs')
 
-  const arrowId = `arrow-${uid}`
-  const arrowSize = 20
-  defs
-    .append('marker')
-    .attr('id', arrowId)
-    .attr('markerUnits', 'userSpaceOnUse')
-    .attr('viewBox', `0 0 ${arrowSize} ${arrowSize}`)
-    // Place the tip of the arrowhead at the path end so it stays visible
-    // even when edges are drawn behind nodes.
-    .attr('refX', arrowSize - 1)
-    .attr('refY', arrowSize / 2)
-    .attr('markerWidth', arrowSize)
-    .attr('markerHeight', arrowSize)
-    .attr('orient', 'auto-start-reverse')
-    .append('path')
-    // Small padding prevents clipping on some renderers.
-    .attr('d', `M 2 2 L ${arrowSize - 1} ${arrowSize / 2} L 2 ${arrowSize - 2} z`)
-    // Use the edge stroke color for the arrowhead.
-    .attr('fill', 'context-stroke')
-    .attr('stroke', 'rgba(0,0,0,0.28)')
-    .attr('stroke-width', 1)
+  function edgeMarkerColor(stroke: string) {
+    const parsed = d3.color(stroke)
+    if (!parsed) return '#E2E8F0'
+    const rgb = parsed.rgb()
+    const alpha = Number.isFinite(parsed.opacity) ? parsed.opacity : 1
+    if (alpha < 1) {
+      return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${Math.min(1, Math.max(0, alpha + 0.04))})`
+    }
+    return `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+  }
 
   const scene = svg.append('g').attr('class', 'scene')
   const layerGroups = scene.append('g').attr('class', 'groups')
-  const layerEdges = scene.append('g').attr('class', 'edges').style('pointer-events', 'none')
+  const layerEdges = scene.append('g').attr('class', 'edges')
   const layerEdgeLabels = scene.append('g').attr('class', 'edge-labels')
   const layerNodes = scene.append('g').attr('class', 'nodes')
 
@@ -401,39 +455,83 @@ function render() {
     }
   }
 
-  // Edge lines/arrows (behind nodes to avoid drawing over marks).
-  for (const edge of edges) {
-    const source = nodeById.get(edge.from)
-    const target = nodeById.get(edge.to)
-    if (!source || !target) continue
+  const connected = new Map<string, Set<string>>()
+  const edgeList = edges
+    .map((edge, edgeIndex) => {
+      const source = nodeById.get(edge.from)
+      const target = nodeById.get(edge.to)
+      if (!source || !target) return null
 
-    const stroke = edge.stroke ?? 'rgba(147,197,253,0.76)'
-    const strokeWidth = edge.strokeWidth ?? 2.2
-    const arrow = edge.arrow ?? true
+      if (!connected.has(edge.from))
+        connected.set(edge.from, new Set())
+      if (!connected.has(edge.to))
+        connected.set(edge.to, new Set())
+      connected.get(edge.from)!.add(edge.to)
+      connected.get(edge.to)!.add(edge.from)
 
-    layerEdges
-      .append('path')
-      .attr('d', edgePath(source, target, edge))
-      .attr('fill', 'none')
-      .attr('stroke', stroke)
-      .attr('stroke-width', strokeWidth)
-      .attr('stroke-linecap', 'round')
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-dasharray', edge.dashed ? '6 6' : null)
-      .attr('marker-end', arrow ? `url(#${arrowId})` : null)
-  }
+      const markerId = `${uid}-arrow-${edgeIndex}`
+      const arrow = edge.arrow ?? true
+      const stroke = edge.stroke ?? 'rgba(147,197,253,1)'
 
-  // Edge labels (above lines, still behind nodes).
-  for (const edge of edges) {
-    const source = nodeById.get(edge.from)
-    const target = nodeById.get(edge.to)
-    if (!source || !target) continue
-    if (!edge.label) continue
+      if (arrow) {
+        const markerSize = 22
+        defs
+          .append('marker')
+          .attr('id', markerId)
+          .attr('markerUnits', 'userSpaceOnUse')
+          .attr('viewBox', `0 0 ${markerSize} ${markerSize}`)
+          .attr('refX', markerSize - 0.4)
+          .attr('refY', markerSize / 2)
+          .attr('markerWidth', 18)
+          .attr('markerHeight', 16)
+          .attr('overflow', 'visible')
+          .attr('orient', 'auto')
+          .append('path')
+          .attr('d', `M 2 2 L ${markerSize - 2} ${markerSize / 2} L 2 ${markerSize - 2} z`)
+          .attr('fill', edgeMarkerColor(stroke))
+          .attr('stroke', edgeMarkerColor(stroke))
+          .attr('stroke-width', 2.2)
+          .attr('stroke-linejoin', 'round')
+      }
 
-    const { x1, y1, x2, y2 } = edgeEndpoints(source, target, edge)
+      return {
+        edge,
+        source,
+        target,
+        markerId,
+      }
+    })
+    .filter(Boolean) as RenderedEdge[]
+
+  const edgeSelection = layerEdges
+    .selectAll<SVGPathElement, RenderedEdge>('path.edge-link')
+    .data(edgeList)
+    .enter()
+    .append('path')
+    .attr('class', 'edge-link')
+    .attr('d', (d) => edgePath(d.source, d.target, d.edge))
+    .attr('fill', 'none')
+    .attr('stroke', (d) => d.edge.stroke ?? 'rgba(147,197,253,1)')
+    .attr('stroke-width', (d) => d.edge.strokeWidth ?? 2.6)
+    .attr('stroke-linecap', 'round')
+    .attr('stroke-linejoin', 'round')
+    .attr('stroke-dasharray', (d) => (d.edge.dashed ? '6 6' : null))
+    .attr('marker-end', (d) => (d.edge.arrow === false ? null : `url(#${d.markerId})`))
+
+  const edgeLabelSelection = layerEdgeLabels
+    .selectAll<SVGGElement, RenderedEdge>('.edge-label')
+    .data(edgeList.filter((d) => d.edge.label))
+    .enter()
+    .append('g')
+    .attr('class', 'edge-label')
+
+  edgeLabelSelection.each(function (d) {
+    const source = d.source
+    const target = d.target
+    const { x1, y1, x2, y2 } = edgeEndpoints(source, target, d.edge)
     const mx = (x1 + x2) / 2
     const my = (y1 + y2) / 2
-    const label = edge.label
+    const label = d.edge.label!
     const lines = label.split('\n')
     const padX = 10
     const padY = 6
@@ -449,7 +547,7 @@ function render() {
     )
     const approxH = lines.length * lineHeight + padY * 2
 
-    const p = layerEdgeLabels.append('g').attr('class', 'edge-label')
+    const p = d3.select(this)
     p.append('rect')
       .attr('x', mx - approxW / 2)
       .attr('y', my - approxH / 2)
@@ -469,11 +567,108 @@ function render() {
       fontWeight,
       fill: vizTheme.textMuted,
     })
+  })
+
+  const textLineHeight = (fontSize: number) => Math.max(14, Math.round(fontSize * 1.15))
+
+  const clampNodeToCanvas = (node: ResolvedNode) => {
+    const xPad = nodeHalfAxis(node, 'x') + 6
+    const yPad = nodeHalfAxis(node, 'y') + 6
+    node.cx = Math.max(margin + xPad, Math.min(baseW - margin - xPad, node.cx))
+    node.cy = Math.max(margin + yPad, Math.min(baseH - margin - yPad, node.cy))
+  }
+
+  const syncNodeGeometry = (node: ResolvedNode, g: d3.Selection<SVGGElement, ResolvedNode, SVGGElement, unknown>) => {
+    const v = node.variant ?? 'primary'
+    const defaults = variantStyles[v]
+    const text = node.text ?? defaults.text
+    const fontSize = node.fontSize ?? 14
+    const lineHeight = textLineHeight(fontSize)
+    const lines = node.label.split('\n')
+    const startY = node.cy - ((lines.length - 1) * lineHeight) / 2
+
+    const shape = g.select('.node-shape')
+    const label = g.select('.node-text')
+
+    if (node.shape === 'circle') {
+      shape
+        .attr('cx', node.cx)
+        .attr('cy', node.cy)
+      label
+        .attr('fill', text)
+        .attr('x', node.cx)
+        .attr('y', startY)
+    }
+    else {
+      const x = node.cx - node.w / 2
+      const y = node.cy - node.h / 2
+      shape
+        .attr('x', x)
+        .attr('y', y)
+      label
+        .attr('fill', text)
+        .attr('x', node.cx)
+        .attr('y', startY)
+    }
+
+    const labels = g.selectAll('tspan')
+    labels.each((_, i, tspans) => {
+      d3.select(tspans[i]).text(lines[i] ?? '')
+    })
+  }
+
+  const syncLabelGeometry = (d: RenderedEdge, g: d3.Selection<SVGGElement, RenderedEdge, SVGGElement, unknown>) => {
+    const { x1, y1, x2, y2 } = edgeEndpoints(d.source, d.target, d.edge)
+    const mx = (x1 + x2) / 2
+    const my = (y1 + y2) / 2
+    const label = d.edge.label ?? ''
+    const lines = label.split('\n')
+    const padX = 10
+    const padY = 6
+    const fontSize = 12
+    const lineHeight = textLineHeight(fontSize)
+    const approxW = Math.min(
+      260,
+      Math.max(
+        76,
+        Math.max(...lines.map((line) => Math.max(1, line.length))) * 7 + padX * 2,
+      ),
+    )
+    const approxH = lines.length * lineHeight + padY * 2
+
+    const box = g.select('rect')
+    const text = g.select('text')
+
+    box
+      .attr('x', mx - approxW / 2)
+      .attr('y', my - approxH / 2)
+      .attr('width', approxW)
+      .attr('height', approxH)
+
+    text
+      .attr('x', mx)
+      .attr('y', my - ((lines.length - 1) * lineHeight) / 2)
+
+    const labels = text.selectAll('tspan')
+    labels.each((_, i, tspans) => {
+      d3.select(tspans[i]).text(lines[i] ?? '')
+    })
+  }
+
+  const refreshGraphGeometry = () => {
+    nodeG.each(function (node) {
+      syncNodeGeometry(node, d3.select(this))
+    })
+    edgeSelection
+      .attr('d', (d) => edgePath(d.source, d.target, d.edge))
+    edgeLabelSelection.each(function (d) {
+      syncLabelGeometry(d, d3.select(this))
+    })
   }
 
   // Nodes
   const nodeG = layerNodes
-    .selectAll('g.node')
+    .selectAll<SVGGElement, ResolvedNode>('g.node')
     .data(nodes)
     .enter()
     .append('g')
@@ -490,14 +685,16 @@ function render() {
     const g = d3.select(this)
 
     if (node.shape === 'circle') {
-      const r = Math.min(node.w, node.h) / 2
-      g.append('circle')
+      g
+        .append('circle')
+        .attr('class', 'node-shape')
         .attr('cx', node.cx)
         .attr('cy', node.cy)
-        .attr('r', r)
+        .attr('r', Math.min(node.w, node.h) / 2)
         .attr('fill', fill)
         .attr('stroke', stroke)
         .attr('stroke-width', strokeWidth)
+        .attr('data-base-stroke-width', strokeWidth.toString())
 
       drawTextCentered(g, node, text)
       return
@@ -507,7 +704,9 @@ function render() {
     const x = node.cx - node.w / 2
     const y = node.cy - node.h / 2
 
-    g.append('rect')
+    g
+      .append('rect')
+      .attr('class', 'node-shape')
       .attr('x', x)
       .attr('y', y)
       .attr('width', node.w)
@@ -517,14 +716,158 @@ function render() {
       .attr('fill', fill)
       .attr('stroke', stroke)
       .attr('stroke-width', strokeWidth)
+      .attr('data-base-stroke-width', strokeWidth.toString())
 
     drawTextCentered(g, node, text)
   })
 
+  nodeG.each((node) => {
+    clampNodeToCanvas(node)
+  })
+  refreshGraphGeometry()
+
+  const showTooltip = (event: PointerEvent, node: ResolvedNode) => {
+    const neighbors = connected.get(node.id) ?? new Set<string>()
+    const preview = [...neighbors].slice(0, 4)
+    const more = neighbors.size > 4 ? ` (+${neighbors.size - 4})` : ''
+    const lines = [`${node.label}`, preview.length ? `Connected: ${preview.join(', ')}${more}` : 'No links']
+    const rootBounds = container.value!.getBoundingClientRect()
+    tooltip
+      .style('opacity', 1)
+      .html(lines.join('\\n'))
+      .style('left', `${Math.min(event.offsetX + 12, rootBounds.width - 210)}px`)
+      .style('top', `${Math.min(event.offsetY + 10, rootBounds.height - 56)}px`)
+  }
+  const hideTooltip = () => tooltip.style('opacity', 0)
+
+  let pinnedNodeId: string | null = null
+  const edgeStyle = (value?: string) => value ?? '#8BA3B8'
+
+  const focus = (nodeId: string | null, edgeFocus: RenderedEdge | null = null) => {
+    const activeNeighbors = nodeId ? connected.get(nodeId) ?? new Set() : null
+    const activeEdgeNeighbors = edgeFocus ? new Set([edgeFocus.source.id, edgeFocus.target.id]) : null
+    const isActive = !!nodeId || !!edgeFocus
+
+    nodeG.each(function (node) {
+      const isPrimary = node.id === nodeId
+      const isNeighbor = activeNeighbors
+        ? activeNeighbors.has(node.id)
+        : activeEdgeNeighbors
+          ? activeEdgeNeighbors.has(node.id)
+          : false
+      const keepVisible = !isActive || isPrimary || isNeighbor
+      const shape = d3.select(this).select('.node-shape')
+      const label = d3.select(this).select('.node-text')
+      const baseWidth = Number(shape.attr('data-base-stroke-width') ?? 2)
+
+      shape
+        .attr('opacity', keepVisible ? 1 : 0.22)
+        .attr('stroke-width', isPrimary ? baseWidth + 1.5 : isNeighbor ? baseWidth + 0.5 : baseWidth)
+      label.attr('opacity', keepVisible ? 1 : 0.4)
+    })
+
+    edgeSelection.each(function (d) {
+      const isConnected = !isActive
+        || d.source.id === nodeId
+        || d.target.id === nodeId
+        || d === edgeFocus
+      d3.select(this)
+        .attr('opacity', isConnected ? 1 : 0.18)
+        .attr('stroke-width', (d.edge.strokeWidth ?? 2.6) + (isConnected && isActive ? 1.1 : 0))
+    })
+
+    edgeLabelSelection.attr('opacity', isActive ? 0.18 : 1)
+    if (isActive) {
+      edgeLabelSelection.each(function (d) {
+        const isConnected = d === edgeFocus || (nodeId ? d.source.id === nodeId || d.target.id === nodeId : false)
+        d3.select(this).attr('opacity', isConnected ? 1 : 0.18)
+      })
+    }
+  }
+
+  nodeG
+    .style('cursor', 'grab')
+    .on('mouseover', (event, node) => {
+      if (!pinnedNodeId) {
+        focus(node.id)
+      }
+      showNodeTooltip(event as PointerEvent, node)
+    })
+    .on('mousemove', (event, node) => {
+      if (tooltip.style('opacity') !== '0') {
+        showNodeTooltip(event as PointerEvent, node)
+      }
+    })
+    .on('mouseleave', () => {
+      if (!pinnedNodeId) {
+        focus(null)
+      }
+      hideTooltip()
+    })
+    .on('click', (_event, node) => {
+      pinnedNodeId = pinnedNodeId === node.id ? null : node.id
+      focus(pinnedNodeId)
+      if (!pinnedNodeId)
+        hideTooltip()
+    })
+    .call(
+      d3
+        .drag<SVGGElement, ResolvedNode, SVGGElement>()
+        .on('start', (event) => {
+          pinnedNodeId = null
+          focus(null)
+          hideTooltip()
+          d3.select(event.sourceEvent.currentTarget as SVGElement).attr('cursor', 'grabbing')
+        })
+        .on('drag', (event, d) => {
+          d.cx = event.x
+          d.cy = event.y
+          clampNodeToCanvas(d)
+          refreshGraphGeometry()
+          if (tooltip.style('opacity') !== '0') {
+            showNodeTooltip(event.sourceEvent as PointerEvent, d)
+          }
+        })
+        .on('end', (event) => {
+          d3.select(event.sourceEvent.currentTarget as SVGElement).attr('cursor', 'grab')
+        }),
+    )
+
+  edgeSelection
+    .style('cursor', 'pointer')
+    .on('mouseover', (event, d) => {
+      if (!pinnedNodeId) {
+        focus(null, d)
+      }
+      showEdgeTooltip(event as PointerEvent, d)
+    })
+    .on('mousemove', (event, d) => {
+      if (tooltip.style('opacity') !== '0') {
+        showEdgeTooltip(event as PointerEvent, d)
+      }
+    })
+    .on('mouseleave', () => {
+      if (!pinnedNodeId) {
+        focus(null)
+      }
+      hideTooltip()
+    })
+
   // Auto-fit: scale and center using deterministic bounds (avoids getBBox flicker on hidden slides).
   const bounds = computeSceneBounds(nodes, groups, edges, nodeById)
-  if (bounds) {
-    const pad = isCompact ? 18 : 22
+  const viewportH = container.value?.clientHeight ?? 0
+  const viewportW = container.value?.clientWidth ?? 0
+  const hasSlackHeight = viewportH <= 0 || viewportH >= baseH + 110
+  const hasSlackWidth = viewportW <= 0 || viewportW >= baseW + 100
+  const hasBoundsSlack = (bounds?.h ?? 0) <= baseH - 56
+  const shouldFit = !!bounds
+    && !isCompact
+    && hasSlackHeight
+    && hasSlackWidth
+    && hasBoundsSlack
+
+  if (shouldFit) {
+    const pad = isCompact ? 22 : 30
 
     // Fit tightly to content bounds (maximizes readability). We intentionally do NOT
     // expand to match viewport ratio, because that shrinks marks and makes arrows hard to see.
@@ -534,6 +877,8 @@ function render() {
     const h = bounds.h + pad * 2
     svg.attr('viewBox', `${x} ${y} ${Math.max(1, w)} ${Math.max(1, h)}`)
   }
+
+  focus(null)
 }
 
 onMounted(render)
@@ -548,5 +893,5 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="container" class="viz-frame" />
+  <div ref="container" :class="['viz-frame', { 'viz-fill': fullscreen }]" />
 </template>

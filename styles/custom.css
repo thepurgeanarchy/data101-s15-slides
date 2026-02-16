@@ -242,6 +242,10 @@ a {
   overflow: hidden;
 }
 
+.viz-frame.viz-overflow {
+  overflow: visible;
+}
+
 .viz-frame.viz-compact {
   padding: 0.28rem 0.45rem;
   border-radius: 16px;
@@ -266,7 +270,7 @@ a {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-bottom: calc(var(--footer-safe) + 0.4rem);
+  padding-bottom: var(--footer-safe);
 }
 
 .slidev-layout.viz-slide .viz-grow {
