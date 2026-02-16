@@ -10,19 +10,31 @@ mdc: true
 ## 50-Point Assessment Document
 
 <style>
+:root {
+  --ink: #0f172a;
+  --muted: #334155;
+  --line: #c4cfdd;
+  --accent: #123a62;
+  --accent-soft: #edf3fb;
+}
+
 @page {
   size: A4;
-  margin: 8mm 8mm 8mm 8mm;
+  margin: 7mm 6mm 6mm 6mm;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  font-family: "Times New Roman", Georgia, "Times", serif;
-  font-size: 8.8pt;
-  line-height: 1.14;
-  columns: 2 88mm;
-  column-gap: 4mm;
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 9pt;
+  line-height: 1.16;
+  columns: 2 90mm;
+  column-gap: 4.8mm;
   column-fill: auto;
-  color: #111;
+  color: var(--ink);
 }
 
 h1 {
@@ -30,12 +42,17 @@ h1 {
   font-size: 15pt;
   column-span: all;
   letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-bottom: 1.4px solid var(--line);
+  padding-bottom: 1.2mm;
+  color: var(--accent);
 }
 
 h2 {
   margin: 1mm 0 0.8mm;
   font-size: 10.2pt;
   column-span: all;
+  color: #1f3650;
 }
 
 h3 {
@@ -43,6 +60,10 @@ h3 {
   font-size: 9.6pt;
   break-inside: avoid;
   page-break-inside: avoid;
+  padding: 1mm 1mm 0.8mm;
+  background: linear-gradient(to right, var(--accent-soft), transparent);
+  border-left: 2.2px solid var(--accent);
+  font-weight: 600;
 }
 
 p, ul, ol {
@@ -51,6 +72,7 @@ p, ul, ol {
   page-break-inside: avoid;
   orphans: 3;
   widows: 3;
+  font-weight: 450;
 }
 
 ul, ol {
@@ -65,9 +87,9 @@ li {
 }
 
 .letterhead {
-  border: 1.5px solid #123a62;
-  background: #f4f7fc;
-  padding: 2mm 3mm;
+  border: 1.5px solid var(--accent);
+  background: linear-gradient(140deg, #f6f9fe 0%, #f2f6fb 100%);
+  padding: 2mm 3mm 1.8mm;
   column-span: all;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
@@ -88,19 +110,21 @@ li {
 .school .dept {
   font-size: 11pt;
   font-weight: 700;
-  color: #123a62;
+  color: var(--accent);
 }
 
 .school .course {
   font-size: 9.2pt;
-  color: #3a4f60;
+  color: var(--muted);
 }
 
 .student-meta {
   margin: 1mm 0 1.2mm;
   font-size: 8.6pt;
-  border-bottom: 0.5px solid #d1d8e0;
-  padding-bottom: 0.7mm;
+  border: 1px solid #dce4ee;
+  background: #f8fbff;
+  padding: 1mm 1.2mm;
+  border-radius: 2mm;
 }
 
 .meta-boxes {
@@ -108,23 +132,33 @@ li {
   font-size: 8.4pt;
   line-height: 1.3;
   column-span: all;
+  background: #fcfdff;
+  border: 1px solid #d7e1eb;
+  padding: 0.8mm 1mm;
+  border-radius: 1.2mm;
 }
 
 .question-divider {
-  border-top: 1px solid #cfd9e3;
+  border-top: 1px solid #ccd7e3;
   margin: 1.5mm 0;
 }
 
 .answer-space {
   margin: 0.6mm 0 1mm;
-  min-height: 10mm;
+  min-height: 9.5mm;
   display: grid;
-  gap: 2mm;
+  gap: 2.1mm;
+  padding-left: 0.6mm;
 }
 
 .answer-line {
   border-bottom: 1px solid #1f2937;
-  height: 3mm;
+  height: 4.2mm;
+  position: relative;
+}
+
+.mcq-answer .answer-line {
+  height: 4.5mm;
 }
 
 .matching-line {
@@ -139,8 +173,9 @@ li {
 .matching-line::before {
   content: "";
   border-bottom: 1px dashed #64748b;
-  height: 4mm;
-  align-self: end;
+  height: 5.1mm;
+  align-self: stretch;
+  margin-bottom: 0.2mm;
 }
 
 .option-line {
@@ -157,12 +192,31 @@ li {
 
 .matching-line > .match-slot {
   width: 24mm;
+  align-self: stretch;
+  margin-top: 0.3mm;
+  height: 4.8mm;
+}
+
+.short-answer .answer-line {
+  height: 3.8mm;
+}
+
+.matching-answer {
+  padding-top: 0.7mm;
+  padding-right: 0.5mm;
 }
 
 
 hr {
   border: none;
-  margin: 0.7mm 0;
+  margin: 1.1mm 0;
+  border-top: 0.4px dashed #d0d8e3;
+  width: 100%;
+}
+
+.answer-space * {
+  break-inside: avoid;
+  page-break-inside: avoid;
 }
 
 </style>
