@@ -42,6 +42,10 @@ h1 {
   font-size: 15pt;
   column-span: all;
   letter-spacing: 0.03em;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  orphans: 4;
+  widows: 4;
   text-transform: uppercase;
   border-bottom: 1.4px solid var(--line);
   padding-bottom: 1.2mm;
@@ -53,6 +57,10 @@ h2 {
   font-size: 10.2pt;
   column-span: all;
   color: #1f3650;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  orphans: 4;
+  widows: 4;
 }
 
 h3 {
@@ -60,6 +68,8 @@ h3 {
   font-size: 9.6pt;
   break-inside: avoid;
   page-break-inside: avoid;
+  orphans: 4;
+  widows: 4;
   padding: 1mm 1mm 0.8mm;
   background: linear-gradient(to right, var(--accent-soft), transparent);
   border-left: 2.2px solid var(--accent);
@@ -70,8 +80,8 @@ p, ul, ol {
   margin: 0 0 1.4mm;
   break-inside: avoid;
   page-break-inside: avoid;
-  orphans: 3;
-  widows: 3;
+  orphans: 4;
+  widows: 4;
   font-weight: 450;
 }
 
@@ -82,8 +92,8 @@ ul, ol {
 li {
   break-inside: avoid;
   page-break-inside: avoid;
-  orphans: 3;
-  widows: 3;
+  orphans: 4;
+  widows: 4;
 }
 
 .letterhead {
@@ -217,6 +227,8 @@ hr {
 .answer-space * {
   break-inside: avoid;
   page-break-inside: avoid;
+  orphans: 4;
+  widows: 4;
 }
 
 </style>
