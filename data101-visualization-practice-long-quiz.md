@@ -3,7 +3,7 @@
 ## Scope
 This quiz is a full-course assessment covering all course themes covered in this section.
 
-Questions are mixed-format and intentionally hard. **Answer keys are embedded directly after each question in bold** for Canvas import use.
+Questions are mixed-format and intentionally hard. All questions are directly derived from the taught slide material, and **answer keys are embedded directly after each question in bold** for Canvas import use.
 
 ### 1) MCQ (2 pts)
 You receive the request: "Show if faculty performance dropped after policy change and identify who was helped." Which should be the first action before any chart is selected?
